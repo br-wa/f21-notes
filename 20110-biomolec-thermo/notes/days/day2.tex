@@ -1,0 +1,77 @@
+\section*{Lecture 2: The First Law of Thermodynamics (Voigt)}
+\setcounter{section}{2}
+\setcounter{subsection}{0}
+\setcounter{defncontainer}{0}
+\setcounter{defn}{0}
+
+The first Problem Set will be out at 11, and will be due next Friday.
+
+\begin{law}*
+	[First Law, Informally]
+	All energy is conserved in any process.
+\end{law}
+
+This is pretty important, and it tells us that certain things are impossible -- for example, things that spontaneously generate energy.
+But what is energy?
+
+\begin{defn}*
+	A \vocab{system} is just a setup. The \vocab{energy} of a system is its capacity to do work.
+\end{defn}
+
+Since $W = \int F\,\text{d} x$, work has units $\frac{\text{kg m}}{\text{s}{}^2} \cdot \text m = \frac{\text{kg m}{}^2}{\text{s}{}^2}$, which is precisely a Joule. Thus,
+
+\begin{fact}*
+	Energy is measured in Joules (J).
+\end{fact}
+
+Now it is unclear how we actually compute the total energy. For example, if we are considering the energy of a boulder, do we also need to include molecular vibrations? In fact, we mostly care about $\Delta U$, and vibrational potential energy usually does not change, so we can ignore it.
+
+\begin{defn}*
+	The \vocab{boundary} of a system is just an enclosure of the system. The \vocab{surroundings} of a system consist of everything outside of the boundary, and the combination of a system and its surroundings is the entire universe.
+\end{defn}
+
+Suppose a system has change in energy $\Delta U_{\text{sys}}$. Then, there must be energy flow across the boundary, i.e. $\Delta U_{\text{surr}} = -\Delta U_{\text{sys}}$.
+
+\begin{defn}
+	[Types of Systems]
+	The following are classifications of systems:
+	\begin{itemize}
+		\item (Closed) A system is \vocab{closed} if energy, but not mass, can cross its boundary.
+		\item (Open) A system is \vocab{open} if both energy and mass can cross its boundary.
+		\item (Isolated) A system is \vocab{isolated} if neither energy nor mass can exchange across its boundary.
+	\end{itemize}
+\end{defn}
+
+Note that the whole universe is an isolated system. Now we can write down the following:
+
+\begin{law}
+	[First Law]
+	In an isolated system, the change in energy is always zero.
+\end{law}
+
+\subsection{Ideal Gases}
+
+Biology is too hard, so we try to make simplifying assumptions, which generally consist of the form ``assume $X,Y,Z$ are the only sources of energy." For example, if we assume no inter-atom interactions, then all energy comes from translational motion. We can also assume no inter-particle interactions, and then all energy comes from translational or vibrational motion. Both of these are ideal gases.
+
+Thus we set up an ``monatomic ideal gas in a box" system, in which we have a monatomic ideal gas. Then, it turns out that work ($w$) and heat ($q$) are the only possible sources of energy. In fact, 
+
+\begin{defn}*
+	\vocab{Heat} is the disordered transfer of energy, in which particles move in random directions, while \vocab{work} is the ordered transfer of energy, which transfers energy in the same direction.
+\end{defn} 
+
+\begin{fact}*
+	In the monatomic ideal gas system, $\Delta U = q + w$.
+\end{fact}
+
+\begin{exm}*
+	If the boundary is a balloon, then heat ($q$) is increasing the temperature in the balloon. On the other hand, work ($w$) consists of compressing the balloon, which initially increases order as the particles all go towards the middle. However, in the long run, the particles become disordered again, and all the work energy \vocab{disappates}.
+\end{exm}
+
+Another historical tangent: Generating heat is very easy (start a fire). On the other hand, work is pretty hard, and this is why steam engines are so good. In biology the same thing happens, and things like the motor protein kinesin and the cytoskeleton and so forth try to convert energy into work.
+
+\begin{fact}
+	[Second Law, Informally]
+	Not all heat can be converted to work.
+\end{fact}
+
+For example, steam engines lose some energy as heat; kinesin also loses some energy as heat.

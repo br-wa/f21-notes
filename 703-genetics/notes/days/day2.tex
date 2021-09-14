@@ -1,0 +1,90 @@
+\section*{Lecture 2: Independent Assortment (Reddien)}
+\setcounter{section}{2}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+\setcounter{subsection}{0}
+
+\subsection{Equal Segregation}
+
+We return to our study of the ``paralyzed" gene from before, and we assume flies are diploid:
+
+\begin{exper}*
+	We cross true-breeding paralyzed and wild-type flies, and the F1 generation is completely non-paralyzed. When we cross an F1 fly with another F1 fly, around a quarter of the flies end up being paralyzed.
+\end{exper}
+
+We can now analyze the genotypes. Suppose we hypothesize that the F0 cross was para\textsuperscript{ts}/para\textsuperscript{ts} ($\x$) para\textsuperscript{wt}/para\textsuperscript{wt}, which means the entire F1 generation was para\textsuperscript{ts}/\textsuperscript{wt}. We then hypothesize that whenever the genotype contains both para\textsuperscript{ts} and para\textsuperscript{wt} copies, the wild-type phenotype is observed.
+
+\begin{defn}
+	In a diploid, the genotype of a specific gene is \vocab{heterozygous} if distinct alleles are present, while such a genotype is \vocab{homozygous} of two identical alleles are present. A specimen that is heterozygous for a specific gene is a \vocab{heterozygote} (resp. \vocab{homozygote}). A phenotype is \vocab{dominant} if it is observed in heterozygotes containing at least one copy of the corresponding allele. On the other hand, a phenotype is \vocab{recessive} if it is only observed in homozygotes containing two copies of the corresponding allele.
+\end{defn}
+
+How does recessivity work? Recall that the para gene actually encodes a sodium channel. So, it is possible that in heterozygotes, the wild-type allele encodes for enough functional sodium pumps that movement can occur as normal. In fact, in many genes, one functional allele is sufficient.
+
+To analyze the F2 we need the following:
+
+\begin{law}
+	[Equal Segregation/Mendel's First Law]
+	In diploid reproduction, allele pairs separate during gamete formation and randomly unite (one copy from each parent) during fertilization.
+\end{law}
+
+Now we consider the F1 cross of para\textsuperscript{wt}/para\textsuperscript{ts} ($\x$) para\textsuperscript{wt}/para\textsuperscript{ts}. Our resulting possibilities are:
+\begin{itemize}
+	\item para\textsuperscript{wt}/para\textsuperscript{wt},
+	\item para\textsuperscript{wt}/para\textsuperscript{ts},
+	\item para\textsuperscript{ts}/para\textsuperscript{wt},
+	\item para\textsuperscript{ts}/para\textsuperscript{ts}.
+\end{itemize}
+Furthermore, Equal Segregation tells us that each of these results are equally possible. Note that the middle two classes are the same genotype. So, in fact the heterozygous genotype has a 50\% chance of occuring.
+
+Now, if we look at phenotypes, we note that only the last result leads to a paralyzed fly, so only one in four flies is paralyzed, which is as observed.
+Thus, our hypothesis that paralysis is a recessive trait governed by a signel para gene.
+
+\subsection{Independent Assortment}
+
+Suppose we now consider the following two hypotheses:
+
+\begin{itemize}
+	\item Paralysis is a recessive trait governed by two genes, para and shibere, and to be paralyzed, a fly needs to be homozygous in both.
+	\item Paralysis is a recessive trait governed by two genes, para and shibere, and to be paralyzed, a fly needs to be homozygous in at least one. 
+\end{itemize}
+
+
+Then, our F0 cross would be:
+\begin{center}
+	para\tss{ts}/para\tss{ts};shib\tss{ts}/shib\tss{ts} ($\x$) para\tss{wt}/para\tss{wt};shib\tss{wt}/shib\tss{wt}.
+\end{center}
+In that case, the F1s would be heterozygous in both, and thus must be para\tss{wt}/para\tss{ts};shib\tss{wt}/shib\tss{ts}. To analyze an F1 ($\x$) F1 cross, we need the following:
+
+\begin{law}
+	[Independent Assortment/Mendel's Second Law]
+	For \vocab{unlinked} genes, inheritance of a given allele of one gene and inheritance of a given allele of the other gene are independent events.
+\end{law}
+
+Now, the possible F1 gametes are:
+
+\begin{itemize}
+	\item para\tss{wt}/shib\tss{wt},
+	\item para\tss{wt}/shib\tss{ts},
+	\item para\tss{ts}/shib\tss{wt}, 
+	\item para\tss{ts}/shib\tss{ts}.
+\end{itemize}
+
+We can then write out all $16$ possibilities and actually count things, or we can use expected value. Note that $P(\text{homozygous para\tss{ts}}) = 0.25$ and $P(\text{homozygous shib\tss{ts}}) = 0.25$, and furthermore these events are independent. So, the probability of both is $0.25^2 = 1/16$, while the probability of either is $0.25 + 0l25 - 1/16 = 7/16$. It follows that our two para + shibere hypotheses expect $\frac 1{16}$ and $\frac 7{16}$ of the F2 flies to be paralyzed, respectively.
+
+\subsection{Hypothesis Testing}
+
+Suppose now that our actual data is $4$ paralyzed, $12$ non-paralyzed. Then, we can test the last hypothesis using a chi-squared test.
+
+\begin{defn}
+	[Chi-Squared]
+	If we have events $A_1, \ldots, A_k$ with expected frequences $f_1,\ldots, f_k$ and observed frequencies $o_1, \ldots, o_k$, then the \vocab{chi-squared statistic} $\chi^2$ is \[
+		\chi^2 = \sum \frac{(o_i-f_i)^2}{f_i}.
+	\]
+	In a chi-squared test, the \vocab{degrees of freedom (df)} is defined as the number of independent normally distributed variables (usually $k-1$). We can then determine the $p$-value of this $\mathbb P(\text{chi-squared} \geq \chi^2 \mid \text{df degrees of freedom hypothesis is true})$. 
+\end{defn}
+
+In the case of our last hypothesis, we get \[
+	\chi^2 = \frac{(4-7)^2}{7} + \frac{(12-9)^2}{9} = 2.28.
+\]
+The degrees of freedom is $k-1 = 1$, so we can look up in a table and find $p > 0.05$, so we cannot reject the last hypothesis and need more data to differentiate. In general, we can use a \vocab{power analysis} to determine the amount of data needed to differentiate between two hypotheseso.
+

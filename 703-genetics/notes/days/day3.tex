@@ -1,0 +1,71 @@
+\section*{Lecture 3: Genetic Linkage (Reddien)}
+\setcounter{section}{3}
+\setcounter{defn}{0}
+\setcounter{subsection}{0}
+\setcounter{defncontainer}{0}
+
+\subsection{Complex Inheritance Patterns}
+
+We have mostly been discussing particulate inheritance so far. However, there is another phenomena. 
+
+\begin{exm}*
+	[Snapdragons] 
+	If you cross a white and red snapdragon, you get a pink snapdragon. 
+	In fact, snapdragon color is a case of \vocab{incomplete dominance}, and there is a mendelian gene.
+\end{exm}
+
+\begin{exm}*
+	[Continuous traits]
+	Height is \vocab{polygenic}, i.e. heights are governed by many genes. Continuous traits can also be mostly impacted by \emph{environmental factors} (the effects of which can be studied using e.g. \vocab{twin studies}).
+\end{exm}
+
+\subsection{Violations of Independent Assortment}
+
+\begin{exper}
+	[Bateson-Saunders-Punnett (1905)]
+	We cross pure-breeding pea plants with the following traits: Purple flowers (P) and long pollen (L), and red flowers (p) and short pollen (\ell).
+	Crossing, we get an F\textsubscript1 generation with all purple flowers and long pollen, suggesting that the P and L phenotypes are dominant as PpL\ell\, expresses P and L. We then do an F\textsubscript1 ($\x$) F\textsubscript1 cross. We get the following in the F\textsubscript2 generation:
+	\begin{itemize}
+		\item Purple, Long (P\_;L\_): 1528 peas,
+		\item Purple, Short (P\_;\ell\ell): 106 peas,
+		\item Red, Long (pp;L\_): 117 peas,
+		\item Red, Short (pp;\ell\ell): 381.
+	\end{itemize}
+\end{exper}
+
+This is clearly not the $9\colon 3\colon 3\colon 1$ ratio predicted by Independent Assortment.
+In fact, a $\chi^2$ test (with (1199, 400, 400, 133) expected) gives $p < 0.01$, thus allowing us to reject Independent Assortment.
+
+Note that the F1 PpL\ell\, flies can make either PL, P\ell, pL, or p\ell\, gametes, respectively. Two of these are \vocab{parental} (PL or p\ell) and two are \vocab{recombinant}. Suppose the recombinant alleles are produced with probability $R$ in total (so each gamete appears with probability $R/2$) and the parental alleles are produced with probability $1-R$ (thus each gamete appears with probability $0.5 - R/2$). $R$ is called the \vocab{recombinant frequency}.
+
+Note now that the frequency of the pp;\ell\ell genotype is $\frac{(1-R)^2}{4}$, so we can use the frequency of the red-short peas to estimate $R \approx 0.155$.
+This experiment works, but note that if we want to figure out gamete frequency there are other ways to do this. For example, we can do a \begin{center}
+	P\sim L/p\sim \ell\, ($\x$) p\sim \ell / p\sim \ell.
+\end{center}
+Then, the P\sim L, P\sim \ell, p\sim L, and p\sim \ell\, gametes correspond precisely to the (purple, long), (purple, short), (red, long), (red, short) phenotypes.
+
+\subsection{Sex-Linked Traits}
+
+\begin{exper}
+	[Morgan (1910)]
+	Cross a white-eyed male (white \male) and a red-eyed female fly (red \female). This produces an F\textsubscript1 generation with all red eyes. Next, the F\textsubscript2 generation has:
+	\begin{itemize}
+		\item \female: 2459 red, 0 white.
+		\item \male: 1011 red, 782 white.
+	\end{itemize}
+	After this, an F\textsubscript1 female and white-eyed F\textsubscript2 male. The resulting phenotypes are:
+	\begin{itemize}
+		\item \female: half red, half white.
+		\item \male: half red, half white.
+	\end{itemize}
+\end{exper}
+
+In flies, males are XY and females are XX. A hypothesis here is that there is a \emph{white} gene W on the X chromosome (with white-eyed phenotype recessive), where X\tss+ denotes chromosomes with the wild-type allele and X\tss w denotes chromosomes with the white-eyed allele. Then, 
+\begin{itemize}
+	\item The initial cross is X\tss wY and X\tss+X\tss+.
+	\item The F\textsubscript1 generation has X\tss wX\tss+ females, and X\tss+Y males.
+	\item The F\textsubscript2 generation has X\tss+X\tss w and X\tss+X\tss+ females (split half-half), and X\tss wY and X\tss+Y males (also half-half).
+	\item The F\textsubscript3 generation has X\tss wX\tss w and X\tss wX\tss+ females (split half-half), and X\tss wY and X\tss+Y males (also half-half).
+\end{itemize}
+
+To check this hypothesis, cross a white-eyed female with a red-eyed male (thus X\tss wX\tss w and X\tss+Y). The result is all white-eyed males and all red-eyed females, as expected.

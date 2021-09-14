@@ -1,0 +1,68 @@
+\section*{Lecture 3: Work and Heat (Voigt)}
+\setcounter{section}{3}
+\setcounter{defn}{0}
+\setcounter{subsection}{0}
+\setcounter{defncontainer}{0}
+
+Recall from last time that for a closed system, $\Delta U = q + w$, i.e. heat and work are the only ways to transfer energy across the boundary.
+This relation is quite subtle; while $U$ is a state function, $q + w$ are \emph{path-dependent}. In particular, $\oint q\,\text dC$ is nonzero along some $P-V$ loop.
+
+\begin{defn}
+	A system is at \vocab{equilibrium} if certain \vocab{state functions} are uniform throughout the system. State functions being constant are \vocab{indicators} of equilibrium.
+\end{defn}
+
+Note that this is not the exact same as the ``state functions do not change over time," but the lack of a gradient usually indicates equilibrium.
+Note also that state functions are not well-defined unless the system is at equilibrium.
+
+\begin{exm}
+	The following are useful state functions:
+	\begin{itemize}
+		\item Pressure $P$,
+		\item Volume $V$,
+		\item Temperature $T$, 
+		\item Internal energy $U$,
+		\item Chemical potential $\mu = \frac{G}{n}$.
+	\end{itemize}
+\end{exm}
+
+\begin{defn}*
+	A state function is \vocab{intrinsic} if it is a density function, while a state function is \vocab{extrinsic} if it is defined by some sum/integration over the system.
+\end{defn}
+
+Now, we can ask the following:
+
+\begin{que}*
+	What is the minimum number of state functions needed to fully describe a system?
+\end{que}
+
+It turns out the answer is known:
+
+\begin{thm}
+	If there are $N_s$ species in a system, $N_s+2$ (non-redundant) state functions uniquely determine the state.
+\end{thm}
+
+\begin{defn}*
+	An \vocab{equation of state} is an equation between some state functions, where all state functions not in the equation are assumed to be held constant.
+\end{defn}
+
+\begin{exm}*
+	[Ideal Gas Law]
+	$PV \sim nT$ is an equation of state. We may also write $V\sim P^{-1}$, $V\sim n$, $V\sim T$. In particular, for a closed system (in which $n$ is thus constant), the Gas Law defines a \emph{surface} in the 3d space $(P,V,T)$.
+\end{exm}
+
+\begin{exm}*
+	[Van der Waals]
+	We can also write $RT = \parens*{P + \frac a{\ol V^2}}(\ol V - b)$. This is still the same number of state variables; however, the equation is now more complex. 
+\end{exm}
+
+In general, state equations can get arbitrarily complex. However, since $N_s+2$ state functions are enough, we cannot create state functions with arbitrarily many variables.
+
+\subsection{Changing State Functions}
+
+In the ideal gas case, recall that a closed system is uniquely determined by its $P,V$. Thus, we can represent states as points on a graph with axes $(V,P)$. Note that points are only well-defined if they are at equilibrium.
+
+\begin{defn}
+	A transition is \vocab{reversible} if it can be continuously undone. A transition is \vocab{irreversible} otherwise.
+\end{defn}
+
+Irreversible systems are often at non-equilibrium, which makes them harder to study. We will mostly focus on reversible situations here.

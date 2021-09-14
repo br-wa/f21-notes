@@ -1,0 +1,168 @@
+\section*{Lecture 1: Introduction, Finite Automata, Regular Expressions}
+\setcounter{section}{1}
+
+Recitations start tomorrow, and we can go to any. They are optional, but we must go if we are having difficulties; how this is defined is unclear, so we must use our best judgement. Recitations will go over examples and will elaborate on course content; they are targetted towards the middle/bottom of the class, so if we are not having trouble with the material we may find recitations boring.
+
+The required background is comfort with proofs and creative thinking. Collaboration on problem sets is encouraged, but we should \emph{try things on our own first} and \emph{do our own writeups} to make sure you get individual practice as well. This class is on \url{psetpartners.mit.edu}, so we can use that to find collaborators. 
+
+\subsection{Theory of Computation}
+
+Contrasting theoretical CS and theoretical physics is instructive. 
+In theoretical physics, usually theorists propose theories, and then the experimentalists try to verify or disprove these theories.
+Theoretical CS does not have the same driving role; however, it nevertheless plays a crucial role, notably in cryptography. 
+
+More importantly, theory helps us stay close to the fundamental problems in computer science, such as ``what is intelligence/computation?" 
+Theory is also interested in studying what is \emph{feasible} (e.g. fast factoring is famously open) and what is even computable at all. 
+
+\begin{exm}*
+	[Famous incomputable problems]
+	Certain things cannot be solved via algorithm. For example:
+	\begin{itemize}
+		\item (Decidability) Given a mathematical statement, is it true or false?
+		\item (Halting) Given a program, will it stop?
+	\end{itemize}
+\end{exm}
+
+Notice that to do these things we need a definition of an algorithm, i.e. a \vocab{model of computation/computational model}. 
+Thus, the first half of the class will focus on computability theory -- what is possible. The second half will focus on complexibility theory -- what is practical.
+
+\subsection{Finite Automata/Finite State Machines}
+
+\begin{defn}
+	[Finite Automata]
+	A \vocab{finite automaton} $M = (Q, \Sigma, \delta, q_0, F)$ consists of the following:
+	\begin{itemize}
+		\item A finite set $Q$ \vocab{States} $Q = \set{q_1, \ldots, q_N}$.
+		\item A finite \vocab{alphabet} $\Sigma$,
+		\item A \vocab{transition function} $\delta \colon Q\x \Sigma \to Q$, so that for each state $q_i$ and character $c\in \Sigma$, there exists some other $\delta(q_i, c)\in Q$.
+		\item A unique \vocab{start state} $q_0 \in Q$ and some collection of \vocab{accept states} $F\subset Q$.
+	\end{itemize}
+\end{defn}
+
+Now how do we compute with this? Here is the definition for when the alphabet is just $\set{0,1}$. The general case is similar.
+
+\begin{defn}*
+	[Computing with Finite Automata]
+	Suppose we have a finite automaton $M$ and a binary input string $S$. Then, the automata does the following:
+	\begin{enumerate}
+		\item Start at the start state.
+		\item For each bit in the input, if the bit is zero, follow the $0$ transition. Otherwise, follow the $1$ transition. (Formally, if the current state is $q$ and the bit is $c$, go to $\delta(q,c)$).
+		\item At the end, if we are at an accept state, return \emph{\texttt{accept}}. Else, return \emph{\texttt{reject}}.
+	\end{enumerate}
+\end{defn}
+
+Note that if the string is $s_1 \cdots s_k$, then can write the transition step  more verbosely as: \[
+	q = \delta(\delta(\cdots \delta(q_0, s_1),\cdots, s_{k-1}), s_k),
+\]
+and then we accept if and only if $q\in F$.
+
+\begin{defn}*
+	Let $M$ be a finite automaton, or \vocab{machine}. 
+	The \vocab{language} $L(M)$ of $M$ is the set of strings that $M$ accepts. 
+	We also sometimes say that $M$ \vocab{recognizes} $L(M)$. 
+\end{defn}
+
+In general, any set of strings is called a language. We can ask the following:
+
+\begin{que}*
+	What sets of strings (i.e. languages) $A$ can be expressed as $L(M)$ for some machine $M$? Equivalently, which languages can be recognized by some finite automaton?
+\end{que}
+
+\begin{defn}
+	A language $A$ is \vocab{regular} if it is $L(M)$ for some $M$. That is, a language is regular if it is the language of some finite automaton.
+\end{defn}
+
+\begin{fact}*
+	The study of finite automata was first employed by linguists (e.g. Chomsky). Thus we use words like alphabets and languages.
+\end{fact}
+
+\begin{exm}*
+	[Regular languages]
+	The following languages are regular:
+	\begin{itemize}
+		\item (In-Class Example) The set of binary strings with two consecutive $1$s is regular.
+		\item (Exercise) The set of strings that start and end with the same letter is regular.
+		\item (Multiples of 7) The set of binary strings that represent multiples of $7$ is regular.
+	\end{itemize}
+\end{exm}
+
+\begin{exm}*
+	On the other hand, not all languages are regular: The set of binary strings with the same number of zeros and ones is not regular. 
+\end{exm}
+
+\begin{defn}
+	[Regular Operations]
+	Let $A,B$ be languages. We define the following operations:
+	\begin{itemize}
+		\item (Union) $A\cup B$ is the set of strings $w$ in either $A$ or $B$.
+		\item (Concatenization) $A\circ B$ (or $AB$) is the set of strings of the form $xy$ for $x\in A$ and $y\in B$. 
+		\item (Star) $A^*$ is the set of strings that are either the \emph{empty string} (i.e. the string of length zero) or $w = x_1\cdots x_k$ for $k\geq 1$ and$x_1, \ldots, x_k\in A$. Alternatively, we may write: \[
+				A^* = \set{\text{\emph{empty string}}} \cup A \cup AA \cup AAA \cup \cdots.
+			\]
+	\end{itemize}
+\end{defn}
+
+Note that the empty string need not be in $A$. On the other hand, the empty string must be in $A^*$.
+
+\subsection{Regular Expressions}
+
+\begin{defn}*
+	We will use $\eps$ to denote the empty string and $\varnothing$ to denote the empty language.
+\end{defn}
+
+\begin{defn}
+	An \vocab{atomic expression} is a member of $\Sigma$, $\Sigma$ itself, $\varnothing$, or $\eps$. A \vocab{regular expression} is an expression made with the atomic expressions and the regular operations.
+\end{defn}
+
+\begin{fact}*
+	We can actually construct all regular expressions using only the members of $\Sigma$ and $\varnothing$, since $\eps = \varnothing^*$ and $\Sigma$ is just the union of the members of $\Sigma$.
+\end{fact}
+
+Each regular expression gives rise to a language, as follows:
+
+\begin{exm}
+	[Sigma Star]
+	$\Sigma^*$ is language consisting of all finite strings with characters in the alphabet $\Sigma$.
+\end{exm}
+
+\begin{exm}*
+	On the other hand, suppose $1\in \Sigma$. Then, $\Sigma^* \circ 1 \circ 1 \circ \Sigma^*$ is the language of strings starting with any string in $\Sigma^*$, having two consecutive ones, and then ending with some other string in $\Sigma^*$. That is, it is precisely the language of strings consisting of two consecutive $1$s.
+\end{exm}
+
+\subsection{Classifying Regular Languages}
+
+The real kicker is the following:
+
+\begin{thm}
+	A language is regular if and only if it can be written as some regular expression.
+\end{thm}
+
+We will now aim to prove this. We first need the following:
+
+\begin{lem}
+	[Closure]
+	The set of regular languages is closed under the regular operations. 
+	That is, if $A_1, A_2$ are regular languages with the same alphabet $\Sigma$, so are:
+	\begin{itemize}
+		\item (Union) $A_1\cup A_2$,
+		\item (Concatenation) $A_1\circ A_2$, and
+		\item (Star) $A_1^*$.
+	\end{itemize}
+\end{lem}
+
+\begin{proof}
+	[Proof of Union:] Let $L(M_1) = A_1$ and let $L(M_2) = A_2$. The idea is that our new automaton will ``run $M_1$ and $M_2$ simultaneously, and then accept if either $M_1$ accepts or $M_2$ accepts.
+
+	Formally, we define a new finite automaton $M$ whose states are \emph{pairs} $(q, r)$ of states, where $q$ is a state of $M_1$ and $r$ is a state of $M_2$.
+	Then, if $\delta_1, \delta_2$ are the transition functions of $M_1, M_2$, define \[
+		\delta((q,r), c) = (\delta_1(q,c), \delta_2(r,c)).
+	\]
+	Also, suppose $q_0$ and $r_0$ are the starting states of $M_1, M_2$. Then, the starting state in $M$ will be $(q_0, r_0)$.
+	Combined with $\delta$ just transitioning as $\delta_1, \delta_2$ did, the $q$ and $r$ states transition as they did in $M_1, M_2$. 
+
+	Now, suppose our final state is $(q_f, r_f)$. Then, $q_f$ is the resulting state of running $M_1$ on the input, while $r_f$ is the resulting state of running $M_2$. Thus, to accept the union, $M$ just needs to accept if $q_f\in F_1$ (i.e. $M_1$ accepts) or $r_f\in F_2$ (i.e. $M_2$ accepting).
+
+	Our automaton $M$ now accepts if and only if one of $M_1, M_2$ would have accepted, so $M$ recognizes $A_1\cup A_2$, which must be regular.
+\end{proof}
+
+

@@ -1,0 +1,116 @@
+\section*{Lecture 1: Entropy (and Combinatorics)}
+\setcounter{section}{1}
+
+\begin{fact}
+	We are interested in the following:
+	\begin{itemize}
+		\item (Compression) Suppose $X$ is a high dimensional random variable. Then, representing $X$ in memory takes $\approx H(X)$ bits.
+		\item (Hypothesis Testing) Suppose you have two collections of distributions $\mathcal P_0$ and $\mathcal P_1$, then it takes \[
+				n \approx \frac{1}{\min\limits_{P_i\in\mathcal P_i} D(P_0\Vert P_1)} \log \eps^{-1}
+			\]
+			samples to tell whether $n$ i.i.d. samples from a distribution $P$ to determine whether $P\in\mathcal P_0$ or $\mathcal P_1$.
+		\item Parametric inference (too many symbols).
+		\item (Universal Compression/Prediction/Gambling) Minimizing regret in predicting a sequence of i.i.d. $X_i$'s (under log-loss) yields \[
+				\max_{P_\theta} I(\theta; X_1, \ldots, X_n).
+			\]
+		\item (Channel Coding) In some collection $\set{P_\theta\colon \theta\in \Theta}$, you can select $\approx 2^{\max\limits_{\pi_\theta} I(\theta;X)}$ distinguishable hypotheses, where $\pi_\theta$ is a prior.
+		\item (Representation) How many bits do you need to represent a random function with some precision $\eps$? It turns out this is $\min I(f, \hat f)$ over all $\hat f$ within some reasonable error of $f$.
+	\end{itemize}
+\end{fact}
+
+\begin{defn}
+	[Entropy]
+	For a discrete random variable $X$, we define the \vocab{entropy} of $X$ as \[
+		H(X) = \mathbb E\sqrb*{\log \frac{1}{P_X(x)}} = \sum p_i \log \frac{1}{p_i}.
+	\]
+	For two random variables $X,Y$, the \vocab{conditional entropy} $H(X|Y)$ is defined as \[
+		H(X|Y) = \mathbb E\sqrb*{\log \frac{1}{P_{X|Y}(x|y)}}.
+	\]
+	Finally, the \vocab{joint entropy} $H(A.B,C)$ (and similar for more variables) is \[
+		\mathbb E\sqrb*{\log \frac{1}{P_{A,B,C}(a,b,c)}}.
+	\]
+\end{defn}
+
+We assume $0\log (1/0) = 0$.
+Note that entropy is not defined for continuous random variables. However, \emph{differential entropy} is.
+
+\begin{exm}*
+	[Binary Entropy]
+	Suppose $X \sim \operatorname{Bern}(p)$. Then, we write $H(X) = h(p) = -p\log p - (1-p)\log (1-p)$ as the \vocab{binary entropy function}.
+\end{exm}
+
+\begin{exm}*
+	[Infinite Entropy]
+	We can have infinite entropy, e.g. $\mathbb P[X=k] = \frac{c}{k\log \log k}$.
+\end{exm}
+
+\begin{fact}
+	[Method of Types]
+	Let $n_1 + \cdots + n_k = n$ for integers $n_i \geq 0$. Then, let $P$ be the probability distribution $p_i = \frac{n_i}{n}$. Then, \[
+		\frac{1}{(n+1)^{k-1}} \exp (nH(P)) \leq \frac{n}{n_1, \ldots, n_k} \leq \exp (nH(P)).
+	\]
+\end{fact}
+
+\begin{proof}
+	[Physicists' ``Proof":]
+	Note that \[
+		\frac{n}{n_1,\ldots, n_k} = \frac{n!}{n_1!\cdots n_k!} \approx \frac{(n/e)^n}{\prod (n_i/e)^{n_i}} = \exp \parens*{n\log n - \sum n_i \log n_i}.
+	\]
+	Now, using $n_i = np_i$, we get that this is basically \[
+		\exp \parens*{n\log n - \sum n_i\log n + nH(P)} = \exp(nH(P)).
+	\]
+\end{proof}
+
+\begin{proof}
+	[Real Proof:]
+	Let $X_i$ be iid samples from $P$. Let the type of $(X_1,\ldots)$ to be $(m_1,\ldots, m_k)$, where $m_i$ is the number of $X_j = i$. For the upper bound, \[
+		1\geq \mathbb P[(X_i) \text{ has type }(n_1,\ldots, n_k)] = \binom{n}{n_1,\ldots, n_k} \prod p_i^{n_i},
+	\]and rearranging gives us \[
+		\binom{n}{n_1,\ldots, n_k} \leq \exp\parens*{\sum n_i\log p_i^{-1}} = \exp (nH(P)).
+	\]
+	For the lower bound, we just need the estimate\[
+		\mathbb P[X \text{ has type }(n_1', \ldots, n_k')] \leq \mathbb P[X \text{ has type }(n_1,\ldots, n_k)].
+	\]
+	Indeed, the ratio is \[
+		\prod_i p_i^{n_i' - n_i} \frac{n_i!}{n_i'!} \leq \prod_i p_i^{n_i' - n_i} n_i^{n_i - n_i'} = 1,
+	\]
+	where we have used the estimate $\frac{n!}{m!} \leq n^{n-m}$.
+\end{proof}
+
+\subsection{Properties of Entropy}
+
+\begin{fact}
+	We have the following:
+	\begin{enumerate}[label=\arabic*)]
+		\item $H(X)\geq 0$ (with equality when $X$ is constant).
+		\item $H(X)\leq \log \abs*{\mathcal X}$.
+		\item For all functions $f\colon \mathcal X\to\mathcal Y$, $H(X) \geq H(f(X))$, with equality when $f$ is injective on elements in $\mathcal X$ with nonzero probability function.
+		\item (Conditioning decreases entropy) $H(X|Y)\leq H(X)$.
+		\item (Chain Rule) $H(X,Y) = H(X) + H(Y|X)$.
+		\item If $X^i = (X_1,\ldots, X_i)$, then \[
+				H(X^n) = \sum_{i=1}^n H(X_i|X^{i-1}).
+			\]
+	\end{enumerate}
+\end{fact}
+
+We will not prove 4) until later. The others are pretty easy, but note that \[
+	H(X, f(X)) = H(X) = H(f(X)) + H(X|f(X)) \geq H(f(X)).
+\]
+kills 6).
+
+\begin{cor}
+	$H(X,Y) \leq H(X) + H(Y)$.
+\end{cor}
+
+\subsection{Combinatorics}
+
+\begin{fact}*
+	Let $S$ be a set of points and let $S_X, S_Y, S_Z$ be the set of projections of $S$ onto the $yz$, $xz$, $xy$ planes, respectively. Then, $\abs S^2 \leq \abs{S_X}\abs{S_Y}\abs{S_Z}$.
+\end{fact}
+
+\begin{proof}
+	Write $H(X,Y,Z) \leq H(X,Y) + H(Z)$. Similarly, \[
+		H(X|Y,Z) \leq H(X|Z) \implies H(X|Y,Z) + H(Z) \leq H(X,Z) \implies H(X,Y,Z) + H(Z) \leq H(X,Z) + H(Y,Z).
+	\]
+	Now, adding we get $2H(X,Y,Z) \leq H(X,Y) + H(Y,Z) + H(Z,X)$, so applying this to the uniform distribution on $S$ and using $H(X,Y) \leq \log \abs{S_Z}$ (and cyclic variations) solves the problem.
+\end{proof}
