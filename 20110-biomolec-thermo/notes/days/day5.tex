@@ -1,0 +1,68 @@
+\section*{Lecture 5: Calorimetry (Voigt)}
+\setcounter{section}{5}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+Recall from last time:
+
+\begin{fact}*
+	For any state function $U$, $\Delta U = 0$ over closed paths. 
+	Furthermore, $\Delta U$ is path-independent.
+\end{fact}
+
+\begin{defn}
+	We define the change in \vocab{heat} by $\d q = C\d T$, where $C$ is the \vocab{heat capacity} given by $C_V = \frac{\partial U}{\partial T}$ at some fixed volume $V$.
+\end{defn}
+
+\begin{fact}
+	Since $C$ depends on $V$, $C$ is path-dependent.
+\end{fact}
+
+\begin{fact}*
+	For this class, we will assume $C$ is \emph{temperature-independent}.
+\end{fact}
+
+\begin{thm}
+	In an ideal gas, the \vocab{total internal energy} $U = \frac 32 nRT$. Equivalently, $\ol U = \frac 32 RT$.
+\end{thm}
+
+This can be derived by computing $\mathbb E[v^2]$, and using this to compute the kinetic energy in the system.
+
+\begin{cor}*
+	Isotherms preserve total internal energy.
+\end{cor}
+
+How do we keep temperature constant in practice? We can do this by having both the system and the surroundings have a constant temperature $T$. This can be done by doing the experiment in a sufficiently large room.
+
+\begin{defn}*
+	A large source of heat/constant temperature is a \vocab{reservoir}.
+\end{defn}
+
+\subsection{Enthalpy}
+
+A \vocab{bomb calorimeter} is the following: 
+We have a box with a constant volume $V$, and then we combust some substance inside the box. This transfers some heat $q_v$.
+
+On the other hand, if we use a piston (so that there is a constant pressure $P$) then the piston will expand during combustion. 
+Thus there will be some heat release $q_P$ and some work being done $w_P$.
+
+\begin{exm}*
+	If we light gasoline in an \vocab{open atmosphere}, not all the energy gets released as heat, since there is some carbon dioxide and water vapor released that expand and thus end up doing work.
+\end{exm}
+
+\begin{defn}
+	We define \vocab{enthalpy} as $H = U + PV$.
+\end{defn}
+
+\begin{fact}*
+	In a system at constant pressure, $\Delta H = q_P$, and in a system at constant volume, $\Delta H = q_V$.
+\end{fact}
+
+\begin{defn}*
+	At constant pressure $P$, the \vocab{heat capacity} is \[
+		C_P = \frac{\partial H}{\partial T}
+	\]evaluated at $P$.
+\end{defn}
+
+

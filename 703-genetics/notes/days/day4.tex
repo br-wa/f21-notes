@@ -1,0 +1,86 @@
+\section*{Lecture 4: Recombination and Genetic Maps (Gehring)}
+\setcounter{section}{4}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+\subsection{Genetic Maps}
+
+Recall from last time that by measuring the amount of recombination between two genes, we can estimate the ``distance" between genes on a chromosome.
+Also, recall that last time by comparing frequencies between different sexes, we were able to conclude that the white-eyed gene is X-linked. 
+
+\begin{fact}*
+	The following traits are all X-linked:
+	\begin{itemize}
+		\item Yellow body (y),
+		\item White eyes (w),
+		\item Rudimentary wings (r), 
+		\item Miniature wings (m), and
+		\item Vermillion eyes (v)
+	\end{itemize}
+\end{fact}
+
+\begin{exper}
+	[Sturtevant (1913)]
+	Suppose we cross a long-winged, vermillion-eyed true-breeding female with a rudimentary-winged, red-eyed male. This is X\tss{r+;v}X\tss{r+;v} ($\times$) X\tss{r;v+}Y.
+	The F\textsubscript1 generation has females with long wings and red eyes (X\tss{r+;v}X\tss{r;v+}) and males with long wings and vermillion eyes (X\tss{r+;v}Y).
+	Now we cross such a female with such a male, and observe the male offspring. 
+	The possible phenotypes and their proportions among the F\textsubscript2 generation are:
+	\begin{itemize}
+		\item Long wings, red eyes (X\tss{r+;v+}Y) -- 105,
+		\item Long wings, vermillion eyes (X\tss{r+;v}Y) -- 316,
+		\item Rudimentary wings, red eyes (X\tss{r;v+}Y) -- 33, and
+		\item Rudimentary wings, vermillion eyes (X\tss{r;v}Y) -- 4.
+	\end{itemize}
+\end{exper}
+
+Note that the parental genes are X\tss{r+;v} and X\tss{r;v+}, we see that the recombination frequency is \[
+	\frac{105 + 4}{105 + 4 + 316 + 33} = \frac{109}{458} = 0.238.
+\]
+
+\begin{defn}
+	If the recombination frequency is $f$, we say the genes are $100f$ \vocab{map units} (or \vocab{centiMorgans (cM)}) apart.
+\end{defn}	
+
+\begin{fact}*
+	In the above experiment, note that the parental gametes are not equally common, which suggests that the rudimentary mutation is likely fatal.
+\end{fact}
+
+\begin{exm}*
+	[Sturtevant (1913), Continued]
+	The distances between (y,w), (w,m), and (m,y) are 1.0, 33.7, and 34.3 centiMorgans, respectively. 
+\end{exm}
+
+We thus conclude that the genes m,y are furthest apart, and w is very close to y but between m and y. Note that the recombination frequency metric is not linear.
+In general, if we measure all pairs, then we can similarly order any number of genes.
+
+\subsection{Three-Point Cross}
+
+Note that the recombination frequency does not account for the possibility of two or three etc. crossovers. As a result, the recombination frequency (i.e. distance) between two genes is underestimated.
+
+\begin{exper}
+	[Example Three-Point Cross]
+	Suppose we have three genes E, F, G with dominant phenotypes EFG and recessive phenotypes efg. We start with crossing EEFFGG ($\x$) eeffgg, which produces F\textsubscript1 generation having genotype EeFfGg.
+	We now cross with a \vocab{tester line} eeffgg.
+	As before, the phenotype of the F\textsubscript1 children uniquely determine the gamete produced by the EeFfGg genotype parent. 
+	We thus count the number of each gamete produced:
+	\begin{itemize}
+		\item efg 1654 (no recombinations),
+		\item efG 9 (E-G and F-G recombinations),
+		\item eFg 118 (E-F and F-G recombinations),
+		\item eFG 241 (E-F and G-E recombinations),
+		\item Efg 252 (E-F and G-E recombinations),
+		\item EfG 131 (E-F and F-G recombinations),
+		\item EFg 13 (E-G and F-G recombinations),
+		\item EFG 1779 (no recombinations).
+	\end{itemize}
+\end{exper}
+
+Now we analyze the data: We get 742 E-F recombinations, 271 F-G recombinations, and 575 G-E recombinations, which implies that the order of the genes is EGF.
+Note that there are 3 classes of gametes:
+\begin{itemize}
+	\item Parental (most common),
+	\item Single Crossovers (E-G + E-F or G-F + E-F).
+	\item Double Crossovers (E-G + G-F)
+\end{itemize}
+Thus, when computing the recombination frequency, we actually add 2(13 + 9) to account for the double crossovers, and then 271 + 575 becomes precisely 742 + 2(13 + 9).

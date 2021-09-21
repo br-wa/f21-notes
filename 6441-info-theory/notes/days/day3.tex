@@ -1,0 +1,229 @@
+\section*{Lecture 3: Continuity and Variational Characterizations}
+\setcounter{section}{3}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+Recall the following notation from last class:
+
+\begin{defn}*
+	We use $P_{Y|X}$ to denote Markov kernels $\mathcal X\to \mathcal Y$. We will use $P_XP_{Y|X}$ to denote the joint distribution on $(X,Y)$, and we will let $P_{Y|X}\circ P_X$ denote the \vocab{marginal distribution} on $Y$:
+	\[
+		P_{Y|X} \circ P_X = \sum_{x\in \mathcal X} P_X P_{Y|X}.
+	\]
+\end{defn}
+
+\subsection{More on the Chain Rule}
+
+Let $R_j$ be a distribution on $\mathcal X^n$ given by $R_j = P_{X_1,\ldots, X_j} Q_{X_{j+1}, \ldots, X_n | X_1, \ldots, X_j}$. Note that this is the same as ``sample $X_1,\ldots, X_j$ using $P$, and then sample the rest given $Q$."
+
+Then, say we let $X_a^b = (X_a, \ldots, X_b)$, then:\begin{align*}
+	D(R_j\Vert R_{j-1}) &= D(P_{X_1^{j-1}} P_{X_j | X_1^{j-1}} Q_{X_{j+1}^n | X_1^j}\Vert P_{X_1^{j-1}} Q_{X_j|X_1^{j-1}} Q_{X_{j+1}^n | X_1^j})\\
+	&= D(P_{X_1^{j-1}} P_{X_j | X_1^{j-1}} \Vert P_{X_1^{j-1}} Q_{X_j | X_1^{j-1}}) \\
+	&= D(P_{X_j | X_1^{j-1}} \Vert Q_{X_j | X_1^{j-1}} | P_{X_1^{j-1}}).
+\end{align*}
+In fact, by the chain rule, it follows that:
+
+\begin{fact}*
+	$D(R_n \Vert R_0) = D(R_n\Vert R_{n-1}) + \cdots + D(R_1\Vert R_0)$.
+\end{fact}
+
+Analogically, we can think of $D$ as the ``squared distance" between distributions.
+
+\subsection{Data Processing For Mutual Information}
+
+Last time we claimed:
+
+\begin{fact}*
+	[Data Processing For Mutual Information]
+	If $X\to Y \to Z$ is a Markov chain (equivalently, $X\ind Z|Y$). Then, $I(X;Z) \leq I(X;Y)$. 
+\end{fact}
+
+Intuitively, this states that processing data (with the Markov kernel $P_{Z|Y}$) does not give information.
+
+\begin{proof}
+	By the chain rule, \[
+		I(X;Y) = I(X;Y,Z) = I(X;Z) + I(X;Y|Z) \geq I(X;Z).
+	\]
+	Note that equality holds if and only if $I(X;Y|Z) = 0$.
+\end{proof}
+
+\begin{defn}
+	For a Markov chain $X\to Y\to Z$, we say that $Z$ is a \vocab{sufficient statistic} for $Y$ if $X\to Z\to Y$ is also a Markov chain.
+\end{defn}
+
+This inequality is very important. Here is an example:
+
+\begin{exm}
+	[All of Statistics, apparently]
+	Suppose we have a parameter space $\Theta$, and we want to know $f(\Theta)$. We do not know $\Theta$, but we can get some samples $X^n$.
+	We try to estimate with $\hat f(X^n)$. Then, we can write down the Markov chain $f(\Theta)\to \Theta \to X^n \to \hat f(X^n)$. 
+	By the Data Processing Inequality: \[
+		I(f;\hat f) \leq I(\Theta; X^n).
+	\]
+	From here we can derive most of our standard statistical upper bounds.
+\end{exm}
+
+\subsection{More on Mutual Information}
+
+\begin{thm}
+	We have the following:
+	\begin{itemize}
+		\item If $X$ is discrete, then $I(X;Y) + H(X|Y) = H(X)$. If $H(X) <\infty$, then $I(X;Y) = H(X) - H(X|Y)$.
+		\item If $X,Y$ are discrete with $H(X,Y) < \infty$, then $I(X;Y) = H(X) + H(Y) - H(X,Y)$.
+		\item If $X$ is discrete, then $I(X;X) = H(X)$. Otherwise, $I(X;X) = \infty$.
+	\end{itemize}
+\end{thm}
+
+\begin{proof}
+	We invoke the following fact from measure theory: If $X$ is discrete, then the Radon-Nikodym derivative $\frac{\d P_{X,Y}}{\d (P_XP_Y)}$ is just $\frac{P_{X|Y}}{P_X}$ (as a ratio of probability mass functions). 
+	Now we can prove things:
+	\begin{itemize}
+		\item $I(X;Y) = \mathbb E \log \frac{P_{X|Y}(X|Y)}{P_X(X)}$. Since $H(X|Y) = \mathbb E \log \frac{1}{P_{X|Y}(X|Y)}$, using linearity on the logs yields: \[
+				I(X;Y) + H(X|Y) = \mathbb E\log \frac{1}{P_X(X)} = H(X).
+			\]
+		\item If $Y$ is discrete, then $H(X|Y) + H(Y) = H(X,Y)$.
+		\item If $X$ is discrete, then $I(X;Y) = H(X) - H(X|X) = H(X)$. 
+
+			Now, say $X$ is not discrete. Then, there is a set $E$ such that $P_X(E) > 0$, and for any $e\in E$, $P_X(e) = 0$.
+			Define $E_2 = \set{(e,e)\colon e\in E}$. This satisfies $P_{X,X} (E_2) = P_X(E) > 0$, but \[
+				P_XP_X(E_2) = \int_E \d P_X(x) \int_E \d P_{X'|X}(X'|X) = 0.
+			\]
+			It follows that $P_{X,X}$ is not absolutely continuous with respect to $P_XP_X$.
+	\end{itemize}
+\end{proof}
+
+\begin{cor}*
+	If $X$ is discrete, $H(X|Y) \leq H(X)$.
+\end{cor}
+
+\begin{thm}
+	[Golden Formula]
+	If $D(P_Y\Vert Q_Y) < \infty$, then we have: \[
+		I(X;Y) = D(P_{Y|X} \Vert Q_Y |P_X) - D(P_Y\Vert Q_Y).
+	\]
+\end{thm}
+
+\begin{proof}
+	Note that \[
+		\log \frac{P_{XY}}{P_XP_Y} = \log \frac{P_{Y|X}}{P_Y} = \log \frac{P_{Y|X}}{Q_Y} + \log \frac{Q_Y}{P_Y} = \log \frac{P_{Y|X}}{Q_Y} - \log \frac{P_Y}{Q_Y},
+	\]
+	and so taking expectations over the joint space $P_{XY}$ and using linearity proves the identity.
+\end{proof}
+
+\begin{cor}
+	[Mutual Information as Center of Gravity]
+	\[
+		I(X;Y) = \min_Q D(P_{Y|X} \Vert Q|P_X),
+	\]
+	where the minimum occurs at $Q = P_Y$.
+\end{cor}
+
+\begin{proof}
+	By the Golden Formula, \[
+		D(P_{Y|X} \Vert Q|P_X) = I(X;Y) + D(P_Y\Vert Q) \geq I(X;Y),
+	\]with equality at $Q = P_Y$.
+\end{proof}
+
+Why is this a ``center of gravity"? 
+Say we have some distributions $P_{Y|X=x}$ for $x\in \mathcal X$. We want to pick $Q$ to minimize the weighted distance $\sum P_X(x) D(P_{Y|X=x} \Vert Q)$. 
+Thus the marginal distribution $P_Y$ is a ``center of mass," and the mutual information is a moment of inertia (calling it a ``center of gravity" is a misnomer).
+
+There are some other useful things we can do with the variational characterization:
+
+\begin{cor}*
+	$I$ is concave over $P_X$.
+\end{cor}
+
+In addition, sometimes we want to bound $I(X;Y)$, but the marginal $P_Y$ is very messy. Then, we can bound with useful choices of $Q$.
+
+\begin{fact}
+	[Mutual Information as Distance to Independence]
+	\[
+		I(X;Y) = \min_{Q_{XY} \colon X\ind Y} D(P_{XY}\Vert Q_{XY}),
+	\]where the minimum occurs at $Q_{XY} = P_XP_Y$.
+\end{fact}
+
+\begin{proof}
+	Write $Q_{XY} = Q_XQ_Y$. Note that we can write \[
+		I(X;Y) = \mathbb E \log \frac{P_{XY}{P_XP_Y}} = \mathbb E\log \frac{P_{XY}}{Q_XQ_Y} - \mathbb E\log \frac{P_X}{Q_X} - \mathbb E\log \frac{P_Y}{Q_Y}.
+	\]It follows that \[
+		I(X;Y) \leq I(X;Y) + D(P_X\Vert Q_X) + D(P_Y\Vert Q_Y) = D(P_{XY} \Vert Q_XQ_Y),
+	\]with equality when $Q_X = P_X, Q_Y = P_Y$ indeed.
+\end{proof}
+
+\begin{fact}*
+	Similarly, \[
+		I(X;Z|Y) = \min_{Q_{XYZ}\colon X\to Y\to Z} D(P_{X,Y,Z} \Vert Q_{XYZ}).
+	\]
+	That is, conditional mutual information is the ``distance to conditional independence," i.e. ``distance to a Markov chain."
+\end{fact}
+
+We can think of this as follows: Suppose we start with $X$, use this to generate $Y$, and then try to generate $Z$ from $X,Y$ combined. How much information is flowing on the $X\to Z$ edge? The answer should be $I(X;Z|Y)$.
+
+\subsection{Continuity}
+
+\begin{fact}*
+	If $\chi$ is finite and $Q_X(x) > 0$ for all $x\in \mathcal X$, then \[
+		P\to D(P\Vert Q)
+	\]is continuous. In particular, $P_X\to H(X)$ is continuous.
+\end{fact}
+
+\begin{proof}
+	Write the divergence out as a sum, and note that it is the sum of finitely many continuous functions.
+	For the second part, let $Q$ be the uniform distribution.
+\end{proof}
+
+\begin{exm}
+	$D$ is never continuous in the pair -- for example $D(\operatorname{Bern}(1/n)\Vert \operatorname{Bern}(2^{-n}))$ does not go to zero, even though they converge to the same distribution.
+\end{exm}
+
+\begin{fact}
+	We have the following:
+	\begin{itemize}
+		\item If $\mathcal X, \mathcal Y$ are finite, then $P_{XY} \to I(X;Y)$ is continuous.
+		\item If $\mathcal X$ is finite, then $P_X\to I(X;Y)$ is continuous.
+		\item $I(X;Y)$ is continuous on every finite dimensional simplex $\Pi\subset \mathcal P(\mathcal X)$, where $\mathcal P(\mathcal X)$ is the space of distributions on $\mathcal X$.
+	\end{itemize}
+\end{fact}
+
+\begin{que}*
+	Let $p\sim U[0,1]$, and let $X_i$ be iid samples from $\operatorname{Bern}(p)$. Let $Z$ be an observation of $X_i$ until we see $11001$. What is $I(p;Z)$?
+\end{que}
+
+Note that we can represent $Z$ as a sequence $10101\ldots 11001*****\cdots$. So we need to compute $I(p;Z_1^\infty)$. In fact, 
+
+\begin{fact}*
+	$I(X^n;Y) \nearrow I(X^\infty;Y)$,
+	i.e. one gets convergence in the space of sigma algebras.
+\end{fact}
+
+\begin{fact}*
+	Say $P_n\to Q$ and $Q_n\to Q$ weakly (or pointwise). 
+	Then, $D(P_n\Vert Q_n)$ does not converge to $D(P\Vert Q)$. In fact, $D(P_n\Vert Q)$ does not converge to $D(P\Vert Q)$ either.
+\end{fact}
+
+\begin{fact}*
+	Say $X_n \to X$, $Y_n\to Y$ weakly (or pointwise).
+	Then, $I(X_n;Y_n)$ does not converge to $I(X;Y)$. 
+\end{fact}
+
+\begin{exm}*
+	Let $X_n = Y_n = \frac 1n Z$. Then, $(X_n,Y_n)\to (0,0)$, but $I(X_n;Y_n) = H(Z)$.
+\end{exm}
+
+\begin{exm}*
+	Let $P_n = \frac 1{\sqrt n} \sum\limits_{i=1}^n B_i$, where $B_i$ are mean zero, unit variance. Then, the Central Limit Theorem states that $B_i \to \mathcal N(0,1)$. However, $D(P_n\Vert\mathcal N(0,1)) = \infty$, but: \[
+		D(\mathcal N(0,1)\Vert \mathcal N(0,1)) = 0.
+	\]
+\end{exm}
+
+We can, however, get the following:
+
+\begin{fact}
+	[Weak Semi-Continuity]
+	Say $P_n \to P, Q_n\to Q$, $X_n\to X$, and $Y_n\to Y$. Then, \begin{itemize}
+		\item $\lim \inf D(P_n\Vert Q_n) \geq D(P\Vert Q)$.
+		\item $\lim \inf I(X_n;Y_n)\geq I(X;Y)$.
+	\end{itemize}
+\end{fact}

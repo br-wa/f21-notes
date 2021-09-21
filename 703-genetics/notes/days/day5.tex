@@ -1,0 +1,102 @@
+\section*{Lecture 5: Genomes and DNA Sequencing I (Gehring)}
+\setcounter{section}{5}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+Last time we described the recombination frequency as the number of recombinant gametes divided by the total number of gametes. We refine this:
+
+\begin{defn}
+	The \vocab{recombination frequency} between two genes is the expected number of recombinations between them.
+\end{defn}
+
+This is additive.
+
+\begin{fact}
+	[McClintock and Creighton (1931)]
+	Recombination is due to chromosomal crossing-over during meiosis.
+\end{fact}
+
+\subsection{Genetic Maps}
+
+Recall that genetic maps are built via measuring \emph{recombination} frequency.
+
+\begin{fact}*
+	The Human Chromosome 12 genetic map is longer in females than in males. In particular, any two given genes are more centiMorgans apart in females than males.
+\end{fact}
+
+\begin{cor}*
+	Human Chromosome 12 undergoes more recombination in females than in males.
+\end{cor}
+
+Genetic maps can depend on other factors as well. For example, certain parts of the chromosome are more likely to cross over than others, and as a result recombination frequency is not merely a function of distance in base pairs between the genes.
+
+\subsection{Eukaryotic Genomes}
+
+\begin{fact}
+	A given organism has a linear \vocab{nuclear genome}; a circular \vocab{mitochondrial genome} (since mitochondrial DNA is inhereted separately from nuclear DNA); and, in plants, a circular \vocab{chloroplast genome}.
+	Typically when we refer to an organism's \vocab{genome}, we mean its nuclear genome.
+\end{fact}
+
+\begin{defn}*
+	The \vocab{C-value} of an organism is the amount of DNA in a given haploid genome.
+\end{defn}
+
+\begin{que}
+	What is in a genome?
+\end{que}
+
+It turns out there is a lot:
+
+\begin{itemize}
+	\item Protein-coding genes and related regulatory elements (promoters, introns, exons)
+	\item Pseudogenes
+	\item Repetitive non-coding elements:
+		\begin{itemize}
+			\item Centromeres and telomeres
+			\item Transposons 
+			\item Highly repetitive elements:
+				\begin{itemize}
+					\item Long Interspersed Elements (LINEs) and Short Interspersed Elements (SINEs)
+					\item Satellite DNA/Simple Sequence Repeats (SSRs)
+				\end{itemize}
+			\item Medium repetitive elements, including rRNAs.
+		\end{itemize}	
+\end{itemize}
+
+\begin{defn}*
+	A \vocab{reference genome} is a copy of one organism's genome (perhaps with most frequent alleles for each gene chosen).
+	On the other hand, a \vocab{pan-genome} is a set of genomes of many organisms of a species.
+\end{defn}
+
+\begin{exm}*
+	The average maize genome has 40521 protein-coding genes, but the pan-genome of 26 lines of inbred maizes has 103033 genes in total.
+	In fact, there are 32052 genes in the maize \vocab{core genome} (i.e. found in all 26 lines). The other genes are \vocab{dispensable}.
+\end{exm}
+
+\subsection{Properties of DNA}
+
+\begin{fact}*
+	[Properties of DNA]
+	\begin{itemize}
+		\item DNA generally exists as \vocab{double-stranded DNA (dsDNA)}, which consists of two \emph{antiparallel} (5'\to 3') strands.
+		\item DNA can be \emph{denatured} into two strands of \vocab{single-stranded DNA (ssDNA)}, or \emph{renatured/re-annealed}.
+		\item DNA can be \emph{replicated} with DNA Polymerase.
+		\item Two strands of DNA can be \emph{ligated} together.
+	\end{itemize}
+\end{fact}
+
+\begin{fact}*
+	[Sequencing DNA]
+	Sequencing DNA consists of many steps:
+	\begin{enumerate}
+		\item (Isolation) Isolate the DNA from the organism.
+		\item (Fragment) Take many copies of the DNA and randomly fragment them.
+		\item (Sequencing) Sequence each of the DNA fragments \emph{in parallel}.
+		\item (Assembly) Use overlapping sequences to reassemble the original sequence.  
+	\end{enumerate}	
+\end{fact}
+
+\begin{cor}*
+	Since fragments of repeats are hard to distinguish, repeats make DNA sequencing hard.
+\end{cor}

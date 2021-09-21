@@ -1,0 +1,157 @@
+\section*{Lecture 2: Data Processing}
+\setcounter{section}{2}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+\begin{lem}
+	[Entropy is Submodular]
+	Consider any discrete random vector $X^n = (X_1,\ldots, X_n)$. For all $S\subset [n]$ let $f(S) = H(X_S) = H(\set{X_i\colon i\in S})$.
+	Then, 
+	\begin{itemize}
+		\item $f\geq 0$.
+		\item $f$ is \vocab{submodular}. That is, for any $A, B$, $f(A\cup B) + f(A\cap B) \leq f(A) + f(B)$.
+	\end{itemize}
+\end{lem}
+
+\begin{proof}
+	Nonnegativity follows from $H \geq 0$, and then submodularity is just the $H(X,Y,Z) + H(Z) \leq H(X,Z) + H(Y,Z)$ inequality from last time (set $A\cap B = Z, A = (X,Z)$, and $B = (Y,Z)$).
+\end{proof}
+
+\begin{thm}
+	[Shearer's Lemma]
+	Let $S$ be a random subset of $[n]$ independent of $X^n$ and let $f$ be a submodular function on $[n]$. Then, \[
+		\mathbb E_S[f(X_S)] \geq f(X^n) \min_i \mathbb P[i\in S].
+	\]
+\end{thm}
+
+\begin{proof}
+	By continuity we can assume the probabilities of each $S\subset [n]$ are rational. It is therefore equivalent to show that for any finite multiset $\mathcal S$ with elements in $\mathcal P([n])$, \[
+		\sum_{s\in \mathcal S} f(X_S) \geq f(X^n) \cdot \min_i (\text{\# of $S\in \mathcal S$ such that $i\in S$}).
+	\]
+	If we can order $\mathcal S$ as $S_1\subset S_2\subset \cdots \subset S_t$, then if $S_t\neq [n]$ we just need $\sum f(X_S) \geq 0$.
+	Thus suppose $S_{t-m+1}, \ldots, S_t$ are $[n]$ with $m$ maximal. Then, we see that \[
+		\sum_{s\in \mathcal S} f(X_S) \geq \sum_{i=t-m+1}^{t} f(X_{S_i}) = mH(X^n)
+	\]which is precisely what we want.
+	For the general case, note that we can just repeatedly pick $A,B\in \mathcal S$ that are not subsets of each other, and replace them with $A\cap B$ and $A\cup B$. This process eventually terminates in the case we eventually solved, and it never changes the right hand side while not increasing the left hand side. 
+\end{proof}
+
+The following result follows readily:
+
+\begin{exm}*
+	[Alon (1981)]
+	Given (simple) graphs $G, H$, let $N(H,G)$ be the number of subgraphs of $G$ isomorphic to $H$.
+	Let $E(G)$ be the number of edges in $G$. 
+	There exist two constants $c_1, c_2$ depending only on $H$, such that 
+	\begin{itemize}
+		\item for all $G$, $N(H,G) \leq c_1 E(G)^{\rho^*(H)}$,
+		\item there exists $G$, $N(H,G) \geq c_2 E(G)^{\rho^*(H)}$,
+	\end{itemize}
+	where $\rho^*(H) = \min\set*{\sum\limits_{e\in E(H)}  w(e) \colon \text{ for all } v\in H, \sum_{e\ni v} w(e) \geq 1}$.
+\end{exm}
+
+\begin{proof}
+	The second part is actually not that bad, so we will just do the first claim.
+	Say $V(H) = [n]$, and let $X_1, \ldots, X_n\in G^n$ be uniform samples of subgraphs isomorphic to $H$.
+	Suppose $w(e)$ is some random covering of the edges, and let $S$ be an edge of $H$ sampled with probability $\frac{w(e)}{\sum w(e)}$.
+	Then, note that for all $i$, \[
+		\mathbb P[i \in S] = \frac{\sum_{i\in e} w(e)}{\sum_e w(e)} \geq \frac{1}{\sum_e w(e)}.
+	\]
+	On the other hand, $H(X_S|S) \leq \log (2E(G))$, since $(X_i,X_j)$ ranges over the edges (or their reverses) of $G$. So, Shearer gives \[
+		\log N(H,G) \leq \log (2E(G)) \sum_e w(e)
+	\]
+\end{proof}
+
+\subsection{Markov Kernels and Divergence}
+
+\begin{defn}
+	For measurable spaces $\mathcal X, \mathcal Y$, $K(E|x)$ is a \vocab{Markov kernel} $\mathcal X\to \mathcal Y$ if:
+	\begin{itemize}
+		\item $K(\bullet | x)$ is a probability distribution on $\mathcal Y$ for all $x\in \mathcal X$.
+		\item For all measurable $E\subset \mathcal Y$, $K(E|\bullet)$ is a masurable function on $\mathcal X$.
+	\end{itemize}
+	Given $P$ on $\mathcal X$ and a Markov kernel $K\colon \mathcal X\to \mathcal Y$, we write $P\x K$ for the joint distribution $(P\x K)(x,y) = P(x)K(y|x)$. 
+	We can also \vocab{disintegrate}: For any $P_{XY}$ on $\mathcal X\x \mathcal Y$, $P_{XY} = P_X P_{Y|X}$ for a distribution $P_X$ on $\mathcal X$ and a Markov kernel $P_{Y|X}$.
+\end{defn}
+
+\begin{defn}
+	[Kullback-Leibler Divergence]
+	Let $P,Q$ be two probability distributions on the same measurable space $\mathcal X$.
+	The \vocab{Kullback-Leibler (KL) Divergence} $D(P\Vert Q)$ is defined as:
+	\begin{itemize}
+		\item If $\mathcal X$ is countable, \[
+				D(P\Vert Q) = \begin{cases}
+					\sum\limits_{x\in \mathcal X} P(x) \log \frac{P(x)}{Q(x)} & Q(x) = 0\implies P(x) = 0\\
+					+\infty & \text{otherwise}
+				\end{cases}.
+			\]
+		\item In general, \[
+				D(P\Vert Q) = \begin{cases}
+					\mathbb E_Q \sqrb*{\frac{\text dP}{\text dQ} \log \frac{\text dP}{\text dQ}} & P \ll Q \\
+					+\infty & \text{otherwise}
+				\end{cases},
+			\]
+			where $P\ll Q$ means $P$ is \vocab{absolutely continuous} with respect to $Q$, or $Q(E) = 0\implies P(E) = 0$ for any measurable set $E$,
+			and $f = \frac{\text dP}{\text dQ}$ is the \vocab{Radon-Nikodym derivative}.
+	\end{itemize}
+\end{defn}
+
+For this class, it will be fine to think of the Radon-Nikodym derivative as a ratio of density functions.
+
+\begin{defn}
+	Let $P_{Y|X}$ and $Q_{Y|X}$ be Markov kernels $\mathcal X\to \mathcal Y$, and let $P_X$ be a distribution on $\mathcal X$. Then, the \vocab{conditional divergence} $D(P_{Y|X} \Vert Q_{Y|X} | P_X)$ is given by \[
+		\mathbb E_{x\sim P_X} \sqrb*{D(P_{Y|X=x}\Vert Q_{Y|X=x})}.
+	\]
+\end{defn}
+
+\begin{thm}
+	[Information Inequality]
+	For any two distributions $P,Q$ on the same space, $D(P\Vert Q) \geq 0$, and $D(P\Vert Q) =0$ if and only if $P = Q$.
+\end{thm}
+
+\begin{proof}
+	Let $f(x) = x\log x$, then \[
+		D(P\Vert Q) = \mathbb E_Q \sqrb*{f\parens*{\frac{\text dP}{\text dQ}}} \geq f(1) = 0.
+	\]
+	by Jensen. Equality follows from strict convexity.
+\end{proof}
+
+\begin{fact}
+	The following are true:
+	\begin{itemize}
+		\item (Chain Rule) $D(P_{XY}\Vert Q_{XY}) = D(P_{Y|X} \Vert Q_{Y|X} | P_X) + D(P_X\Vert Q_X)$.
+		\item (Monotonicity) $D(P_{XY}\Vert Q_{XY}) \geq D(P_X\Vert Q_X)$.
+		\item (Data Processing) Suppose we fix a kernel $P_{Y|X}$ and we consider two different $P_X, Q_X$, and let $P_Y = \sum_x P_XP_{Y|X}$ and $Q_Y = \sum_x Q_XP_{Y|X}$, then $D(P_X\Vert Q_X) \geq D(P_Y\Vert Q_Y)$.
+	\end{itemize}
+\end{fact}
+
+\begin{proof}
+	[Proof of Data Processing:]
+	By the Chain Rule, \[
+		D(P_{XY} \Vert Q_{XY}) = D(P_XP_{Y|X} \Vert Q_XP_{Y|X}) = D(P_X\Vert Q_X) + D(P_{Y|X}\Vert P_{Y|X} |P_X) = D(P_X\Vert Q_X).
+	\]
+	Now by monotonicity $D(P_X\Vert Q_X) = D(P_{XY} \Vert Q_{XY}) \geq D(P_Y\Vert Q_Y)$.
+\end{proof}
+
+\subsection{Mutual Information}
+
+\begin{defn}
+	For a joint distribution $P_{XY}$ on $\mathcal X \x \mathcal Y$, we define their \vocab{mutual information} as \[
+		I(X;Y) = D(P_{XY} \Vert P_XP_Y).
+	\]
+	Then, \vocab{conditional mutual information} is defined by \[
+		I(X;Y|Z) = D(P_{XY|Z} \Vert P_{X|Z} P_{Y|Z} |P_Z).
+	\]
+\end{defn}
+
+\begin{fact}
+	The following are true:
+	\begin{itemize}
+		\item $I(X;Y) \geq 0$.
+		\item $I(X;Y) = I(Y;X)$.
+		\item (Chain Rule/Kolmogorov Identity) $I(X;Y,Z) = I(X;Y) + I(X;Z|Y)$.
+		\item (Data Processing) If one has a Markov Chain $X\to Y \to Z$ (essentially one has Markov kernels $P_{Y|X}$ and $P_{Z|Y}$), then \[
+				I(X;Z) \leq I(X;Y).
+			\]
+	\end{itemize}
+\end{fact}

@@ -1,0 +1,37 @@
+\section*{Lecture 4: PV Diagrams and Path-Dependence (Voigt)}
+\setcounter{section}{4}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+Recall that a gas with a fixed number of moles can be uniquely identified by a point on a \vocab{PV-diagram}.
+In particular, by the Ideal Gas Law, such a point has an associated temperature $T = \frac{PV}{nR}$.
+
+\begin{fact}*
+	After going in closed loop around a PV-diagram, any state function returns to its original value. 
+\end{fact}
+
+\begin{defn}*
+	A variable is \vocab{path-dependent} if it is not a state function.
+\end{defn}
+
+\begin{defn}
+	When a gas is expanding or contracting, we define its \vocab{expansion work} by \[
+		\text{\emph{d}}w = -P_{\text{\emph{ex}}} \, \text{\emph{d}}V,
+	\]
+	where $P_{\text{ex}}$ is the \vocab{external pressure}.
+\end{defn}
+
+One needs to be careful to use the external pressure here:
+
+\begin{exm}*
+	Suppose we have a brick on a piston such that the external pressure $P_{\text{ex}} = P_{\text{atm}} + P_{\text{brick}}$, and we remove the brick. Then, the pressure of the gas enclosed by the piston goes from $P_1$ to $P_2$, while the volume goes from $V_1$ to $V_2$. Then the work is $-P_{\text{atm}}(V_2-V_1)$.
+\end{exm}
+
+We can think of this as the two-step process $(P_1, V_1) \to (P_{\text{atm}}, V_1) \to (P_{\text{atm}}, V_2)$.
+
+\begin{exm}*
+	Suppose instead we have a pile of sand on the piston and we remove grains continuously such that we keep the system at equilibrium along an \vocab{isotherm} (constant temperature), such that $P_{\text{ex}} = P_{\text{interal}}$ always. Then, the work is the area under the $PV$-curve. 
+\end{exm}
+
+Thus we see that work is path-dependent.

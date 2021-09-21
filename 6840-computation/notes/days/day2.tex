@@ -1,0 +1,61 @@
+\section*{Lecture 2: Nondeterministic Finite Automota, Closure Continued}
+\setcounter{section}{2}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+Recall from last time that we defined \emph{regular languages} as those that are recognized by \emph{finite automata}. 
+We also claimed that these are precisely those described by \emph{regular expressions}.
+
+To prove this, we also claimed that the set of regular languages is closed under $\cup, \circ$, and ${\bullet}^*$.
+We then proved the claim for $\cup$, by constructing a new finite automaton that ``simulatenously" ran the two input finite automata.
+Now we will finish the proof:
+
+\begin{proof}
+	[Sketch of Concatenation:]
+	Let $L(M_1) = A_1$ and $L(M_2) = A_2$, then we will construct $M$ to recognize $A_1A_2$. Here is what we would like to do:
+	\begin{itemize}
+		\item Continuously run $M_1$ on the input word. 
+		\item Every time we hit an accept state of $M_1$, we start running a new instance of $M_2$.
+	\end{itemize}
+	Then, if any of our $M_2$ ``instances" accept, we can accept the string. But this does not quite work, because we need to spawn infinitely many instances. The key idea is that $M_2$ has finitely many states. So, \emph{some of our $M_2$'s are redundant}, and every time we have two $M_2$ instances at the same state, we just kill one of them. In particular, \emph{we only need to keep track of the set of states of our $M_2$ instances}.
+
+	So, our new automaton has states $Q_1\x \mathcal P(Q_2)$ that simulatenously runs up to $|Q_2|$ $M_2$ instances and a $M_1$ instance. 
+\end{proof}
+
+The above is hard to formalize, so we will instead introduce \vocab{nondeterminisim}.
+
+\begin{defn}
+	A \vocab{nondeterministic finite automaton (NFA)} is an automaton with some different rules:
+	\begin{itemize}
+		\item $\delta(q, c)$ is a set of states (possibly empty), and the automaton is allowed to go to any of them. 
+		\item One is allowed to take an \vocab{empty transition}. Formally, there are sets of states $\delta(q, \eps)$ (possibly empty) where one is allowed to go from one state to another without reading a character at all. Taking empty transitions is not mandatory, and it is allowed to take multiple at once.
+		\item The NFA accepts a string if there is some valid way to transition so that at the end of the string, one arrives at an accept state.
+	\end{itemize}
+\end{defn}
+
+The key idea is the following:
+
+\begin{thm}
+	For any NFA $N$, there exists a (deterministic) finite automaton $M$ that accepts a string $w$ if and only if $N$ does.
+\end{thm}
+
+The proof is just the subset idea of ``running many machines separately" from above, but this provides a very nice way for us to think about things.
+
+\begin{cor}*
+	$A_1A_2$ is regular.
+\end{cor}
+
+\begin{proof}
+	Create an NFA whose states are just $Q_1\cup Q_2$, with empty edges from each accept state of $M_1$ to the start state of $M_2$. Also, make $M_1$'s accept states no longer accept strings, so that a string only gets accepted if it eventually gets to an $M_2$ accept state.
+\end{proof}
+
+\begin{cor}
+	If $A$ is regular, so is $A^*$.
+\end{cor}
+
+\begin{proof}
+	Let $M$ be the finite automaton that accepts $A$ with start state $q_0$. If you add empty edges from any accept state to $q_0$, you can get it to accept exactly $A\cup A^2 \cup \cdots$. 
+
+	To get the empty string we need to do a bit more: create a new state $q'$ that becomes the real start state so that there is an empty edge $q'\to q_0$. Make $q'$ an accept (in general, you can always add $\eps$ to a language using this trick). 
+\end{proof}

@@ -1,0 +1,60 @@
+\section*{Lecture 6: Genomes and DNA Sequencing II (Gehring)}
+\setcounter{section}{6}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+\subsection{High Throughput Sequencing}
+
+\begin{exm}
+	[Illumina/Next-Generation Sequencing, 2007]
+	Illumina sequencing consists of the following steps:
+	\begin{enumerate}
+		\item Start with genomic DNA (gDNA) and fragment by \vocab{sonication} to fragments of around 400bp each.
+		\item Add \vocab{adapter sequences} to each fragment, one to each end, consisting of known DNA sequences.
+		\item Amplify the segments via PCR, which creates a \vocab{DNA library}.
+		\item Hybridize to a \vocab{flowcell}, which is essentially a glass slide consisting of oligonucleotides that bind to the ends of the adapters.
+		\item Perform \vocab{bridge amplification}:
+			\begin{enumerate}
+				\item Replicate the DNA via DNA polymerase, and get rid of the original strand.
+				\item The new strand then hybridizes (so that both ends of the ssDNA are attached to the flowcell, thus forming a single-stranded bridge).
+				\item Replicate the bridges.
+				\item Denature the bridges, so that each end of the bridge are attached at different points. 
+				\item This gives 2 strands! Rinse and repeat.
+			\end{enumerate}
+			The result of this is a bunch of clusters of identical sequences that are close to each other, with half the strands going forward and half going backwards. Remove the backward ones, so that the clusters are now all identical ssDNAs.
+		\item Now, perform \vocab{sequencing by synthesis}. Add primers and DNA polymerases labeled dNTPs to the mix. These dNTPs also have cleavable terminators on their ends. Each cycle consists of the following:
+			\begin{enumerate}
+				\item Add a base with DNA polymerase (to each of the strands).
+				\item Take a picture with the camera. The fluorophores in each cluster will image according to the dNTP just added.
+				\item Cleave the fluorophore/terminator complexes.
+			\end{enumerate}
+		\item For accuracy, one also likes to do \vocab{paired-end sequencing}, where basically one uses one iteration of the bridge process to replace clusters with their reverse strand. Thus one can sequence the reverse strand as well. This is especially useful because DNA sequencing quality decreases over iterations of sequencing by synthesis.
+		\item Combine the images, and the colors at each cluster give the DNA sequences for each cluster. Combine this over all clusters to view the whole library.
+	\end{enumerate}
+\end{exm}
+
+\begin{fact}*
+	The main innovation behind Illumina sequencing was the ability to process images to identify clusters in the photos.
+\end{fact}
+
+\begin{exm}
+	[Pacific Biosciences SMRT Sequencing, 2011]
+	Pac Bio sequencing works as follows:
+	\begin{enumerate}
+		\item Start with dsDNA and add \vocab{hairpin adapters} that are essentially loops. This results in a large piece of \vocab{circular DNA}.
+		\item Add to a well with a DNA polymerase and a primer. 
+		\item The DNA polymerase adds labeled dNTPs to the circular DNA, and then you read the labels as before.
+	\end{enumerate}
+	It is possible to make the DNA go round and round, which creates a bunch of copies of the same data. This improves reliability.
+\end{exm}
+
+\begin{exm}
+	[Oxford Nanopore, 2015]
+	An Oxford Nanopore sequencer consists of a membrane with a channel (a \vocab{pore protein}) in it, and a motor protein fused to the channel continuously unwinds DNA) (as in helicase) and feeds one of the resulting strands through the pore. Meanwhile, one runs a current through the pore, and the current changes based on the base pair passing through. Thus, reading the current (with an ammeter) gives the sequence of bases.
+\end{exm}
+
+\subsection{Assembly}
+
+In general, if you do not have a reference genome, then you can try to assemble things based on overlaps between the reads. 
+This forms \vocab{contigs}, or contiguous sequences. Picking appropriate read lengths (or combinations thereof) can assist with this process.
