@@ -1,0 +1,64 @@
+\section*{Lecture 19: Genetic Analysis III (Reddien)}
+\setcounter{section}{19}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{defn}
+	If one copy of a gene is insufficient for proper function, we call it \vocab{haploinsufficient}.
+	If an allele causes new function, we call it a \vocab{neomorph}.
+\end{defn}
+
+These are pretty rare.
+
+\begin{exper}
+	Suppose we have a mutant fly (M1/M1) with long legs, where M1 is an allele of gene1. We then analyze gene1, and conclude the following:
+	\begin{itemize}
+		\item If M1 is recessive, we likely have loss of function, so gene1 is a negative regulator of leg growth.
+		\item If M1 is a hypermorph, we have excess function, so gene1 is a positive regulator of leg growth.
+		\item If M1 is an antimorph, we have reduced gene1 function in the mutant, so gene1 is a negative regulator of leg growth.
+	\end{itemize}
+\end{exper}
+
+But this analysis is not very satisfactory. 
+We know that gene1 is involved in leg growth, and we can actually figure out how it affects (whether positive or negative) leg growth.
+However, this does not tell us mechanistically how gene1 actually regulates leg growth.
+
+\begin{exm}
+	As an example, we can consider a mutation in myostatin. 
+	In Belgian blue cattle, this mutation results in a very muscular cow.
+	In dogs, M/+ produces faster dogs, and M/M produces very muscular dogs.
+	In mice, M/M also produces very muscular dogs.
+
+	Thus we can infer that myostatin inhibits muscle growth. In fact, myostatin in haploinsufficient.
+	In fact, overexpression myostatin leads to muscle waste, while inhibiting myostatin in trout leads to more muscular fish.
+\end{exm}
+
+\subsection{Complementation}
+
+\begin{defn}
+	We define \vocab{complementation} as two similar individuals or mutants with the same phenotype, which can have alleles on different genes.
+	Furthermore, both of these phenotypes must be recessive.
+\end{defn}
+
+\begin{exper}
+	[Complementation Test]
+	Cross two true-breeding individuals with mutant phenotype with each other. If they are on the same gene, you would get F\textsubscript1 children expressing the phenotype. Otherwise, you would get F\textsubscript1 children not expressing the phenotype.
+	In the former case we say that there is a \vocab{failed complement}, and the alleles themselves are said to be \vocab{allelic}.
+
+	We can do this on a larger scale, for example:
+	\begin{center}
+		\begin{tabular}{c|c|c|c|c|c} 
+			\x & M1/M1 & M2/M2 & M3/M3 & M4/M4 & M5/M5 \\ \hline
+			M1/M1 & - & - & + & + & - \\ \hline
+			M2/M2 & - & - & + & + & - \\ \hline
+			M3/M3 & + & + & - & - & + \\ \hline
+			M4/M4 & + & + & - & - & + \\ \hline
+			M5/M5 & - & - & + & + & - 
+		\end{tabular}	
+	\end{center}
+	Here, + denotes wild-type phenotype, and - denotes a mutant phenotype.
+	We thus conclude that our \vocab{complementation groups} (groups of alleles are all allelic) are (M1, M2, M5) and (M3, M4).
+\end{exper}
+
+

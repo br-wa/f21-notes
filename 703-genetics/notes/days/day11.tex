@@ -1,0 +1,71 @@
+\section*{Lecture 11: Human Mendelian Traits III (Reddien)}
+\setcounter{section}{11}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\subsection{Linkage in Pedigrees}
+
+Suppose we have a gene X (with D denoting allele corresponding to the dominant phenotype and + the wild-type).
+Say we also have some SSR with alleles A, B, C, E, F, and so forth (we skip D because it is already used).
+
+We proceed as follows:
+
+\begin{enumerate}
+	\item First, determine mode of inheritance (we assume autosomal dominance for this example).
+	\item Ascribe genotypes (we can do standard pedigree analysis for gene X, and then use the molecular tests from last time).
+	\item Identify informative meioses (to be defined later).
+	\item Identify recombinant and non-recombinant gametes.
+	\item Compute a LOD score.
+\end{enumerate}
+
+\begin{exm}*
+	[Canine Narcolepsy]
+	There is a pedigree shown in class that I will not show here. 
+	We identify the \emph{canarc} gene.
+\end{exm}
+
+\subsection*{Informative Meioses}
+
+Ordinarily, we'd like to do a test cross of the form AB/ab (\x) ab/ab, which lets us observe the genotype of all gametes.
+Note that an Ab/aB (\x) ab/ab also works, for example.
+
+\begin{defn}
+	An \vocab{informative meiosis} is one in which there are two alleles of the trait gene and 2 alleles of the marker present, and it is possible to determine which alleles were transmitted in the meiosis.
+\end{defn}
+
+\begin{exm}*
+	Suppose X is autosomal dominant for some rare trait, with a father having genotype D/+ and with SSR1 genotype A/B.
+	Meanwhile, the mother is +/+ (as the trait is rare) and has SSR1 genotype C/E.
+	Their daughter is D/+ A/E, which is an informtive meiosis since the daughter must have received DA from the father and +E from the mother.
+\end{exm}
+
+\begin{exm}*
+	Suppose X is autosomal dominant and rare still, with the father being D/+ A/A, and the mother being +/+ B/B. The daughter is D/+ A/B, which is not informative because we do not know which A was received.
+\end{exm}
+
+\begin{exm}*
+	Same X, with the father D/+ A/B, and the mother +/+ A/B. The daughter D/+ A/B, which is not informative because we could have gotten DA or DB from the father.
+\end{exm}
+
+\begin{exm}*
+	Same X, with the father D/+ A/B, the mother +/+ A/B, and the daughter D/+ A/A. This is informative because we must have gotten DA from the father.
+\end{exm}	
+
+\begin{exm}*
+	Same X, with the father D/+ A/B, the mother +/+ A/B, and the daughter +/+ B/B. This is informative because we must have gotten +B from the father.
+\end{exm}
+
+Note that this is not enough. If the individual was A\sim B/a\sim b, then A\sim b would be recombinant. On the other hand, if the individual was A\sim b/a\sim B, then A\sim b would not be recombinant.
+
+\begin{defn}
+	The \vocab{phase} denotes the alleles of an individual that were inherited from the same gamete.
+\end{defn}
+
+Sometimes we can try to identify an individual's phase by looking at their parents' genotypes.
+
+\begin{exm}*
+	Suppose we have $1$ recombinant and $3$ non-recombinant. 
+	We hypothesize a linkage at $\Theta = 25$ centiMorgans.
+\end{exm}
+

@@ -1,0 +1,101 @@
+\section*{Lecture 4: Equivalence}
+\setcounter{section}{4}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+\begin{thm}
+	If $A = L(R)$ for some regular expression $R$, then $A$ is regular.
+\end{thm}
+
+\begin{proof}
+	It suffices to demonstrate the existence of an NFA $N$ such that $A = L(N)$. We first show this for the atomic expressions, by casework:
+	\begin{itemize}
+		\item If $R = a\in \Sigma$, then $N$ can just be \[
+				\text{start} \stackrel{a}{\longrightarrow} \text{accept}.
+			\]
+		\item If $R = \eps$, then $N$ can just be \[
+				\text{start = accept}.
+			\]
+		\item If $R = \varnothing$, then $N$ can just be \[
+				\text{start} \neq \text{accept}.
+			\]
+	\end{itemize}
+	For larger things, we are just done by closure.
+\end{proof}
+
+\begin{defn}
+	A \vocab{generalized nondeterministic finite automaton (GNFA)} where transitions are labeled by regular expressions instead of by individual letters.
+	As with NFAs, it is allowed to go along any path whose regular expression matches what comes next in the string.
+
+	For this class, we will assume the following:
+	\begin{itemize}
+		\item There is a unique accept state, and it is not the start state.
+		\item For any two states $q_1, q_2$ that are not the start or accept state, there is exactly one arrow $q_1\to q_2$, possibly with the empty expression $\varnothing$ on it.
+		\item For any non-start state $q$, there is an arrow $q_0\to q$; furthermore, there are no arrows ending in the start state.
+		\item For any non-accept state $q$, if $s$ is the accept state, then there is an arrow $q\to s$; furthermore, there are no arrows starting in the accept state.
+	\end{itemize}
+\end{defn}
+
+\begin{fact}*
+	For any GNFA $G$, there is a GNFA $G'$ with our desired properties.
+\end{fact}
+
+\begin{lem}
+	For any GNFA $G$ in the specified form above, there is an \vocab{equivalent} regular expression $R$ such that $L(G) = L(R)$.
+\end{lem}
+
+\begin{proof}
+	Let $k$ be the number of states of $G$. We induct on $k$. In the base case is $k = 2$, i.e. it must be \[
+		\text{start} \stackrel{R}{\longrightarrow} \text{accept}.
+	\]
+	Clearly $L(G) = L(R)$.
+	Now, for the inductive step, let $q$ be an arbitrary state that is either accept nor reject. Let $R_q$ be the regular expression on the $q$ self loop. Then, if $R_{ab}$ is the regular expression on $a\to b$, replace $R_{ab}$ with \[
+		R_{ab} \cup R_{aq} (R_q)^* R_{qb},
+	\]
+	and then we can kill $q$ while keeping $L(G)$ the same.
+\end{proof}
+
+\begin{cor}*
+	For any DFA $M$, $L(M) = L(R)$ for some regular expression $M$.
+\end{cor}
+
+\begin{proof}
+	Any DFA is a GNFA, which has an equivalent GNFA in our desired form.
+\end{proof}
+
+Combining, we get:
+
+\begin{thm}
+	A language $L$ is regular if and only if it is $L(R)$ for some regular expression $R$.
+\end{thm}
+
+\subsection{Pushdown Automata and Context-Free Grammars}
+
+\begin{fact}*
+	If $A$ is a context-free language, then $A$ is the language of some pushdown automaton $P$.
+\end{fact}
+
+\begin{proof}
+	[Sketch:]
+	Say $A$ is the langauge of the context-free grammar $G$.
+	Basically, the pushdown automaton does the following:
+	\begin{enumerate}
+		\item Add the start symbol $S$ to the stack.
+		\item Add substitutions to things in the stack (assume we can read and add things to the stack for now) according to the rules, until we get to all terminals.
+		\item Check if the pattern matches the input.
+	\end{enumerate}
+	Of course, this assumption is very big. Essentially, what we do instead is:
+	\begin{enumerate}
+		\item Add the start symbol $S$ to the stack.
+		\item As long as the top of the stack is not a terminal letter, replace by following one of the rules. Once it is a terminal, check with the current letter in the string. If they do not match, return false immediately.
+		\item Repeat Step 2 until the whole string is read.
+	\end{enumerate}
+	This is the same algorithm as before, except now we do not read deep into the stack.
+\end{proof}
+
+In fact, the converse is true, so:
+
+\begin{thm}
+	$A$ is a context-free language if and only if $A = L(P)$ for some pushdown automaton $P$.
+\end{thm}

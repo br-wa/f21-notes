@@ -1,0 +1,145 @@
+\section*{Lecture 7: Decision Problems}
+\setcounter{section}{7}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+We now consider the problem of using Turing machines to make decisions about e.g. automata.
+This is not easy, because objects are not always strings. So, we do the following:
+
+\begin{defn}*
+	For some object $z$, encode $z$ into the string $\vecn z$.
+	Similarly, for encode $z_1, \ldots, z_k$ as $\vecn{z_1\cdots z_k}$.
+	We will also just start describing algorithms at a higher level, and we will not describe tapes in detail unless necessary.
+\end{defn}
+
+\begin{defn}*
+	Define the \vocab{acceptance problem for DFAs} as the language $A_{\operatorname{DFA}}$ to be the language of pairs $\vecn{B,w}$ where $B$ is a DFA that accepts $w$.
+\end{defn}
+
+\begin{fact}*
+	$A_{\opera{DFA}}$ is decidable.
+\end{fact}
+
+\begin{proof}
+	We will give a decider $M$, that does the following:
+	\begin{enumerate}
+		\item First, examine the input, and check that it actually encodes the pair $\vecn{B,w}$ for some DFA $B$ and valid input string $w$. 
+			If it does not, then reject.
+		\item Simulate $B$ on $w$.
+	\end{enumerate}
+	Now, if $B$ rejects, we also reject, else accept.
+\end{proof}
+
+\begin{defn}*
+	Let the \vocab{acceptance problem for NFAs} $A_{\opera{NFA}}$ be the language of pairs $\vecn{N,w}$, where $N$ is an NFA that accepts $w$.
+\end{defn}
+
+\begin{fact}*
+	$A_{\opera{NFA}}$ is decidable.
+\end{fact}
+
+\begin{defn}*
+	We will use the phrase ``on input [input]" to implicly include ``reject if input is invalid."
+\end{defn}
+
+\begin{proof}
+	On input $\vecn{N,w}$,
+	\begin{enumerate}
+		\item Convert $N$ to equivalent DFA $B$.
+		\item Run $B$ on $w$.
+	\end{enumerate}
+	If $B$ rejects, we also reject, else accept.
+\end{proof}
+
+\begin{defn}*
+	Let the \vocab{emptiness problem on DFAs} $E_{\opera{DFA}}$ be the language of DFAs $B$ such that $L(B) \neq \varnothing$.
+\end{defn}
+
+\begin{fact}*
+	$E_{\opera{DFA}}$ is decidable.
+\end{fact}
+
+\begin{proof}
+	Note that $B$ being in $E_{\opera{DFA}}$ is equivalent to some accept state being reachable from the start state.
+\end{proof}
+
+\begin{defn}*
+	Let the \vocab{equivalence problem on DFAs} $EQ_{\opera{DFA}}$ be the language of pairs $\vecn{A,B}$ where $L(A) = L(B)$ and $A,B$ are DFAs.
+\end{defn}
+
+\begin{fact}*
+	$EQ_{\opera{DFA}}$ is decidable.
+\end{fact}
+
+\begin{proof}
+	On input $\vecn{A,B}$, 
+	\begin{enumerate}
+		\item Build a machine $C$ such that $L(C) = \parens*{L(A)\cap \ol{L(B)}} \cup  \parens*{\ol{L(A)} \cap L(B)}$. 
+		\item Check if $C\in E_{\opera{DFA}}$.
+	\end{enumerate}
+	If $L(C)$ is empty, accept. Else, reject.
+\end{proof}
+
+\begin{defn}*	
+	Let the \vocab{acceptance problem on CFGs} $A_{\operatorname{CFG}}$ be the language of pairs $\vecn{G,w}$ where $G$ is a context-free grammar generating $w$.
+\end{defn}
+
+\begin{fact}*
+	$A_{\opera{CFG}}$ is decidable.
+\end{fact}
+
+\begin{proof}
+	We use \vocab{Chomsky normal form}, in which every derivation of $\abs w = n$ has length $2n-1$.
+	On input $\vecn{G,w}$, 
+	\begin{enumerate}
+		\item Convert $G$ to Chomsky normal form.
+		\item Test all derivations of length $2\abs w - 1$.
+	\end{enumerate}	
+	Accept if some derivation produces $w$, otherwise reject.
+\end{proof}
+
+\begin{defn}*
+	Let the \vocab{acceptance problem on PDAs} $A_{\opera{PDA}}$ be the language of pairs $\vecn{P,w}$ where $P$ is a pushdown automaton accepting $w$.
+\end{defn}
+
+\begin{cor}*
+	$A_{\opera{PDA}}$ is decidable.
+\end{cor}
+
+\begin{defn}*
+	Let the \vocab{emptiness problem on CFGs} $E_{\opera{CFG}}$ be the language of CFGs $G$ such that $L(G) \neq \varnothing$.
+\end{defn}
+
+\begin{proof}
+	On input $G$, 
+	\begin{enumerate}
+		\item Call terminals \emph{good} and variables \emph{bad}.
+		\item Repeat the following until exiting:
+			\begin{enumerate}
+				\item If a variable $A$ can turn into only terminals and good variables, call $A$ \emph{good}.
+				\item Else, exit.
+			\end{enumerate}
+	\end{enumerate}
+	If the start variable is good, accept. Else, reject.
+\end{proof}
+
+\begin{defn}*
+	Let the \vocab{equivalence problem on CFGs} $EQ_{\opera{CFG}}$ be the language of pairs $\vecn{G,H}$ where $L(G) = L(H)$ for context-free grammars $G,H$.
+\end{defn}
+
+We will not prove this fact today:
+
+\begin{fact}*
+	$EQ_{\opera{CFG}}$ is undecidable (!)
+\end{fact}
+
+\begin{defn}*
+	Let the \vocab{acceptance problem on TMs} $A_{\opera{TM}}$ be the language of pairs $\vecn{M,w}$ where $M$ is a Turing machine accepting $w$.
+\end{defn}
+
+\begin{fact}*
+	$A_{\opera{TM}}$ is Turing-recognizable, but not decidable.	
+\end{fact}
+
+Again, we will not prove non-decidability today, but for a pair $\vecn{M,w}$, our recognizer can just run $M$.

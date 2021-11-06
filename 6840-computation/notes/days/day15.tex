@@ -1,0 +1,56 @@
+\section*{Lecture 15: Space Complexity}
+\setcounter{section}{15}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{defn}
+	For some $f\colon \NN \to \NN$ such that $f-\opera{id} \geq 0$, we say a Turing machine $M$ runs in space $f(n)$ if it is a decider and uses at most $f(n)$ tape cells on inputs of length $n$.  
+	For nondeterministic Turing machines $N$, the machine must use at most $f(n)$ tape cells on each branch.
+\end{defn}
+
+\begin{defn}
+	We define $\opera{SPACE}(f(n))$ is the set of languages $A$ such that some deterministic Turing machine decides $A$ in $O(f(n))$ space.
+	Similarly, we define $\opera{NSPACE}(f(n))$ is the set of languages $B$ such that some nondeterministic Turing machine decides $B$ in $O(f(n))$ space.
+\end{defn}
+
+\begin{defn}
+	Define $\opera{PSPACE}$, \vocab{polynomial space}, as the union of all $\opera{SPACE}(n^k)$ for $k \geq 0$. Similarly, define $\opera{NPSPACE}$, \vocab{nondeterministic polynomial space}, as the union of all $\opera{NSPACE}(n^k)$ for $k \geq 0$.
+\end{defn}
+
+\begin{thm}
+	For any $f(n) \geq n$, we have:
+	\begin{itemize}
+		\item $\opera{TIME}(f(n)) \subset \opera{SPACE}(f(n))$.
+		\item $\opera{SPACE}(f(n)) \subset \opera{TIME}(2^{O(f(n))}) = \cup_{C > 1} \opera{TIME}(c^{f(n)})$.
+	\end{itemize}
+\end{thm}
+
+\begin{proof}
+	For the first part, note that the head can only make its way to $f(n)$ spaces along the tape in $f(n)$ steps.
+	For the second part, note that the machine and tape can only be in exponentially many states.
+\end{proof}
+
+\begin{cor}*
+	$\opera{P} \subset \opera{PSPACE}$.
+\end{cor}
+
+In fact, we may say more:
+
+\begin{thm}
+	$\opera{NP}\subset \opera{PSPACE}$.
+\end{thm}
+
+\begin{proof}
+	First, note that $\opera{SAT}$ is in $\opera{PSPACE}$, since you can just test each truth assignment (one can reuse memory here). In fact, this takes linear time.
+	Now, for any $A\in \opera{NP}$, $A$ has a polynomial time reduction (and thus a polynomial space reduction) in $\opera{SAT}$.
+	Thus for any $A$ in $\opera{NP}$, just reduce to $\opera{SAT}$, and then use the polynomial-space SAT solver. Thus $A$ is in $\opera{PSPACE}$.
+\end{proof}
+
+\begin{defn}
+	$\opera{coNP} = \set{A\colon \ol A \in \opera{NP}}$. 
+\end{defn}
+
+\begin{fact}*
+	In fact, $\opera{coNP} \subset \opera{PSPACE}$.
+\end{fact}

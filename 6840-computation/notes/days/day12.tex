@@ -1,0 +1,82 @@
+\section*{Lecture 12: Complexity Theory}
+\setcounter{section}{12}
+\resetcounter{subsection}
+\resetcounter{defncontainer}
+\resetcounter{defn}
+
+Today we start on \vocab{complexity theory}, where we are interested in the following problem: Suppose $A$ is a decidable language. How many steps are needed to decide $A$?
+We can make a few observations:
+\begin{itemize}
+	\item This depends on the input, and in particular input size.
+	\item This also depends on the computational model.
+\end{itemize}
+
+\begin{defn}
+	We say a Turing machine $M$ \vocab{runs in time} $t(n)$ ($t\colon \NN \to \NN$) if for any input $w$ of length $n$, $M$ halts on $w$ within $t(n)$ steps.
+\end{defn}
+
+\begin{defn}*
+	For some $t\colon \NN \to \NN$, define $\opera{TIME}(t(n))$ to be the set of languages $B$ such that some $1$-tape Turing machine decides $B$ and runs in time $O(t(n))$.
+\end{defn}
+
+\begin{fact}
+	With a 2-tape Turing machine, one can decide $A = \set{a^kb^k\colon k\geq 0}$ can be decided in $O(n)$ time. However, on a one-tape Turing machine, this runtime is not achievable.
+\end{fact}
+
+So the time complexity class used above is not ideal, since it seems to depend very strongly on the computational model used.
+
+\begin{thm}
+	For $t(n) \geq n$, every mutli-tape Turing machine $M$ that runs in $t(n)$ time has an equivaent $1$-tape turing machine $S$ that runs in time $O(t(n)^2)$. 
+\end{thm}
+
+\begin{proof}
+	Our simulation strategy from before uses $\leq ct(n)$ (where $c$ is some constant dependent on the number of tapes) steps to simulate a step of $M$.
+\end{proof}
+
+This motivates the following:
+
+\begin{defn}
+	$\opera{P} = \bigcup\limits_{k\geq 0} \opera{TIME}(n^k) = \opera{TIME}(\opera{poly}(n))$ is the set of \vocab{polynomial time algorithms}.
+\end{defn}
+
+In particular, $\opera P$ is independent of ``reasonable" choices of computational models.
+Now we consider the following problem:
+
+\begin{defn}*
+	Let $\opera{PATH}$ be the following problem: You are given a directed graph. Is there a path from $a$ to $b$?
+\end{defn}
+
+\begin{fact}*
+	[Dijkstra's/BFS/DFS]
+	PATH is in P.
+\end{fact}
+
+\begin{defn}
+	Let $\opera{HAMPATH}$ be the \vocab{Hamiltonian path} problem: You are given a directed graph. Is there a Hamiltonian path (i.e. one that visits each vertex exactly once) from $a$ to $b$?
+\end{defn}
+
+\subsection{Nondeterminism}
+
+\begin{defn}
+	A nondeterministic Turing machine $M$ \vocab{runs in time} $t(n)$ if all branches of the computation use $\leq t(n)$ steps for all inputs of length $n$.
+	Similarly, define $\opera{TNIME}(t(n))$ as the set of languages $B$ such that some nondeterministic Turing machine decides $B$ and runs in $O(t(n))$ time.
+	Finally, define \[
+		\opera{NP} = \bigcup_k \opera{NTIME} (n^k).
+	\]
+\end{defn}
+
+\begin{fact}
+	Like $\opera P$, $\opera{NP}$ is invariant across reasonable nondeterministic models of computation.
+\end{fact}
+
+\begin{fact}*
+	$\opera{HAMPATH}\in \opera{NP}$.
+\end{fact}
+
+\begin{fact}
+	We have the following intuition: $B\in \opera{NP}$ if and only if it is ``easy to verify" that $w\in B$.
+\end{fact}
+
+\begin{proof}
+	For the if direction, just try all possible verification branches. For only if, note that if something is in NP, we can just provide the branch of nondeterministic computation tree.
+\end{proof}

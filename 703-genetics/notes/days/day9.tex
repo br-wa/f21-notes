@@ -1,0 +1,37 @@
+\section*{Lecture 9: Human Mendelian Traits I (Reddien)}
+\setcounter{section}{9}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+\subsection{Centromere Linkage}
+
+Suppose we have two unlinked genes A, B (say on separate chromosomes).
+Then, note that if B is far from the chromosome, and we have a Bb, we have the possibility that there is a crossing-over event between the centromere and, say gene B.
+
+This will produce tetratypes. In particular:
+\begin{fact}
+	If the proportion of tetratypes is at least 2/3, then one of the genes is unlinked to the tetratype. Otherwise, \emph{if one gene is closely linked to its centromere}, then the other gene's distance to its centromere is \[
+		100 \cdot \frac{\textnormal{TT}}{2\cdot \textnormal{total}}.
+	\]
+\end{fact}
+
+\subsection{Pedigree Analysis}
+
+\begin{fact}*
+	In general, there are a few assumptions we can make:
+	\begin{itemize}
+		\item (Complete penetrance) Individuals express phenotypes as predicted by their genotype.
+		\item For traits that are rare, we assume individuals who marry into the pedigree (and are not founders) are not carriers.
+		\item There are no new mutations in the pedigree.
+		\item (Correct paternity) The pedigree is correct.
+	\end{itemize}
+	From here, we just test hypotheses (autosomal dominant, autosomal recessive, x-linked dominant, x-linked recessive) for consistency.
+	We may also need to test the rarity assumption.
+\end{fact}
+
+\subsection{Conditional Probability}
+
+Now, suppose we want to know what the probability of someone being a carrier is.
+If we know their parents, we can compute the probability \emph{a priori}.
+Otherwise, if we have other information (either from siblings or children), we can use Bayes's Theorem to compute the conditional probability of someone being a carrier.

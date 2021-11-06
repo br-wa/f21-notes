@@ -1,0 +1,81 @@
+\section*{Lecture 8: Meiosis and Tetrad Analysis (Reddien)}
+\setcounter{section}{8}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+\subsection{Mitosis and Meiosis}
+
+\begin{que}
+	What happens during mitosis?
+\end{que}
+
+Suppose we have an A/a individual.
+
+\begin{enumerate}
+	\item The chromosomes are each replicated, so that we have two A chromosomes and two a chromosomes close to each other. 
+	\item Then, two \vocab{mitotic spindles} each pull one chromsome out from each ``pile" for the new cells, so that the new cells are A/a and A/a.
+\end{enumerate}
+
+\begin{que}
+	What happens during meiosis?
+\end{que}
+
+Again, take our A/a individual.
+
+\begin{enumerate}
+	\item The chromosomes are again replicated, but instead one has \vocab{homolog pairing}, where the each chromosome (two copies connected at their centromeres) meet with the corresponding replicate from the other parent.
+	\item Now, there is \vocab{recombination} between any (A,a) pair.
+	\item Then, the spindles act, and this creates an AA and aa cell. This completes \vocab{mitosis I}.
+	\item In \vocab{mitosis II}, each of the mitosis I cells replicates, generating haploids.
+\end{enumerate}
+
+\subsection{Tetrad Analysis}
+
+\begin{exper}
+	It is possible to induce \emph{S. cerevisiae} (baker's yeast) to undergo \vocab{sporulation}, which is essentially meiosis. To perform \vocab{tetrad analysis}, one does the following:
+	\begin{enumerate}
+		\item Start by crossing two haploid yeast, to yield a diploid. This step is optional.
+		\item Induce sporulation in the diploid.
+		\item This forms a \vocab{tetrad}, our group of four haploids. Now, one separates these cells, and grows them on separate colonies in a petri dish.
+		\item Analyzing the four colonies yields information about meiosis.
+	\end{enumerate}
+\end{exper}
+
+This is really good!
+Instead of looking at random outputs of meiosis, we can look at individual meiosis processes themselves, giving us a very specific and focused tool for analysis.
+
+\begin{exm}*
+	[Independent Assortment]
+	Suppose A and B are unlinked. 
+	Start with an AB (\x) ab cross, which forms an Aa/Bb that undergoes meiosis. Then, after meiosis I, we get either (AA/BB and aa/bb) or (AA/bb and aa/BB), which after meiosis II gives two AB gametes and two ab gametes, or two Ab and two aB gametes.
+\end{exm}
+
+\begin{defn}*
+	The situation of (2AB, 2ab) is called a \vocab{parental ditype (PD)}, and (2aB, 2Ab) is a \vocab{non-parental ditype (NPD)} 
+\end{defn}
+
+\begin{exm}*
+	[Linked Genes]
+	Suppose A and C are linked, i.e. on the same side of the centromere of the same chromosome.
+	Start with an AC (\x) ac cross, which forms an Aa/Cc that undergoes meiosis.
+	If there are no crossovers, we get PD.
+	If there is a single crossover, we get AC, Ac, aC, and ac children. This is called a \vocab{tetratype (TT)}.
+	Now, number the chromosomes 1, 2, 3, 4, so that originally, 1, 2 are AC and 3, 4 are ac. Say AC has a crossover, and that there is a double-crossover.
+	We have the following scenarios:
+	\begin{itemize}
+		\item If the next crossover is 14, then we get NPD.
+		\item If the next crossover is 23, then we get PD.
+		\item If the next crossover is 13, then we get TT, and
+		\item If the next crossover is 24, then we get TT.
+	\end{itemize}
+	Ignoring double-crossovers, we get: \[
+		\textnormal{map distance} = 100\cdot \frac{2\cdot \text{SCOs}}{4\cdot \text{total}} = 50\cdot \frac{\cdot{\text{TT}}}{\text{total}}.
+	\]
+	If we do add double-crossovers, we get: \[
+		\textnormal{map distance} = 100\cdot \frac{2\cdot \text{SCOs} + 4\cdot \text{DCOs}}{4\cdot \text{total}}.
+	\]
+	The number of DCOs is 4 times the number of NPDs, and the number of SCOs is therefore the number of TTs minus twice the number of NPDs. Thus, \[
+		\textnormal{map distance} = 100\cdot \frac{2\cdot \text{TTs} + 12\cdot \text{NPDs}}{4 \cdot \text{total}}.
+	\]
+\end{exm}

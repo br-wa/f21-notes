@@ -1,0 +1,79 @@
+\section*{Lecture 20: Gene Regulation (Reddien)}
+\setcounter{section}{20}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{que}
+	Different cells have the same genome. 
+	So how are they different?
+\end{que}
+
+The answer is that in different cells, different genes turn on and off.
+
+\begin{defn}
+	The process by which genes are turned on and off is called \vocab{gene regulation}.
+\end{defn}
+
+\subsection{Regulatory Mutants}
+
+\begin{exper}
+	Perform the following screen: Mutagenize a bunch of haploids, and then grow them on glucose. Then transfer to galactose, and observe which colonies do not grow. Identify one that grows on glucose and not galactose.
+	So now we get a bunch of mutants that for some reason do not grow on galactose.
+\end{exper}
+
+\begin{exper}*
+	Gal1 is a protein that is involved in galactose usage.
+	Suppose we grow wild-type yeast in a plate with glucose. At some time $t$, we stop adding glucose, and add galactose instead.
+	We can observe that Gal1 expression is low until $t$, at which point it starts increasing. 
+	Somehow, the galactose turned on Gal1.
+\end{exper}
+
+\begin{defn}
+	In the above experiment, if adding galactose turns on Gal1, Gal1 is said to be \vocab{inducble}.
+	On the other hand, if adding galactose does not turn on Gal1 (i.e. Gal1 is never on), we say that Gal1 \vocab{uninducible}.
+	Finally, if Gal1 is always on, we say that it is \vocab{constitutive}.
+\end{defn}
+
+\begin{exper}
+	From various screens, we get the following three mutants.
+	\begin{itemize}
+		\item Gal1- is a Gal deletion (therefore uninducible). Its phenotype is recessive.
+		\item M4 is uninducible. Its phenotype is also recessive.
+		\item M80 is constitutive.
+	\end{itemize}
+	We now perform a complementation test, and find that M4 (\x) Gal1- produces inducible diploids. Furthermore, M4 and Gal1- are completely unlinked.
+	Thus M4 must be some different gene, which we call Gal4.
+	We conclude that Gal4 is a positive regulator of Gal1.
+
+	Similarly, we cross M80 (\x) WT to get an inducible diploid, which implies that M80 is recessive.
+	Let Gal80 be the gene carrying M80. By another complementation test we conclude that Gal80 is unlinked to Gal1. 
+	Since Gal80 and Gal4 are likely both loss of function with different phenotypes, we can assume they are not the same gene.
+\end{exper}
+
+\subsection{Regulatory Pathways}
+
+We have two potential scenarios: \[
+	\opera{Gal80} \dashv \opera{Gal4}\to \opera{Gal1}, \qquad \opera{Gal4}\dashv \opera{Gal80}\dashv \opera{Gal1}.
+\]
+We also have a potential situation where Gal4 and Gal80 are independent of each other.
+
+\begin{defn}
+	A \vocab{epistasis test} is used on a single biological step with regulation, in which one makes a double mutant of two individual mutants with \emph{opposing} phenotypes.
+	The \vocab{epistatic gene} is the one whose mutant phenotype is observed in the double mutant.
+\end{defn}
+
+\begin{exper}
+	We now perform an epistasis test on haploids M4 and M80. We get a diploid and do tetrads, and we can get the following potential tetrads:
+	\begin{itemize}
+		\item The parental ditype (2 uninducible, 2 constitutive).
+		\item The non-parental ditype (2 inducible, 2 uninducible).
+		\item The tetra-type (2 uninducible, 1 inducible, 1 constitutive).
+	\end{itemize}
+	We thus conclude that, since the non-parental ditype has two ++ and two double mutants, that the double mutants are uninducible. Thus Gal4 is epistatic.
+	It follows that we must have the $\opera{Gal80} \dashv \opera{Gal4} \to \opera{Gal1}$.
+\end{exper}
+
+\begin{fact}*
+	The epistatic gene is always turned on downstream.
+\end{fact}

@@ -1,0 +1,64 @@
+\section*{Lecture 14: Mutations II (Gehring)}
+\setcounter{section}{14}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{defn}*
+	A mutation in which a purine changes into another purine (A \leftrightarrow G) or a pyrimidine changes into another pyrimidine (C \leftrightarrow T) is called a \vocab{transition}. A mutation in which a purine changes into a pyrimidine (or vice versa) is a \vocab{transversion}.
+\end{defn}
+
+\subsection{Inversions}
+
+Last time we discussed inversions, in which parts of the chromosome rearrange. 
+
+\begin{defn}*
+	In a \vocab{paracentric} inversion, the centromere is outside the inversion. On the other hand, in a \vocab{pericentric} inversion, the centromere is inside the inversion. Furthermore, an individual is called a \vocab{inversion heterozygote} if they have a normal chromosome and an inversion chromosome.
+\end{defn}
+
+\begin{exm}
+	Suppose we have an inversion heterozygote where an individula has a paracentric inversion.
+	This forms an \vocab{inversion loop}, which suppresses crossing over in nearby genes. However, crossing over can still occur in the inversion loop.
+	As an example, suppose the normal is (Centromere)ABCDEF and the inversion is (Centromere)ABDCEF. Then, if we have a crossing over between C and D, we get the two following fragments:
+	\begin{itemize}
+		\item An \vocab{acentric fragment} FEDCEF.
+		\item A \vocab{dicentric bridge} FEDCBA(Centromere)ABCDBA(Centromere)ABDCEF.
+	\end{itemize}
+	The acentric fragment will not continue in meiosis, since the lack of centromere makes it not attach to the mitotic spindle.
+	On the other hand, the dicentric fragment has two centromeres, so it gets pulled in both directions by spindles.
+	Thus the bridge (ABCDBA) breaks. Suppose it becomes ABCD/BA. Then, after meiosis, we get the four gametes:
+	\begin{itemize}
+		\item (Centromere)ABCDEF
+		\item (Centromere)ABCD
+		\item (Centromere)AB
+		\item (Centromere)ABDCEF
+	\end{itemize}
+	The two parental gametes (ABCDEF and ABDCEF) work fine, but the recombinant gamates become either inviable or create inviable zygotes.
+\end{exm}
+
+\begin{fact}
+	In an inversion heterozygote, only parental gametes appear, i.e. recombination frequency zero.
+\end{fact}
+
+\subsection{Suppressor Mutations}
+
+\begin{defn}
+	A \vocab{suppressor mutation} is one that occurs along with a mutation that causes the mutant to act similarly to the wild-type, i.e. the mutational phenotype is no longer visible. Examples include:
+	\begin{itemize}
+		\item A \vocab{revertant} mutation is an intragenic mutation in which the wild-type gene is restored (for example TTT (Phe) \to TTA (Leu) \to TTC (Phe)).
+		\item A \vocab{informational suppressor} is an extragenic suppressor that is allele-specific and gene non-specific.
+		\item A \vocab{bypass suppressor} is an extragenic suppressor that is gene-specific and allele non-specific. 
+	\end{itemize}
+\end{defn}
+
+\begin{exm}
+	A \vocab{Serine tRNA nonsense suppressor} is a mutant in the tRNA gene that recognizes the stop codon UAG as a Serine codon instead. That is, the anticodone AUC now adds a Serine instead of stopping. Note that this is \emph{allele-specific}, since it only recognizes the UCG codon. However, it is \emph{gene non-specific}, since it adds Serine to all UAG's. 
+\end{exm}
+
+\begin{fact}*
+	In the above example, note that we have only restored wild-type function in genes with Serine \to nonsense mutations. It does not restore wild-type function in general, as it may fail to stop many other translations.
+\end{fact}
+
+\begin{exm}*
+	Suppose we have a mutation in a maltose channel, but then a lactose permease mutates to also let maltose in. This is a bypass suppressor for the maltose channel mutation.
+\end{exm}

@@ -1,0 +1,96 @@
+\section*{Lecture 6: More Turing Machines, Church-Turing}
+\setcounter{section}{6}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+Last time we defined a Turing machine, Turing-recognizable languages, and deciders. 
+Now we augment the definitions:
+
+\begin{defn}
+	A language $A$ is \vocab{Turing-decidable} if $A = L(M)$ for some decider $M$.
+\end{defn}
+
+\subsection{More Turing Machines}
+
+\begin{defn}*
+	A \vocab{multi-tape Turing machine} is a Turing machine that reads $k \geq 2$ tapes simultaneously. The input comes on the first tape, and the other tapes start off blank. The transition function is: \[
+		\delta \colon Q\x \Gamma^k \to Q\x \Gamma^k \x \set{\textnormal{L}, \textnormal{R}}^k.
+	\]
+\end{defn}
+
+\begin{thm}*
+	$B$ is Turing-recognizable if and only if $B = L(M)$ for some multi-tape Turing machine.
+\end{thm}
+
+\begin{proof}
+	Only if is clear; the multi-tape machine can just ignore the last $k-1$ tapes. For if, suppose $B = L(M)$.
+	Add some delimiter character $\#$. 
+	Now, if $S_1, S_2, \ldots, S_k$ are the contents of the tapes. Make the tape: \[
+		S_1\# S_2\# \cdots \# S_k \#,
+	\]followed by blanks, and add a dot to each symbol coresponding to the head positions.
+	Note that when we move a $M$ head to the blank region (in one of the original tapes), we need to move all the multi-tape symbols over.
+\end{proof}
+
+\begin{defn}*
+	A \vocab{nondeterministic Turing machine} is one in which \[
+		\delta \colon Q\x \Gamma \to \mathcal P(Q\x \Gamma \x \set{\textnormal L, \textnormal R}),
+	\]
+	representing possible transitions,
+	and now an input is accepted if any of its possible transitions leads to an acceptance.
+\end{defn}
+
+\begin{thm}*
+	$B$ is Turing-recognizable if and only if $B = L(M)$ for some nondeterministic Turing machine.
+\end{thm}
+
+\begin{proof}
+	Again, only if is clear. Now, let $N$ be some nondeterministic Turing machine; we will convert $N$ into some deterministic Turing machine $M$.
+	For if, we are once again going to simulate everything. A useful analogy here is that $M$ will perform BFS on the tree of possibilities.
+	Basically, we start with the input, add $\#$ to the end of it, and then we are going to repeatedly make the tape contain \[
+		t_1 s_1\# \cdots \# t_ks_k \#\cdots,
+	\]where $t_1, \ldots, t_k$ are the possibilities in the tree with depth $d$, and $s_1, \ldots, s_k$ are symbols representing the corresponding internal states of $N$.
+	When nondeterminism happens and we split, we can append to the end. This is actually not obvious, since we cannot store arbitarily long strings in memory. Basically, we do the following:
+	\begin{enumerate}
+		\item Replace the starting symbol $\star$ with $\star^{\text{start}}$.
+		\item Replace the end symbol $\star$ with $\star^{\text{end}}$.
+		\item Repeatedly move the $\text{start}$ annotation over and append the symbol it was previously on to the end.
+		\item Once the strings are all copied, add $\#$ to the end.
+	\end{enumerate}
+\end{proof}	
+
+\begin{defn}*
+	A \vocab{Turing enumerator} does the following: At certain points, it may either write a $\$$ on the tape or it may a ``print" state. 
+	When it enters a print state, it prints everything to the left of the first $\$$.
+	The language of an enumerator $E$ is the set of strings that it ever prints out, starting from a blank tape.
+\end{defn}
+
+\begin{thm}*
+	$B$ is Turing-recognizable if and only if $B = L(E)$ for some Turing enumerator $E$.
+\end{thm}
+
+\begin{proof}
+	If is pretty easy; we make our Turing machine do the following:
+	\begin{enumerate}
+		\item Add a $\#$ to the end of the input.
+		\item Make the enumerator start running after the $\#$, and whenever it prints, check if the input matches what is between the $\#$ and the leftmost $\$$. 
+	\end{enumerate}
+	For only if, suppose we have a recognizer $B$.
+	Enumerate $s_1, \ldots$ be the elements of $\Sigma^*$. 
+	For each $s_i$, we will run $M$ on $s_i$.
+	Essentially we do the following, for each $i = 1, ...$.
+	\begin{enumerate}
+		\item Add $s_i \#$ for some delimeter $\#$ to the end of the string.
+		\item For each $j = 1, 2, \ldots, j$, run the next step of $M$ on the $j$th block. If we accept, print.
+	\end{enumerate}
+	We need the usual dot trick to keep track of where the heads of $M$ are.
+	Furthermore, to print, we need to move everything over a few steps.
+\end{proof}
+
+\begin{law}
+	[Church-Turing Thesis]
+	Every algorithm is equivalent to a Turing machine.
+\end{law}
+
+
+

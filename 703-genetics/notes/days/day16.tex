@@ -1,0 +1,71 @@
+\section*{Lecture 16: Bacterial Genetics (Reddien)}
+\setcounter{section}{16}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\subsection{Bacterial Recombination}
+
+\begin{fact}
+	There are a few differences in bacteria:
+	\begin{itemize}
+		\item Bacteria have a single circular chromosome, which replicates during cell division.
+		\item Bacteria do not undergo meiosis.
+	\end{itemize}
+\end{fact}
+
+\begin{exm}*
+	Suppose a host genome has alleles a-, b-, c-, and there is a foreign DNA (e.g. from a virus or from \vocab{competence} [i.e. the proess by which bacteria \vocab{uptake} DNA from the environment])consisting of the ab region and having alleles A+, B+.
+	Then, we can have bacterial recombinations, such that the host could end up with A+;b-;c- or a-;B+;c- or A+;B+;c-.
+\end{exm}
+
+\begin{fact}
+	Bacterial recombination takes advantage of the DNA repair process of bacteria.
+\end{fact}
+
+\begin{fact}
+	Around 1 in 300 times, bacteriophages will transmit host DNA along with phage DNA. This is called a \vocab{packaging error}.
+	The resulting transfer of host DNA is called \vocab{transduction}; when two genes are transduced together, it is called \vocab{co-transduction}, which occurs with probability $p \sim d^{-1}$, where $d$ is the distance between genes.
+\end{fact}
+
+\subsection{Conjugation and F Plasmids}
+
+\begin{fact}
+	Besides a genome, bacteria can contain a self-replicating circular DNA called a \vocab{F plasmid}. 
+	A cell with an F plasmid is called F+, while those without are called F-. F plasmids contain the following:
+	\begin{itemize}
+		\item An \vocab{origin of transfer} oriT.
+		\item Genes, including \vocab{Tra genes} that help transfer, and antibiotic resistance genes.
+	\end{itemize}
+\end{fact}
+
+\begin{fact}
+	An F+ (donor) and F- cell (recipient) can mate in a process called \vocab{conjugation}, in which the F plasmid is transferred via \vocab{rolling circle replication} starting from oriT.
+	The strand of F plasmid DNA is transferred across the \vocab{mating bridge}.
+\end{fact}
+
+\begin{fact}*
+	Note that maintaining the F plasmid is energetically difficult, as we need to replicate the F plasmid during division. So, F plasmids only exist if they confer some selective advantage.
+\end{fact}
+
+\begin{fact}
+	Suppose we have a sequence match between the F plasmid and the genome. For example, we could have a \vocab{IS element} (which is in fact a transposon).
+	Then, the F plasmid can get integrated into the genome.
+	If an F plasmid and a genome integrate, the cell is now called \vocab{hfr} (high frequency of recombination).
+
+	Now, suppose an hfr conjugates with an F-. Then, the F plasmid is now the entire genome, so the entire genome gets copied over via rolling circle replication!
+	The F- becomes a \vocab{exconjugant} bacterium, and there are necessarily an even number of recombinations between the hfr genome and the F- genome.
+\end{fact}
+
+\subsection{Positions}
+
+\begin{fact}
+	Now we are interested in positions on a map. We can do \vocab{interrupted mating}, in which we start conjugation and stop it at various points to see if a gene has been transferred yet. Then, distance is proportional to time of transfer, so we can write a map on the plasmid.  
+\end{fact}	
+
+\begin{exper}
+	Suppose we know that E is at 30 minutes and C,D are both at 20 minutes, and B is at 10 minutes. Then what order are they in? We note that if the order is B, C, D, E, then the 4-recombination example will be B-;C+;D-;E+, while if the order is B, D, C, E, then the 4-recombination example will be B-;D+;C-,E+. So, looking at which 4-recombination example is more common (since the other one will require a double cross between consecutive genes) tells us which one it is.
+\end{exper}
+
+
+

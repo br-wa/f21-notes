@@ -1,0 +1,76 @@
+\section*{Lecture 16: PSPACE-completeness}
+\setcounter{section}{16}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Last time, we started discussing the following problem:
+
+\begin{defn}*
+	Define $\opera{LADDER}_{\opera{DFA}}$ be the language of $\vecn{A,u,v}$ such that there exists $u_0 = u, u_1, \ldots, u_k = v$ such that $u_i \in L(A)$ and $u_i, u_{i+1}$ have the same length, and they differ by at most $1$ character.
+\end{defn}
+
+\begin{fact}*
+	$\opera{LADDER}_{\opera{DFA}} \in \opera{NPSPACE}$.
+\end{fact}
+
+\begin{proof}
+	Note that if $m = |u|$, then if such a path $u\to v$ exists, such a path must exist with length $\leq \abs{\Sigma}^m$.
+	Thus we can just try all paths starting from $u$ and with length at most $\abs{\Sigma}^m$.
+\end{proof}
+
+\begin{thm}
+	$\opera{LADDER}_{\opera{DFA}} \in \opera{PSPACE}$.
+\end{thm}
+
+\begin{proof}
+	We will describe an algorithm that solves the more general problem of identifying languages $\vecn{A,u,v,t}$ such that one can get from $u$ to $v$ with a path of length $\leq t$. On input $\vecn{A,u,v,t}$, 
+	\begin{enumerate}
+		\item If $t = 1$ accept if $u,v\in A$ have the same length and differ it in at most one subunit.
+		\item If $t > 1$, For each $w\in \Sigma^m$, test both $\vecn{A,u,w,(t+1)/2}$, $\vecn{A,w,v,(t+1)/2}$, and accept if both of these accept.
+		\item Reject if nothing accepted.
+	\end{enumerate}
+	The key idea is that the \emph{recursion depth} is $\log_2 t = O(m)$, and each level stores some new $w$, which also only requires space $O(m)$. Thus the total space is $O(m^2)$.
+\end{proof}
+
+In fact,
+
+\begin{thm}
+	For any $f(n) \geq n$, $\opera{NSPACE}(f(n)) \leq \opera{SPACE}(f(n)^2)$. 
+\end{thm}
+
+\begin{proof}
+	Let $A\in \opera{NSPACE}(f(n))$ be decided by some non-determinsitic turing machine $N$ in space $f(n)$.
+	Then, note that $N$ necessarily finishes in $S(n)$ steps for some $S = O(2^{O(f(n))})$.
+	Our deterministic machine $M$ does the following on input $w$:
+	\begin{enumerate}
+		\item Pick some accepting configuration $C_v$, and let $C_u$ be the starting configuration of $N$ on $w$.
+		\item Now, check if one can get from $C_u$ to $C_v$ in $S(n)$ steps (where one uses the algorithm in the above proof).
+	\end{enumerate}
+	Now we are home, since each state $C_i$ of $N$ only takes $O(f(n))$ space to write, and $\log S(n) = O(f(n))$.
+\end{proof}
+
+\begin{cor}*
+	$\opera{PSPACE} = \opera{NPSPACE}$.
+\end{cor}
+
+\begin{defn}
+	Define $\opera{TQBF}$ as the language of \vocab{true quantified boolean formulae}, i.e. true expressions of the form $q_1x_1 \cdot q_nx_n S$, where $S$ is some SAT expression in $x_1,\cdots, x_n$, and $q_i \in \set{\exists, \forall}$.
+\end{defn}
+
+\begin{thm}
+	$\opera{TQBF}$ is $\opera{PSPACE}$-complete.
+\end{thm}
+
+\begin{proof}
+	[Sketch:] Use computational history in a manner similar to Cook-Levin. The issue is that the history will be a lot longer (exponentially long, in fact).
+	So, we want for each pair $(C,C')$ of configurations and $t$, to be able to write down a (polynomial in $\log t$) sized TQBF $\gan_{C,C',t}$ that encodes ``$M$ goes from $C_i$ to $C_j$ within $t$ steps."
+	Indeed, this is just \[
+		\gan_{C,C',t} = \exists C_m [\gan_{C,C_m, t/2} \land \gan_{C_m, C, t/2}].
+	\]
+	Sadly, if you try to just do this, you find that the complexity of this is $f(t) = 2f(t/2)$, which is linear in $t$, which is bad.
+	Thus we compactify by \[
+		\gan_{C,C',t} = \exists C_m \forall (C_a, C_b)\in \set{(C, C_m), (C_m, C')} \sqrb*{\gan_{C_a, C_b, t/2}},
+	\]
+	and now this fits in polynomial space.
+\end{proof}

@@ -1,0 +1,99 @@
+\section*{Lecture 5: Non-Context-Free Languages, Turing Machines}
+\setcounter{section}{5}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+\subsection{More on Context-Free Languages}
+
+\begin{fact}*
+	Every regular language is context-free.
+\end{fact}
+
+\begin{fact}*
+	For any context-free $A$ and regular $B$, $A\cap B$ is context-free.
+\end{fact}
+
+\begin{fact}*
+	Context-free languages are closed under union, $\circ$, and $*$, but not under intersection or complement.
+\end{fact}
+
+\begin{lem}
+	[Pumping Lemma for Context-Free Languages]
+	If $A$ is a context-free language then there is a $p$ (pump length) such that if $S\in A$ and $\abs S \geq p$, then $S = uvxyz$ where:
+	\begin{itemize}
+		\item $uv^ixy^iz\in A$ for all $i\geq 0$,
+		\item $\abs{vy} > 0$, and
+		\item $\abs{vxy} \leq p$.
+	\end{itemize}
+\end{lem}
+
+\begin{proof}
+	If $m$ is the maximal output length of some rule, then take $p = m^{\abs{\Sigma}}$.
+	Take $\abs S \geq p$ and take a minimal parse tree, i.e. one where there are no substitutions of the form $R_1\to R_2 \cdots \to R_k\to R_1$.
+
+	Now, the height of the tree is $\abs{\Sigma}$, so there is some path to the leaf with at least $\abs{\Sigma} + 1$ nodes, i.e. two of the nodes have the same letter $R$. Say $R_1$ is an ancestor of $R_2$, and say $R_2$ becomes $x$, $R_1$ becomes $vxy$, and the whole tree becomes $uvxyz$.
+	Now we can replace the upper $R$ with the lower $R$ or vice versa.
+
+	Note that we can in fact assume that $R_1$ is in the bottom-most $\abs{\Sigma}+1$ vertices in the tree, which guarantees $\abs{vxy} \leq m^{\abs{\Sigma}}$.
+\end{proof}
+
+\begin{cor}*
+	The language $B = \set{a^kb^kc^k\colon k\geq 0}$ is not context-free.
+\end{cor}
+
+\begin{proof}
+	Let $p$ be a pump length. Then, take $S = a^pb^pc^p$.
+	Note that $vxy$ cannot contain all of $a,b,c$. So, when we pump $S$ too much, one of the letters gets left behind, i.e. there is not an equal amount of all $3$ letters.
+\end{proof}
+
+\subsection{Turing Machine}
+
+\begin{defn}*
+	A \vocab{Turing machine} has the following properties:
+	\begin{itemize}
+		\item The input is written as $s_1\cdots s_k \sqcup \sqcup \sqcup \cdots$, where the $\sqcup$ are \vocab{blanks}.
+		\item The Turing machine reads and writes on the tape, and can move left or right. However, its logic has \emph{finite control}.
+	\end{itemize}
+\end{defn}
+
+\begin{exm}*
+	A Turing machine can recognize $B = \set{a^kb^kc^k\colon k\geq 0}$, by doing the following:
+	\begin{enumerate}
+		\item Scan from left to right and make sure the string is in $a^*b^*c^*$.
+		\item Scan back to the left.
+		\item Repeatedly do the following:
+			\begin{itemize}
+				\item Scan from left to right, crossing off the leftmost $a$, leftmost $b$, and leftmost $c$.
+				\item If we run out of $b$'s or $c$'s before $a$'s, reject.
+				\item If we run out of $a$'s, scan to the right. If anything is uncrossed, reject.
+			\end{itemize}
+		\item If we have not yet rejected, now accept.
+	\end{enumerate}
+\end{exm}
+
+Now we will give a formal definition:
+
+\begin{defn}
+	A \vocab{Turing machine (TM)} is a $7$-tuple $(Q, \Sigma, \Gamma, \delta, q_0, q_{\textnormal{acc}}, q_{\textnormal{rej}}$, where:
+	\begin{itemize}
+		\item $Q$ is a set of \vocab{states},
+		\item $\Sigma$ is the \vocab{input alphabet},
+		\item $\Gamma \supseteq \Sigma$ is the \vocab{tape alphabet},
+		\item $\delta$ is the \vocab{transition function} $\delta \colon Q\x \Gamma \to Q\x \Gamma \x \set{\textnormal{\texttt{L}}, \textnormal{\texttt{R}}}$,
+		\item A \vocab{start state} $q_0$,
+		\item A \vocab{accept state} $q_{\textnormal{acc}}$, and
+		\item A \vocab{reject state} $q_{\textnormal{rej}}$.
+	\end{itemize}
+	A Turing machine stops if it hits an accept state, in which case it is considered to have \vocab{accepted} the input. It can also stop if it hits a reject state, which is called \vocab{rejection by halting}.
+	Alternatively, it can go on forever, which is called \vocab{rejection by looping}. If a Turing machine does not reject an input by looping, we say that it \vocab{halts} on the input.
+\end{defn}
+
+\begin{defn}
+	For a Turing machine $M$, write $L(M) = \set{w\colon M \textnormal{ accepts }w}$.
+	We say $A$ is \vocab{Turing-recognizable} if $A = L(M)$ for some $M$.
+\end{defn}
+
+\begin{defn}
+	A Turing machine $M$ is called a \vocab{decider} if it halts on all inputs.
+\end{defn}

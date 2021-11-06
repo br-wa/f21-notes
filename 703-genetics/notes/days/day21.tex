@@ -1,0 +1,57 @@
+\section*{Lecture 21: Gene Regulation (Gehring)}
+\setcounter{section}{21}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Suppose we are now interested in how regulation works. Note that we can split the genome into loci that are similarly regulated.
+
+\begin{defn}
+	We can insert \vocab{reporter genes}, usually coding for fluorescent proteins, into loci to see if they are on or off.
+\end{defn}
+
+Another strategy we can do is delete specific regulatory regions and see what happens to expression.
+
+\begin{defn}
+	A regulatory locus can be the following:
+	\begin{itemize}
+		\item An \vocab{upstream activating sequence (UAS)},
+		\item An \vocab{upstream repressor sequence (URS)}, or
+		\item A \vocab{TATA box}, where RNA Polymerase II binds to start transcription.
+	\end{itemize}
+\end{defn}
+
+Going back to the galactose pathway from earlier, we have: \[
+	\text{galactose} \dashv \opera{Gal80} \dashv \opera{Gal4} \to \opera{Gal1}.
+\]
+Furthermore, we can identify the Gal1 locus as having regulators as UAS, a URS, a TATA box, and then Gal1 in that order.
+We have the following behavior:
+\begin{itemize}
+	\item Gal4 always binds to the UAS.
+	\item In the absence of galactose, Gal80 binds to Gal4, preventing it from activating behavior.
+	\item In the presence of galactose, Gal3 binds to Gal80, preventing it from binding to Gal4 and thus allowing Gal4 to induce the UAS.
+	\item In the presence of glucose, Mig1 binds to the URS and suppresses transcription.
+\end{itemize}
+
+\begin{defn}
+	We say that a protein that regulates the transcription of another gene is a \vocab{transcription factor (TF)}. 
+	Transcription factors usually have a \vocab{binding domain (BD)} that allows proteins to regulate the TF, and a \vocab{activation domain (AD)} that binds to the DNA.
+\end{defn}
+
+\begin{exper}
+	In \emph{Drosophila} there is a gene called \emph{sonic hedgehog (SHH)} that is involved in limb development and expressed in limbs. It is activated by an enhancer called \emph{ZRS} that is present in all vertebrates (including snakes).
+	Amazingly, ZRS is 850 kb upstream of SHH. So why is it there?
+
+	We can perform the following experiment: Add some synthetic DNA consisting of a species-specific ZRS and a reporter gene (e.g. lacZ), that way we can tell when ZRS performs its enhancing job.
+	We get the following results:
+	\begin{itemize}
+		\item In mice, lacZ is expressed in limbs.
+		\item In finned vertebrates (e.g. fish), lacZ is also expressed in limbs.
+		\item In a bunch of other limbed vertebrates, lacZ is also expressed in limbs.
+		\item In snakes, lacZ is not consistently expressed.
+	\end{itemize}
+	We then perform the following: replace mouse ZRS with snake ZRS. 
+	Then, we get \emph{serpentized} mice, i.e. those without limbs.
+	In fact, when we compare snake ZRS with other ZRS, we notice a 17 BP deletion, which occurs when a TF called ETSI binds.
+	This prevents the binding of TFs, thus preventing enhancing behavior.
+\end{exper}

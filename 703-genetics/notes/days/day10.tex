@@ -1,0 +1,79 @@
+\section*{Lecture 10: Human Mendelian Traits II (Reddien)}
+\setcounter{section}{10}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{exm}*
+	Suppose we have a test for some virus (e.g. HIV) with incidence rate $0.1\%$, and a test with $99.5\%$ accuracy. Let $A$ be the event that someone is infected, and let $B$ be the event that they test positive.
+	Then, we can compute: \[
+		P(B) = P(B|A) P(A) + P(B|\ol A) P (\ol A) = .995 \cdot 0.001 + 0.005 \cdot 0.999 \approx 0.006. 
+	\]
+	\[
+		P(A|B) = \frac{P(B|A) P(A)}{P(B)} = \frac{0.995 \cdot 0.001}{0.006} \approx 16.6.
+	\]
+\end{exm}
+
+\subsection{Human Mendelian Traits}
+
+Suppose we have a disease, and we would like to identify its cause.
+The first step is to check if something is genetic. We can do this via twin studies:
+
+\begin{defn}*
+	A \vocab{twin study} is one in which twins are compared; this helps to separate genetic from environmental factors.
+\end{defn}
+
+Next we can ask if it is Mendelian. 
+To do this, we can analyze pedigrees, but many traits are complex, so in many cases we find that the inheritance is non-Mendelian.
+We will return to these cases later.
+
+Now we aim to find the gene.
+There are a few techniques that work here, one of which is sequencing. But sequencing is expensive, so we sequence the exome instead.
+Exome sequencing is a bit cheaper, which is basically NGS but where we have probes that hybridize to exome fragments and then wash out the non-hybridized fragments, using the remaining (hybridized and thus exonic fragments) to form the library.
+
+This sort of approach is used for \vocab{rare diseases}, in which the disease has not been studied before. In that case, one does \vocab{trios} sequencing, by sequencing the person with the disease and their parents. The identified variants (including \vocab{de novo} mutations that arise in the child but are not found in the parents) are matched against a database of known variants. Those that are not in the database are correspond to candidate genes that may be involved in the disease.
+
+This is done, for example, in the \emph{Rare Genomes Project} at the Broad.
+
+\subsection{Linkage}
+
+Another method to finding the gene is by using a genetic map. Suppose we have an unknown gene with some allele $D$ associated with some trait. 
+We would like to locate $D$, by finding a polymorphism $X$ near it. Possible polymorphisms include:
+
+\begin{itemize}
+	\item Single-Nucleotide Polymorphisms (SNPs)
+	\item Simple Sequence Repeats (SSRs)
+\end{itemize}
+
+SSRs tend to vary a lot throughout the population, because they can appear twice, thrice, four times, etc.
+
+\begin{defn}
+	We say a variant is \vocab{highly polymorphic} if it varies a lot throughout the population.
+\end{defn}
+
+Note that SNPs are not highly polymorphic, since there are only 4 possible variants.
+So, to do a linkage study, we will instead use SSRs.
+We take SSRs throughout each chromosome, spaced 10 cM apart.
+
+The way we identify SSR genotypes is by amplifying a given SSR (using e.g. PCR), and then using electrophoresis. The locations of the bands thus reveal the number of repeats.
+
+\subsection{LOD Score}
+
+\begin{defn}
+	For two alleles \vocab{log of odds [ratio] (LOD)} score is the (base 10) logarithm of the ratio of the odds that they are linked and the odds that they are unlinked.
+\end{defn}	
+
+In particular, let $X$ be the event (SSR marker is linked to the gene), so that $\ol X$ is the event that they are unlinked, and $Y$ is the data we are given. 
+Then, \[
+	P(X|Y) = \frac{P(Y|X) P(X)}{P(Y)}, P(\ol X|Y) = \frac{P(Y|\ol X) P(\ol X)}{P(Y)},
+\]so we must have: \[
+	\frac{P(X|Y)}{P(\ol X|Y)} = \frac{P(Y|X) P(X)}{P(Y|\ol X)P(\ol X)}.
+\]
+Then, note that $\frac{P(X)}{P(\ol X)}$ is essentially our prior, and $\frac{P(Y|X)}{P(Y|\ol X)}$ is calculable from the data.
+This gives us the LOD score: 
+
+\begin{fact}
+	The LOD score is \[
+		\log_{10} \frac{P(\textnormal{data} | \textnormal{linkage at distance } \Theta)}{P(\textnormal{data} | \textnormal{unlinked})}.
+	\]
+\end{fact}

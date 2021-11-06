@@ -1,0 +1,75 @@
+\section*{Lecture 18: Genetic Analysis II (Reddien)}
+\setcounter{section}{18}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Recall that:
+
+\begin{defn}
+	A \vocab{screen} is a procedure in which many individuals are assessed for a phenotype. 
+	Meanwhile, a \vocab{selection} is a screen in which only individuals with a specific phenotype survive.
+\end{defn}	
+
+\begin{exper}
+	[Autosomal Screen]
+	Suppose we use a mutagen to mutate a wild-type, and then cross with a wild type. The F\textsubscript1 children are M1/+, M2/+, etc. If some mutation is dominant with the phenotype, we are done.
+	Otherwise, cross M1/+ with wild type. Then, half of the children are M1/+, and the other half are +/+. If we just take a bunch of pairs and cross them, a quarter of the crosses will give a M1/M1 homozygote.
+\end{exper}
+
+\begin{exper}
+	[X-Linked Screen]
+	Use a mutagen to mutate a wild-type, cross with a wild-type male. The male F\textsubscript1 offspring are M1/Y, M2/Y, etc., so we can just screen directly.
+\end{exper}
+
+\begin{exper}
+	[Hermaphrodites (e.g. \emph{C. elegans})]
+	Mutate a self-fertilizing hermaphrodite, and look at the hermaphrodite F\textsubscript1, which are M1/+, M2/+, etc. 
+	Then, if we self-fertilize with a M1/+, a quarter of the offspring will be M1/M1.
+\end{exper}
+
+\begin{defn}
+	A \vocab{balancer chromosome} is one that carries mutations that cause visible phenotypes (usually recessive lethal or dominant visible), and that carry recombination-suppressor genes.
+\end{defn}	
+
+\begin{exm}*
+	CyO is a chromosome with a recessive lethal gene and dominant curly wing genes. It has a locus DTS, which contains a dominant temperature sensitive lethality causing gene.
+\end{exm}
+
+\begin{exper}
+	[Balancers as Markers]
+	Perform the following:
+	\begin{enumerate}
+		\item Suppose we cross a mutated wild-type with DTS/CyO and raise the offspring at a NPT, or \emph{non-permissive temperature}. Our children must be M1/CYO, M2/CYO, etc. (they cannot get a DTS copy).
+		\item Next, we cross F\textsubscript1 with a DTS/CyO again and raise offsprings at NPT.
+			The possible F\textsubscript2 are M1/CyO, M1/DTS, CyO/CYO, CyO/DTS. The CyO/CyO will die (because CyO has a recessive lethal gene) and those carrying DTS will also die. 
+			Thus the F\textsubscript2 \emph{only contains M1/CyO}!
+		\item Now, cross F\textsubscript2 children with each other.
+			Then, we get F\textsubscript3 that are M1/M1 or M1/CyO in a 1:2 ratio. The M1/M1 are the ones that do not have curly wings.
+	\end{enumerate}
+\end{exper}
+
+\subsection{Alleles and Dosage Experiments}
+
+\begin{exm}*
+	For a recessive allele, we can either have complete loss of function (a \vocab{null} mutation), or incomplete loss of function (a \vocab{hypomorph}).
+\end{exm}
+
+\begin{defn}
+	We have two measures of \vocab{phenotypic strength}: The first is \vocab{expressivity}, which is a measurement of the intensity of the phenotype (e.g. size); the other is \vocab{penetrance}, which is the percentage of animals of a given genotype affected (i.e. $100\cdot \PP[\textnormal{phenotype} | \textnormal{genotype}]$).
+\end{defn}
+
+So, if we measure phenotypic strength, we can observe the following:
+
+\begin{exper}
+	For a recessive phenotype M1, we can compare phenotypic strengths of M1/Df1 and M1/M1, where Df1 is a deletion/\vocab{deficiency}.
+	Then, if M1/Df1 has greater phenotypic strength than M1/M1, we have a hypomorph. On the other hand, if M1/Df1 has the same phenotypic strength, we have a null mutation.
+\end{exper}
+
+\begin{exm}*
+	For a dominant allele, we usually have increased activity, which is called a \vocab{hypermorph}. We can also have a dominant negative \vocab{antimorph}, in which the mutant interferes with wild type function.
+\end{exm}
+
+\begin{exper}
+	Compare a duplication (M1/(+/+)) to M1/+ to M1/Df1. We should see decreasing phenotypic activity in a hypermorphs, and increasing phenotypic activity in antimorphs.
+\end{exper}

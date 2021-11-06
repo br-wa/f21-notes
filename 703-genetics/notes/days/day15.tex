@@ -1,0 +1,76 @@
+\section*{Lecture 15: Transposition (Gehring)}
+\setcounter{section}{15}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{exper}
+	[Suppressor Screen]
+	Suppose we have an \vocab{auxotrophic} His1- strain with His- phenotype. 
+	We grow them on media with His, and then do some mutagenesis (e.g. with reactive oxygen species) and then transfer some species to media without His.
+	Some will grow -- these are our suppressor mutants, with His+ phenotype.
+\end{exper}
+
+\begin{exper}
+	Now we are interested in what our suppressor mutants are. Say we have mutants M1, M2, M3.
+	\begin{itemize}
+		\item If M1 is a true revertant, then all the tetrads produced by M1 (\x) His1+ (wt) should be His+.
+		\item If M2 is a bypass, then write it as His1-;Sup\tss{M2} (\x) His1+ (wt). Note that our diploid is His1-\sim Sup\tss{M2}/His1+\sim Sup\tss{wt}. This yields:
+			\begin{itemize}
+				\item In the parental ditype tetrad, all can grow (i.e. His+ phenotype).
+				\item In the non-parental ditype tetrad, 2 can grow, and 2 cannot grow (i.e. 2 His+, 2 His- phenotype).
+			\end{itemize}
+		\item If M3 is closely linked to the suppressor mutation, it is similar to M2, but we would also get all parental ditypes! 
+			We could also cross M3 with His1- instead:
+			\begin{itemize}
+				\item If revertant, the diploid is His1+/His1- with His+ phenotype.
+				\item If the suppressor is a recessive bypass, the diploid has genotype His1-\sim Sup\tss{M3}/His1-\sim Sup\tss{wt}, in which case we get a His- phenotype.
+				\item If the suppressor is a dominant bypass, we get a His+ phenotype again.
+			\end{itemize}
+	\end{itemize}
+\end{exper}
+
+\subsection{Transposable Elements}
+
+We will now describe Barbara McClintock's seminal work on transposable elements: 
+
+
+\begin{exper}
+	[McClintock, 1940s (1981 Nobel in Medicine)]
+	The set up is with the maize organism, which has large chromosomes with distinct cytological features. Maize also has linked genes that produce visible phenotypes in the corn kernel.
+
+	A phenotype of interest is the color phenotype, which has variants C (blue), c (no pigment), C\tss I (no color/white), where C\tss I is dominant over C which is dominant over c.
+	It lies near the end of Chromosome 9, which has a knob. From the knob going inward, there are many loci: Color, Shrinkage, B2, Wx.
+	Perform the following crosses:
+	\begin{itemize}
+		\item CC (\x) C\tss IC\tss I \to all white kernels.
+		\item CC (special) (\x) C\tss IC\tss I \to all white kernels, with some blue spots!  
+	\end{itemize}
+	So what happened in the second cross? By looking at the chromosomes, McClintock found that the knob was missing, and so in some kernels the C\tss I allele had broken off.
+	Similarly, in some of the F\textsubscript1 kernels in the special cross, some of the blue-spotted kernels were shrunken. This confirms the breakage.
+	In fact, McClintock then located a breaking locus called Ds, and a locus Ac that was required for Ds activation.
+	Next, McClintock performed a cc (\x) CC Ds/Ds Ac cross (latter is heterozygous for Ac):
+	\begin{itemize}
+		\item 50\% were blue kernels (this is expected, as those are the Cc Ds genotypes without the Ac).
+		\item 50\% were blue with white spots, which is also expected.
+		\item In fact, in 1/4000 of crosses, there are white kernels with blue spots! How?
+	\end{itemize}
+	McClintock's proposal was the following: The Ds locus actually jumped around, and in the 1/4000 case, the Ds locus moved into C, thus disrupting it and causing c to be expressed. Later in development, it jumped out, thus there were blue spots.
+\end{exper}
+
+There is a great anecdote about how McClintock asked Gerry Fink (who worked with yeast) if there were any particularly unstable mutants in yeast, as those would lead to signs of transposable elements. Fink would go on to find the first retrotransposable element in yeast (Ty1).
+
+\subsection{Transposons}
+
+\begin{defn}
+	A \vocab{transposase} works as follows: The DNA looks like [repeats|transposon|repeats], so the transposase (when expressed) binds to the repeats and cuts, thus excising the transposase gene. It then re-inserts in some other location with a \vocab{target sequence}.
+	Transposons can be either an \vocab{autonomous element}, in which the transposon codes for a transposase, which can move by itself, or a \vocab{non-autonomous element}, which requires some other transposase.
+\end{defn}
+
+\begin{exm}
+	Ac (from above) is an autonomous element, while Ds is a non-autonomous element (which gets moved by the transposase Ac).
+\end{exm}
+
+\begin{defn}
+	A \vocab{retrotransposon} is a transposon containing lots of genes, including RT (reverse transcriptase), which reverse transcribes RNA to move the DNA into a new place.
+\end{defn}

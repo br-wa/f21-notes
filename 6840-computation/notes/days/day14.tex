@@ -1,0 +1,72 @@
+\section*{Lecture 14: NP-Completeness, Cook-Levin}
+\setcounter{section}{14}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{defn}
+	A problem (i.e. language) $B$ is \vocab{NP-complete} if $B\in \opera{NP}$, and for all $A\in \opera{NP}$, $A\leq_P B$.
+\end{defn}
+
+The reason we care about NP completeness is the following heuristic:
+
+\begin{fact}
+	We can say the following about problems:
+	\begin{itemize}
+		\item If you can prove that certain problems are NP-complete, this is a very strong indicator that they are hard. 
+		\item For any NP-complete $B$, $\opera{P} = \opera{NP}$ if and only if $B\in \opera{P}$.
+	\end{itemize}
+\end{fact}
+
+Thus we may restate Cook-Levin as follows:
+
+\begin{thm}*
+	SAT is NP-complete.
+\end{thm}
+
+\begin{proof}
+	[Proof of Cook-Levin Step 1:]
+	We already know that SAT is in NP. So we just need to show that all problems in NP can be reduced to SAT.
+	Let $A$ be some problem in NP and let it be decided by some nondeterministic Turing machine $M$ in time $O(n^k)$.
+	We will present a polynomial time reduction $f$ from $A$ to $\opera{SAT}$, such that $f(w) = \gan_w$, where $\gan_w$ encodes the information ``$M$ accepts $w$."
+\end{proof}
+
+\subsection{Constructing The Reduction}
+
+\begin{defn}
+	A \vocab{accepting tableau} for $M$ on $w$ is a $O(n^k) \x O(n^k)$ table showing an accepting computational history on some accepting thread of $M$ on $w$.
+	Here, each row is just $(q,s)$, where $q$ is the current internal state and $s$ is the string on the tape at each step.
+\end{defn}
+
+So now how do we construct the SAT problem?
+Let $x_{i,j,\sigma}$ for $1\leq i, j \leq O(n^k)$ (here $O(n^k) = cn^k$ for some fixed positive constant $c$) and $\sigma\in \Gamma \cup Q$ be the variables. 
+We need the following conditions, which we can just AND together:
+
+\begin{itemize}
+	\item First, we need to check that the grid is valid. This consists of encoding the claim ``for all $i,j$, exactly one of $x_{i,j,\sigma}$ is true. We can do this as follows: \[
+			\parens*{\bigvee_{\sigma \in \Gamma \cup Q} x_{i,j,\sigma}} \land \parens*{\bigwedge_{\sigma\neq \tau} (\ol{x_{i,j,\sigma}} \lor \ol{x_{i,j,\tau}})}.
+		\]
+		Then, we just need to take the AND of this over all $i,j$.
+	\item Next, we need to check a valid start config. Suppose our input is $w_1 \ldots w_n$, then we just need to check that the starting configuration is valid via:\[
+			x_{1,1,q_0} \land x_{1,2,w_1} \land \cdots \land x_{1,n+1, w_n} \land x_{1,n+2, \sqcup} \land \cdots \land x_{1,cn^k, \sqcup}.
+		\]
+	\item Then, we need to check that at some point we accept. To do this, just add \[
+			\bigvee_{i,j} x_{i,j,q_{\opera{acc}}}.
+		\]
+	\item Finally, note that a the computation history criterion gives us finite list of possible $2\x 3$ neighborhoods.
+		Thus, we can just check that all $2\x3$'s in the grid are one of these.
+\end{itemize}
+
+\begin{proof}
+	[Proof of Cook-Levin, Finish:]
+	One can check that the formula written is $O(n^{2k})$.
+	Thus, we get a polynomial time reduction.
+\end{proof}
+
+\begin{cor}
+	HAMPATH is NP-complete.
+\end{cor}
+
+\begin{proof}
+	[Sketch:] Reduce 3SAT to HAMPATH.
+\end{proof}

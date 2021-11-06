@@ -80,7 +80,9 @@ Suppose now that our actual data is $4$ paralyzed, $12$ non-paralyzed. Then, we 
 	If we have events $A_1, \ldots, A_k$ with expected frequences $f_1,\ldots, f_k$ and observed frequencies $o_1, \ldots, o_k$, then the \vocab{chi-squared statistic} $\chi^2$ is \[
 		\chi^2 = \sum \frac{(o_i-f_i)^2}{f_i}.
 	\]
-	In a chi-squared test, the \vocab{degrees of freedom (df)} is defined as the number of independent normally distributed variables (usually $k-1$). We can then determine the $p$-value of this $\mathbb P(\text{chi-squared} \geq \chi^2 \mid \text{df degrees of freedom hypothesis is true})$. 
+	In a chi-squared test, the \vocab{degrees of freedom (df)} is defined as the number of independent normally distributed variables (usually $k-1$). We can then determine the $p$-value of this \[
+		\mathbb P(\text{chi-squared} \geq \chi^2 \mid \text{df degrees of freedom hypothesis is true}).
+	\]
 \end{defn}
 
 In the case of our last hypothesis, we get \[

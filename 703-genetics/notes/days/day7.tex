@@ -1,0 +1,29 @@
+\section*{Lecture 7: Genomes and DNA Sequencing III (Reddien)}
+
+Suppose we have performed DNA sequencing. We can assemble a genome from there, but there are other things we can do:
+
+\begin{defn}
+	\vocab{Alignment} is the process of aligning reads to a reference genome, and identifying traits from there (e.g. \vocab{variants}).
+\end{defn}
+
+\begin{defn}*
+	We define a \vocab{polymorphism} as a sequence variant between individuals. 
+\end{defn}
+
+\begin{exm}*
+	A \vocab{single nucleotide polymorphism (SNP)} is a polymorphism that affects a single nucleotide.
+\end{exm}
+
+\begin{exper}
+	Suppose we have a gene X, and we have an individual X\tss-/X\tss-, which we can cross with an X\tss+/X\tss+, and we find that all F\textsubscript1 children do not present the phenotype (and thus the X\tss- phenotype is recessive).
+	However, we do not know the gene's sequence, or where it is.
+
+	We cannot just sequence the two individuals and compare: Any two (human) individuals have 1 difference per 1000 base pairs, which leads to around 4 million mutations. Thus we do the following:
+	\begin{enumerate}
+		\item Sequence the chromosomes of the two individuals. Write down all the SNPs between them. Note that we can ignore any SNP that is not homozygous in either parent.
+		\item Cross an F\textsubscript1 with the same X\tss-/X\tss- individual.
+		\item Identify the F\textsubscript2 inviduals with the X\tss- phenotype, and look at their genomes. Note that they will have one copy of a chromosome from X\tss-/X\tss-. They also have another chromosome that is recombinant from the F\textsubscript1 parent.
+		\item For each SNP irrelevant, assuming equal segregation, the F\textsubscript2 individual will get a copy of either version of the SNP with probability depending on the distance to gene X. In particular, the fraction of individuals that are heterozygous in the X\tss+/X\tss+ version of the SNP is 0.25 for independent genes and equals 0 for SNPs on gene X.
+	\end{enumerate}
+	Once we have identified a region with gene X as the segment with lowest recombination frequency (it is possible that the gene X mutation is not an SNP, so it might not get picked up), we can look at all the genes in our region, and try to identify which one causes the phenotype.
+\end{exper}

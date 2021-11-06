@@ -1,0 +1,73 @@
+\section*{Lecture 9: Reducibility}
+\setcounter{section}{9}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Recall from last time that we showed the following:
+
+\begin{thm}*
+	$B$ is decidable if and only if both $B$ and $\ol B$ are recognizable.
+\end{thm}
+
+And the following corollary:
+
+\begin{cor}*
+	$A_{\opera{TM}}$ is Turing-unrecognizable.
+\end{cor}
+
+We also showed that the halting problem $\opera{HALT}_{\opera{TM}}$ must be undecidable by showing that it would lead to a Turing machine deciding $A_{\opera{TM}}$.
+
+\begin{defn}
+	We say a problem $A$ can be \vocab{reduced} to $B$ if a machine can use $B$ to solve $A$.
+\end{defn}
+
+\begin{fact}*
+	If $B$ is easy, so is $A$. Conversely, if $A$ is hard (i.e. undecidable), so is $B$.
+\end{fact}
+
+\begin{thm}*
+	If $E_{\opera{TM}}$ be the set of $\vecn M$ for Turing machines $M$ with nonempty language, then $E_{\opera{TM}}$ is undecidable.
+\end{thm}
+
+\begin{proof}
+	We will reduce $A_{\opera{TM}}$ to $E_{\opera{TM}}$.
+	Say $R$ is a decider for $E_{\opera{TM}}$.
+	Run $S$ on $\vecn{M,w}$ as follows: Modify $M$ such that $M$ rejects everything that is not $w$.
+	For example, we can just add ``reject if input is not $w$" to $M$.
+	Call this new machine $M_w$, and run $R$ on $\vecn{M_w}$.
+\end{proof}
+
+\begin{defn}
+	We say $A$ is \vocab{mapping reducible} to $B$ (we write $A\leq_m B$ for this) if there is a \vocab{computable} function $f\colon \Sigma^* \to \Sigma^*$ such that for any $w$, $w\in A$ if and only if $f(w)\in B$.
+	
+	Here, a function $f$ is computable if and only if there is a Turing machine $M$ that accepts on all strings $w$, and when it accepts, leaves $f(w)$ on the tape.
+\end{defn}
+
+Then we may formalize our intuition about reductions:
+
+\begin{fact}
+	If $A\leq_m B$ and $B$ is decidable (or recognizable), so is $A$. Similarly, if $A\leq_m B$ and $A$ is undecidable (or unrecognizable), so is $B$.
+\end{fact}
+
+\begin{thm}
+	Let $\opera{EQ}_{\opera{TM}}$ be the language of pairs $\vecn{M,N}$ such that $M,N$ are Turing machines with the same language. Then, $\opera{EQ}_{\opera{TM}}$ and $\ol{\opera{EQ}_{\opera{TM}}}$ are both Turing-unrecognizble.
+\end{thm}
+
+\begin{proof}
+	We will show that $\ol{A_{\opera{TM}}}$ reduces to both.
+	\begin{itemize}
+		\item Let $f(\vecn{M,w}) = \vecn{T_{\text{rej}}, T_w}$, where $T_{\text{rej}}$ is ``reject everything," and $T_w$ can be the machine ``on $x$, run $M$ on $w$ and accept if $M$ accepts $w$, rejects otherwise." It can also just be $M_w$ from before. 
+			Then, $T_{\text{rej}}$ and $T_w$ are equivalent if and only if $M$ rejects $w$. So $\ol{A_{\opera{TM}}}$ reduces to $\opera{EQ}_{\opera{TM}}$.
+		\item Let $f(\vecn{M,w}) = \vecn{T_{\text{acc}}, T_w}$ from before. In this case we cannot use $T_w = M_w$, and it has to be the ``accept $x$ if $M$ accepts $w$. Similarly to before, let $T_{\text{acc}}$ be ``accept everything." Then, $T_{\text{acc}}$ and $T_w$ are not equivalent if and only if $M$ rejects $w$, so $\ol{A_{\opera{TM}}}$ reduces to $\ol{\opera{EQ}_{\opera{TM}}}$.
+	\end{itemize}
+\end{proof}
+
+\subsection{Applied Decidability}
+
+\begin{defn}
+	[Post Correspondence]
+	Define the \vocab{Post Correspondence Problem} as the following: We have pairs of strings $(u_i,v_i)$ for $1\leq i \leq k$. A \emph{match} is a nonempty sequence $J \in [k]^*$ such that $|J| = t\geq 1$ and: \[
+		u_{j_1}u_{j_2}\cdots u_{j_t} = v_{j_1} v_{j_2} \cdots v_{j_t}.
+	\]
+\end{defn}

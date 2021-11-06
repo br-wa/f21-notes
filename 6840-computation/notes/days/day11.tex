@@ -1,0 +1,78 @@
+\section*{Lecture 11: More Computational History, Recursion Theorem}
+\setcounter{section}{11}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+We will do another proof with computational histories:
+
+\begin{thm}*
+	Let $\opera{ALL}_{\opera{PDA}}$ be the language of all $\vecn B$ for PDAs $B$ with language $\Sigma^*$. Then, $\opera{ALL}_{\opera{PDA}}$ is undecidable.
+\end{thm}
+
+\begin{proof}
+	We will reduce $A_{\opera{TM}}$ to $\opera{ALL}_{\opera{PDA}}$. Suppose $R$ is a Turing machine deciding $\opera{ALL}_{\opera{PDA}}$.
+	Now, let $S$ perform on input $\vecn{M,w}$:
+	\begin{enumerate}
+		\item Construct a PDA $P_{M,w}$ that accepts its input is not an accurate computational history for $M$ on $w$. 
+			In particular, $P_{M,w}$ accepts everything if \emph{no computational history exists}.
+		\item Now, just simulate $R$ on $P_{M,w}$.
+	\end{enumerate}
+	So now what is $P_{M,w}$?
+	Basically if the configuration is $C_1\# C_2 \# \cdots$, then the PDA can just put $C_i$ in the stack and then checks that nothing bad has happened.
+	There is a mild problem: $C_1$ gets pushed, and then gets popped in reverse. So, we just do an ad-hoc change: Write $C_2, C_4, \ldots$ in reverse, and then they are processed in the same direction, which is as desired.
+\end{proof}
+
+\subsection{Recursion Theorem}
+
+Consider the following problem: 
+
+\begin{que}
+	Can a program print itself? 
+\end{que}
+
+Intuitively the answer is no, since things should not be as complicated as their creators.
+However, this intuition is wrong.
+
+\begin{thm}
+	[Recursion Theorem]
+	There exists a Turing machine $\opera{SELF}$ which, on empty input, prints $\vecn{\opera{SELF}}$ on the tape, and then halts.
+\end{thm}
+
+To prove this, we use the following (pretty obvious) lemma:
+
+\begin{lem}*
+	There is a computable function $q\colon \Sigma^* \to \Sigma^*$ such that, for every $w$, $q(w) = \vecn{P_w}$ for some Turing machine $P_w$ that prints out $w$ (on empty input).
+\end{lem}
+
+\begin{proof}
+	[Proof of Theorem:]
+	Let $B$ be the following: Given a string $S$, write ``Do $q(S)$, then do $S$" after it (or whatever the formal definition of this is).
+	Then, let $A$ be the following: Write $\vecn B$.
+\end{proof}
+
+\begin{thm}
+	[Strong Recursion Theorem]
+	We can add the step ``compute your own description" to a program without anything breaking.
+\end{thm}
+
+\begin{cor}*
+	$A_{\opera{TM}}$ is undecidable.
+\end{cor}
+
+\begin{proof}
+	Assume for contradiction that $H$ decides $A_{\opera{TM}}$.
+	Consider $R$, which does the following on $w$:
+	\begin{enumerate}
+		\item Compute its own description $\vecn R$.
+		\item Feed $\vecn{R,w}$ into $H$ to see what happens.
+		\item $R$ does opposite of what $H$ says.
+	\end{enumerate}
+\end{proof}
+
+Indeed, you can do this in any (Turing-complete) language.
+In particular, there may be some computer viruses that compute their own code via the recursion theorem (this avoids things like having to know where the code is saved in disk).
+
+\begin{fact}*
+	The proof of G\"odel's Incompleteness Theorem constructs the following statement: ``This statement is unprovable." This statement must be true (otherwise your system is broken). However it needs to be self-referencial, and it uses the Recursion Theorem to do the self-referencing.
+\end{fact}

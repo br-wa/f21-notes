@@ -1,0 +1,69 @@
+\section*{Lecture 24: Editing the Genome II: Transgenesis (Gehring)}
+\setcounter{section}{24}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Last time we talked about how to introduce recombinant DNA into bacteria. But what about eukaryotes?
+
+\begin{defn}
+	\vocab{Transgenesis} is the process of introducing recombinant DNA into eukaryotic cells or organisms.
+\end{defn}
+
+\begin{exm}
+	[Methods of DNA Delivery]
+	Heat shock generally will not work here, so we use other ideas.
+	\begin{itemize}
+		\item Electroporation: Works best in insects, plants, yeasts, and mammalian cells.
+		\item Lipofection: Put the DNA in a lipid \vocab{endocyte}, which is then taken up by cells (the Pfizer/BioNTech and Moderna vaccines use RNA lipofection).
+		\item Biological Agents: Put the DNA in a virus or bacteria, which then infects cells (the Janssen and AZ vaccines use adenoviruses). \vocab{Agrobacteria} are used to do this in plant cells.
+		\item Injection: Stick the DNA in with a needle.
+		\item Particle Bombardment: Coat gold beads with DNA and shoot the cells.
+	\end{itemize}
+\end{exm}
+
+An issue is that we do not just want to get the virus into cells; instead, we want to actualy insert the DNA.
+
+\begin{exm}
+	[Methods of DNA Incorporation]
+	There are a few classes of methods; the first is that one randomly inserts DNA into the host genome. This can be accomplished by the following:
+	\begin{itemize}
+		\item (Retro)virus,
+		\item T-DNA (Transfer DNA), or
+		\item Transposons.
+	\end{itemize}	
+	However, these suffer from position effects, where we can get hard-to-predict behavior depending on where the DNA is inserted.
+	We can also use \vocab{targetted insertion}:
+	\begin{itemize}
+		\item CRISPR -- we will talk about this later.
+		\item Homologous recombination, e.g. for yeast: Add 40 base pairs of homologous DNA to each end of the inserted DNA, and it will get inserted at the region of the yeast DNA with the corresponding 40bp homologous sequences.
+	\end{itemize}
+	Finally, in some organisms (including \emph{C. elegans}) we can use \vocab{extrachromosomal arrays}, in which cells outside of a chromosome can still be passed down, so we do not need to completely incorporate the DNA at all. 
+\end{exm}
+
+\begin{exper}
+	[Reporter Transgenes]
+	If one is interested in when a gene is expressed and knows the regulation sequences, one can use GFP fused to the upstream regulation sequences.
+\end{exper}
+
+\begin{exper}
+	[Tagging Genes]
+	Using homologous recombination, one can add a GFP+His tag to the end of each open reading frame, which allows for fluorescent identification of where the protein is expressed or localized.
+\end{exper}
+
+\begin{exper}
+	[Mutant Rescue/Functional Complementation]
+	Suppose we have a fly mutant with the extra-wing (ew\tss-) mutant with 4 wings. This phenotype is recessive.
+	Mapping yields a 20kb region on Chromosome 1.
+	Looking at the genes in the region, we see 4 genes, with a nonsense, no SNPs, a missense, and a potential splicing defect, respectively.
+	
+	So which one is it? We can likely rule out the second gene, but then we can use a P-element transposon (a standard transposon flanked by invertible repeats on each end):
+	\begin{itemize}
+		\item Add two plasmids to the embryo: One \vocab{helper plasmid} containing the transposase, and a plasmid with the gene of interest flanked by invertible repeates.
+		\item The helper plasmid will get expressed, and the transposase will integrate the gene of interest into the genome.
+	\end{itemize}
+	Thus we can add genes to fly embryos! We find that adding the first or fourth genes yield flies that still have 4 wings, while inserting the third gene yields flies with only 2 wings. Thus inserting the thir gene caused \vocab{mutant rescue},
+	and thus we can say that the third gene is the ew gene.
+
+	Similarly, if the phenotype is dominant, we can add the mutant genes to wild type to see which gene causes the phenotype.
+\end{exper}	

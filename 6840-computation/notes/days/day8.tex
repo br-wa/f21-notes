@@ -1,0 +1,57 @@
+\section*{Lecture 8: Undecidability}
+\setcounter{section}{8}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Recall that $A_{\opera{TM}}$ is the set of pairs $\vecn{M,w}$ such that the Turing machine $M$ accepts $w$.
+
+\begin{thm}
+	$A_{\opera{TM}}$ is undecidable.
+\end{thm}
+
+\begin{proof}
+	Suppose $H$ is a decider, i.e. it accepts $\vecn{M,w}$ if and only if $M$ accepts $w$. 
+	Note that $H$ must halt.
+	We consider the following Turing machine $D$, which runs on input $\vecn M$:
+	\begin{enumerate}
+		\item Run $H$ on $\vecn{M, \vecn M}$. That is, does $M$ accept on its own description?
+		\item Accept if $H$ rejects, reject if $H$ accepts.
+	\end{enumerate}
+	Thus $D$ accepts $M$ if and only if $M$ does not accept itself. 
+	Now set $M = D$. Then, $D$ accepts $D$ if and only if $D$ does not accept itself, which is a contradiction.
+\end{proof}
+
+In fact, we can phrase this as \vocab{diagonalization}:
+
+\begin{proof}
+	[Proof by Diagonalization:]
+	Let $M_1$, $M_2$, \ldots be all the Turing machines. Note that there are only countably many of them.
+	Let $\vecn{M_1}, \ldots$ be the descriptions. Suppose we have a Turing machine $D$ such that $D$ accepts $\vecn{M_i}$ if and only if $M_i$ does not accept itself. 
+	Then, note that $H$ cannot be one of $M_1, \ldots$, so it must have been left out, contradiction.
+\end{proof}
+
+\begin{thm}
+	$B$ is decidable if and only if $B, \ol B$ are recognizable.
+\end{thm}
+
+\begin{proof}
+	For only if, note that if $B$ is decidable, then to recognize $B$ we can just run the decider, and to recognize $\ol B$ we can run the decider and accept if and only if the decider did not accept.
+	For if, let $R,S$ be the recognizers of $B, \ol B$. Have our machine $M$ run $R,S$ simultaneously; one of these will accept in finite time, and we accept if and only if $R$ was the one that accepted.
+\end{proof}
+
+\begin{thm}
+	[Halting Problem]
+	Let $\opera{HALT}_{\opera{TM}}$ be the language of pairs $\vecn{M,w}$ such that $M$ halds on $w$.
+	Then, $\opera{HALT}_{\opera{TM}}$ is undecidable.
+\end{thm}
+
+\begin{proof}
+	Take a decider $R$. Let $M$ be a Turing machine on input $\langle M, w\rangle$.
+	\begin{enumerate}
+		\item Run $R$ on $\vecn{M,w}$. If $R$ does not accept, then reject (since $M$ would have rejected $w$ by looping).
+		\item Else, $M$ halts on $w$, so just run $M$ on $w$.
+	\end{enumerate}
+\end{proof}
+
+

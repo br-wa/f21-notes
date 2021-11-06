@@ -1,0 +1,46 @@
+\section*{Lecture 12: Pre-Exam Discussion (Reddien)}
+\setcounter{section}{12}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+We return to our example from last time:
+
+\begin{exm}*
+	Suppose we have 1 recombinant and 3 non-recombinant. Then we hypothesize a recombinant frequency of $\Theta = 0.25$.
+	Then, \[
+		P\parens*{\text{data} | \text{linkage at }\Theta} = \parens*{\frac{1-\Theta}{2}}^3 \parens*{\frac{\Theta}2}^1,
+	\]
+	while $P\parens*{\text{data} | \text{unlinked}} = \parens*{\frac 14}^4$.
+\end{exm}
+
+\begin{fact}*
+	In general, \[
+		\text{LOD} = \text{\# NR} \log_{10}(2-2\Theta) + \text{\# R} \log_{10} (2\Theta).
+	\]
+\end{fact}
+
+Note that by maximation of cross-entropy, LOD is maximized at $\Theta = \frac{\text{\# R}}{\text{\# R} + \text{\# NR}}$.
+In that case, 
+
+\begin{fact}*
+	The maximal LOD score is \[
+		N\log 2 - N h(\Theta),
+	\]where $h(x) = -x\log x - (1-x) \log(1-x)$ is the binary entropy function.
+\end{fact}
+
+\begin{defn}
+	By convention, we use LOD at least 3 as the threshold for determining linkage.
+\end{defn}
+
+It is hard to get LOD 3, so usually we need to study multiple families in order to do this.
+
+\subsection{Unknown Phase}
+
+When we have some informative meioses with a parent with unknown phase, we can add it to the LOD score computation, where we assume the parent is equally likely to be in either phase.
+
+\begin{fact}
+	If a parent only contributes one informative meiosis and is of unknown phase, then it contributes $0$ to the LOD score. In particular, this means that it can be ignored.
+\end{fact}
+
+We will usually not use these unknown-phase parents to estimate our $\Theta$.

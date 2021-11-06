@@ -1,0 +1,89 @@
+\section*{Lecture 10: Computation History Method}
+\setcounter{section}{10}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+We will later study the PCP (Post-Correspondence Problem) from last time. But first we will study a different type of problem.
+
+\begin{defn}
+	A \vocab{linearly bounded automaton} (LBA) is a Turing machine where the tape is only big enough to write the input.
+\end{defn}
+
+\begin{fact}*
+	If $A_{\opera{LBA}}$ is the language consisting of $\vecn{B,w}$ where $B$ is a LBA that accepts $w$, then $A_{\opera{LBA}}$ is decidable.
+\end{fact}
+
+\begin{proof}
+	You can run the LBA on the input. If some (state, tape string, head position) is reached twice, then you reject (as this represents looping).
+\end{proof}
+
+\begin{defn}
+	The (state, tape string, head position) data is called a \vocab{configuration}.
+\end{defn}
+
+Thus we may rephrase the proof above as: If $N$ is the total number of configurations of the LBA $B$, just run for $N$ iterations.
+
+\begin{fact}*
+	$N\leq \abs{Q} \cdot \ell \cdot \abs{\Gamma}^\ell$, where $\ell$ is the input length.
+\end{fact}
+
+\begin{defn}
+	For a Turing machine $M$ on input $w$, a \vocab{computation history} is a sequence $C_1, C_2, \ldots, C_k$ that $M$ enters when processing $w$ until it halts.
+	Since a configuration (where $t_1$ is the stuff left of the head and $t_2$ is the stuff at and to the right of the head) can be written as $t_1qt_2$, where $q$ is the state, we then use this representation and in general write computation histories as $C_1\# \cdots \# C_k$.
+\end{defn}
+
+\begin{fact}*
+	If $E_{\opera{LBA}}$ is the language consisting of $\vecn B$ where $B$ is an LBA with nonempty language, then $E_{\opera{LBA}}$ is undecidable.
+\end{fact}
+
+\begin{proof}
+	We will reduce $A_{\opera{TM}}$ to $E_{\opera{LBA}}$. Suppose $R$ is a Turing machine deciding $E_{\opera{LBA}}$. Now we construct $S$ that decides $A_{\opera{TM}}$. Make $S$ do the following on input $\vecn{M,w}$:
+	\begin{enumerate}
+		\item Let $B_{M,w}$ be an LBA, where $B$ accepts $x$ if $x$ is an accepting computation history of for $M$ on $w$.
+		\item Now, just use $R$ to check if $B$'s language is empty (in which case there is no computation history).
+	\end{enumerate}	
+\end{proof}
+
+%this proof is so good
+
+\begin{defn}
+	Let PCP\tss1 denote the version of PCP where we have to start with $\begin{bmatrix} u_1 \\ v_1 \end{bmatrix}$.
+\end{defn}
+
+\begin{fact}*
+	PCP\tss1 can be reduced to PCP.
+\end{fact}
+
+\begin{thm}
+	PCP\tss1 is undecidable.
+\end{thm}
+
+\begin{proof}
+	We will reduce $A_{\opera{TM}}$ to PCP\tss1. Suppose $R$ is a Turing machine deciding PCP. We will create $S$ deciding $A_{\opera{TM}}$ that constructs the appropriate PCP problem.
+	$S$ does the following on input $\vecn{M,w}$:
+	\begin{enumerate}
+		\item Construct a PCP $P_{M,w}$ where a PCP match corresponds to an accepting computation history for $M$ on $w$.
+		\item Test using $R$. If there is a match, accept. Else, reject.
+	\end{enumerate}
+	So how do we construct the PCP?
+	We do the following: \[
+		\begin{bmatrix} u_1 \\ v_1 \end{bmatrix} = \begin{bmatrix} \# \\ \# q_0 w_1 \cdots w_n \# \end{bmatrix},
+	\]
+	then furthermore if $\delta(q,a) = (r, b, R)$, then add \[
+		\begin{bmatrix} 
+			qa \\ br
+		\end{bmatrix}.
+	\]
+	To complete the configuration, for each $a\in \Gamma$ we also need to add $\begin{bmatrix} a \\ a \end{bmatrix}$.
+	Similarly, if $\delta(q,a) = (r, b, L)$ and $g\in \Gamma$, add \[
+		\begin{bmatrix}
+			gqa \\ rgb
+		\end{bmatrix}.
+	\]
+	Finally, for each $a\in \Gamma$, add \[
+		\begin{bmatrix} q_{acc}a \\ q_{acc} \end{bmatrix}, 
+		\begin{bmatrix} aq_{acc} \\ q_{acc} \end{bmatrix},
+		\begin{bmatrix} q_{acc}\#\# \\ \# \end{bmatrix}.
+	\]
+\end{proof}

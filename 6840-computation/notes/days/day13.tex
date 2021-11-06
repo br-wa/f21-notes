@@ -1,0 +1,50 @@
+\section*{Lecture 13: Polynomial-Time Reducibility}
+\setcounter{section}{13}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{defn}
+	A \vocab{boolean formula} $\gan$ is \vocab{satisfiable} if $\gan$ evaluates to TRUE for some \vocab{assignment} of variables.
+	Let SAT be the \vocab{booelean satisfiability problem}, which is the language of $\vecn\gan$ such that $\gan$ is satisfiable.
+\end{defn}
+
+\begin{fact}*
+	SAT is in NP.
+\end{fact}
+
+\begin{thm}
+	[Cook-Levin, 1971]
+	SAT is in P if and only if P = NP.
+\end{thm}
+
+We will not prove this today.
+
+\begin{defn}
+	We say $A$ is \vocab{polynomial time reducible to} $B$ (i.e. $A\leq_P B$) if $A$ is mapping reducible by some polynomial time TM.
+\end{defn}
+
+Note that we have not defined boolean formulas yet. We do so now:
+
+\begin{defn}
+	Define a \vocab{literal} to be a variable $a$ or a negated variable $\ol a$.
+	A \vocab{clause} is the OR of some literals.
+	A boolean formula is in \vocab{conjunctive normal form (cnf)} if it is written as the AND of some clauses.
+\end{defn}
+
+\begin{defn}*
+	A boolean formula is a \vocab{3cnf} if it is written as the AND of clauses, which each only have 3 literals. \vocab{3SAT} is the SAT problem but specifically on boolean formulas written as 3cnfs.
+\end{defn}
+
+\begin{thm}
+	3SAT is polynomial time reducible to CLIQUE, the problem of $\vecn{G,k}$ for graphs $G$ with $k$-cliques.
+\end{thm}
+
+\begin{proof}
+	The nodes will be each variable in each clause, where we note that a given literal can appear as a node multiple times. We will then connect all pairs, \emph{except} the following:
+	\begin{itemize}
+		\item If two nodes are in the same clause, do not connect them.
+		\item If two nodes represent literals that are complements of each other, do not connect them.
+	\end{itemize}
+	Now if $\gan$ has $k$ clauses, ask for a $k$-clique. Indeed, satisfying assignments correspond exactly with $k$-cliques.
+\end{proof}

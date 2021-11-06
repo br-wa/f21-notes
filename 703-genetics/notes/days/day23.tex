@@ -1,0 +1,78 @@
+\section*{Lecture 23: Editing the Genome I: Recombinant DNA (Gehring)}
+\setcounter{section}{23}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{defn}
+	\vocab{Recombinant DNA} is the combination of DNA from different sources.
+\end{defn}
+
+\begin{fact}
+	[History of Recombinant DNA]
+	\begin{itemize}
+		\item[1972] First recombinant DNA molecules made (viral gene cloned into bacteria).
+		\item[1974] Scientists call for moratorium of recombinant DNA research, ask NIH for guidelines.
+		\item[1975] Asilomar conference on safe use of recombinant DNA; NIH guidelines issued.
+		\item[1976] Cambridge institutes moratorium on recombinant DNA experiments.
+		\item[1977] Cambridge recombinant DNA moratorium lifted, Cambridge Recombinant DNA Technology Ordinance passed.
+		\item[1982] Humulin (recombinant insulin) comes to market.
+		\item[1990] Rennin (first recombinant food ingredient) comes to market.
+	\end{itemize}
+\end{fact}
+
+\begin{defn}
+	[Recombinant RNA Toolbox]
+	Recombinant RNA uses the following:
+	\begin{itemize}
+		\item A \vocab{ligase} joins strands of DNA.
+		\item A \vocab{DNA polymerase} copies DNA.
+		\item A \vocab{reverse transcriptase} copies RNA into DNA.
+		\item A \vocab{restriction endonuclease} cuts DNA at a specific 4-8 base pair \vocab{recognition site}.
+		\item An \vocab{exonuclease} chews DNA from one end.
+	\end{itemize}
+\end{defn}
+
+\begin{defn}
+	We will often make recombinant DNA in circular plasmid, which usually starts off with the following:
+	\begin{itemize}
+		\item An \vocab{origin of replication (ori)}.
+		\item A \vocab{cloning site}, where DNA can be added.
+		\item A \vocab{selectable marker}, usually ampR (ampicillin resistance) which can allow for screens for bacteria with the plasmid.
+	\end{itemize}
+	We will add this to \vocab{competent} bacteria, which can take up plasmids.
+\end{defn}
+
+\begin{exper}
+	[Recombinant DNA]
+	The following procedure transforms bacteria with plasmids containing a desired gene:
+	\begin{enumerate}
+		\item Cut the plasmid and add the new DNA, and use a ligase to fuse everything together.
+		\item Transform competent bacteria via electric pulse, heat shock, or transduction.
+		\item Screen for bacteria that have taken up the plasmid (e.g. grow on ampR).
+	\end{enumerate}
+\end{exper}
+
+\begin{exper}
+	Suppose one has the \emph{rennet} gene from cows, and we want to express it in a bacteria.
+	One thing we can do is just buy some synthetic DNA.
+	But we can also do the following:
+	\begin{enumerate}
+		\item Isolate cow RNA (from a tissue with high rennet expression) and use a TTTT primer and reverse transcriptase to make a cDNA library of all present RNA.
+		\item Use PCR to amplify only the rennet DNA.
+		\item Remove the primers and replace them with the same primers with EcoRI tags, so that the rennet DNA now has EcoRI tags on the ends.
+		\item Use EcoRI to cut the plasmid, and fuse. 
+	\end{enumerate}
+\end{exper}
+
+We can speed this up a bit:
+
+\begin{exper}
+	[Gibson Cloning]
+	In \vocab{Gibson cloning}, one starts off with strands $S_1,\ldots, S_k$ such that $(S_i, S_{i+1})$ have \emph{sequence homology}, i.e. the ends of $S_i$ and $S_{i+1}$ match up. Then, we can use some exonuclease to chew off the 5' ends of every strand, which then allows for annealing.
+\end{exper}
+
+\begin{exper}
+	[Golden Gate Cloning]
+	In \vocab{Golden Gate cloning}, one uses a \vocab{Type II restriction enzyme}, which cuts after the recognition site (as opposed to during the restriction site), which creates controllable overhangs. Thus, by manipulating the overhangs one can combine a bunch of genes in order.  
+\end{exper}
