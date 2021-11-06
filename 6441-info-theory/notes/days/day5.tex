@@ -1,0 +1,208 @@
+\section*{Lecture 5: Iterative Algorithms, Tensors, and Fano's Inequality}
+\setcounter{section}{5}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+Recall from last time that we claimed the following:
+
+\begin{thm}*
+	[Capacity is a Saddle Point]
+	Say $P_X^*$ is a caid (over $P_X\in \Pi$) and $P_Y^*$ its corresponding caod. 
+	Then, for all $_X\in \Pi$, and $P_Y$ on $\mathcal Y$, \[
+		D(P_{Y|X} \Vert P_Y^*|P_X) \leq C \leq D(P_{Y|X} \Vert Q_Y|P_X^*).
+	\]
+\end{thm}
+
+Now we will prove this:
+
+\begin{proof}
+	For the upper bound, write \[
+		C = I(P_X^*; P_{Y|X}) = \min_{Q_Y} D(P{Y|X} \Vert Q_Y|P_X^*).
+	\]
+	The lower bound is obvious if $C = \infty$, so now assume $C$ is finite.
+	Now, for any $P_X\in \Pi$, let $P_{X_\lambda} = \ol \lambda \P_X^* + \lambda P_X$, which is also in $\Pi$ since $\Pi$ is convex. Then, \[
+		C\geq I(X_\lambda; Y_\lambda) = \ol \lambda D(P_{Y|X} \Vert P_{Y_\lambda} |P _X^*) + \lambda D(P_{Y|X} \Vert P_{Y_\lambda} | P_X) \geq \ol \lambda C + \lambda D(P_{Y|X} \Vert P_{Y_\lambda} | P_X),
+	\]so then we rearrange to get: \[
+		C \geq D(P_{Y|X} \Vert P_{Y_\lambda} | P_X).
+	\]
+	Now, note that \[
+		C \geq \liminf_{\lambda \to 0} D(P_{Y|X}\Vert P_{Y_\lambda} | P_X) \geq D(P_{Y|X} \Vert P_Y^*|P_X),
+	\]by lower semi-continuity.
+\end{proof}
+
+The Minimax corollary follows by ``logic" (in particular, it is true whenever we have a saddle point).
+
+\begin{cor}*
+	[Caods are Unique]
+	Say $I(P_X,P_{Y|X}) = C$. Then, $P_Y = P_Y^*$.
+\end{cor}
+
+\begin{proof}
+	Write: \[
+		C = D(P_{Y|X} \Vert P_Y | P_X) = D(P_{Y|X} \Vert P_Y^* | P_X) - D(P_Y \Vert P_Y^*) \leq C - D(P_Y\Vert P_Y^*) \leq C,
+	\]
+	which forces $D(P_Y \Vert P_Y^*) = 0$, i.e. $P_Y = P_Y^*$.
+\end{proof}
+
+Finally, the Information Radius corollary follows from the minimax.
+
+\subsection{Iterative Algorithms}
+
+\begin{que}
+	Here are some problems we are interested in:
+	\begin{itemize}
+		\item ($I$-projection/Variational Inference) Minimize $D(P\Vert Q)$ over $P\in \Pi$.
+		\item (Maximum Likelihood Estimation) Minimize $D(P\Vert Q)$ over $Q\in \Pi$.
+		\item (Capacity/Learnability) Maximize $I(P_X, P_{Y|X})$ over $P_X\in \Pi$.
+		\item (Rate-Distortion) Minimize $I(P_X,P_{Y|X}) + \mathbb E d(X,Y)$ over $P_{Y|X}\in \Pi$.
+	\end{itemize}
+\end{que}
+
+We now discuss some of these problems. There will be no proofs; this section is just to show how we can solve a lot of these common problems. 
+First, we invoke the following:
+
+\begin{fact}*
+	We have: \[
+		\min_{\textnormal{all }P} D(P\Vert Q) + \mathbb E_P f.
+	\]
+	is attained by \[
+		\frac{\d P}{\d Q} = \frac{\exp f}{z},
+	\]
+	where $z = \mathbb E_Q \exp f$.
+\end{fact}
+
+Now we proceed. The general idea is that if we want to maximize $C = \max\limits_x f(x)$, and we can write $f(x) = \max\limits_y F(x,y)$.  
+Suppose we also have solvers \[
+	X^*(y) = \operatorname{argmax}\limits_x F(x,y), Y^*(x) = \operatorname{argmax}\limits_y F(x,y).
+\]
+Then we have the following algorithm:
+
+\begin{enumerate}
+	\item Start with $(x_0, y_0)$.
+	\item For $n = 1, 2, \ldots$, do:
+		\begin{enumerate}
+			\item $x_n = X^*(y_{n-1})$,
+			\item $y_n = Y^*(x_n)$.
+		\end{enumerate}
+\end{enumerate}
+
+This clearly monotonically increases $F(x_n, y_n)$.
+
+\begin{defn}*
+	The above algorithm is called \vocab{expectation maximization}.
+\end{defn}
+
+\begin{fact}*
+	We have: \[
+		I(X;Y) = \max_{V_{X|Y}} \mathbb E_{P_{XY}} \log \frac{V_{X|Y}}{P_X}.
+	\]
+\end{fact}
+
+\begin{proof}
+	Write \[
+		I = \mathbb E \frac{P_{X|Y}}{P_X} \cdot \frac{V_{X|Y}}{V_{X|Y}} = \mathbb E\log \frac{V_{X|Y}}{P_X} + D(P_{X|Y} \Vert V_{X|Y} |P_X) \geq \mathbb E\log \frac{V_{X|Y}}{P_X},
+	\]
+	with equality at $V_{X|Y} = P_{X|Y}$.
+\end{proof}
+
+\begin{cor}*
+	[Blahut-Arimoto Algorithm]
+	Start with any initial $P_X, V_{Y|X}$. Alternately update:
+	\begin{itemize}
+		\item $P_X = \frac 1z e^{f(x)}$, where $f(x) = \sum_y P_{Y|X} (y|x) \log V_{X|Y} (x|y)$, and
+		\item Set $V_{X|Y} = P_{X|Y}$, where we compute by Bayes's rule. 
+	\end{itemize}
+\end{cor}
+
+\begin{proof}
+	Write \[
+		C = \max_{P_X} I(P_X,P_{Y|X}) = \max_{P_X} \max_{V_{X|Y}} \mathbb E_{P_{XY}} \log \frac{V_{X|Y}}{P_X},
+	\]
+	and use expectation maximization.
+\end{proof}
+
+Now, the real work here is:
+
+\begin{thm}
+	Let $P_n$ be the $n$th iteration of $P_X$. Then, note that \[
+		I(P_n,P_{Y|X}) \leq C \leq \sup_{x\in \mathcal X} D(P_{Y|X=x} \Vert P_{Y_n}).
+	\]
+	Furthermore, \[
+		\sup_{x\in \mathcal X} D(P_{Y|X=x} \Vert P_{Y_n}) - I(P_n, P_{Y|X}) \searrow 0,
+	\]
+	and $P_{Y_n} \to P_Y^*$ (where we use KL divergence as the distance measure).
+\end{thm}
+
+In particular, Blahut-Arimoto gives a converging algorithm for estimating capacity.
+
+\begin{cor}*
+	[Rate-Distortion with Expectation Maximization]
+	Write \[
+		\min_{P_{Y|X}} I(X;Y) + \mathbb E d(X,Y) = \min_{P_{Y|X}} \min_{Q_Y} D(P_{Y|X} \Vert Q_Y | P_X) + \mathbb E d(X,Y).
+	\]
+\end{cor}
+
+\begin{cor}*
+	[MLE with Expectation Maximization]
+	Suppose $\Pi$ is the convex hull of $Q_{X|Y=y}$ for $y\in\mathcal Y$.
+	Write \[
+		\min_{Q_X\in \Pi} D(P_X\Vert Q_X) = \min_{Q_Y} D(P_X\Vert Q_{X|Y}Q_Y) = \min_{Q_Y} \min_{P_{Y|X}} D(P_{XY} \Vert Q_Y Q_{X|Y}).
+	\]
+\end{cor}
+
+However, in fact, if one takes $d(x,y) = \log \frac{Q_{X|Y} (x|y)}{P_X(x)}$, we reduce MLE to Rate Distortion. 
+
+\begin{cor}*
+	[Sinkhorn Algorithm]
+	We are also interested in the following:
+	\[
+		\min_{P_{XY}} D(P_{XY}\Vert Q_{XY})
+	\]
+	subject to $P_X = V_X, P_Y = Q_Y$. This can be done with expectation maximization.
+\end{cor}
+
+\subsection{Tensorization}
+
+\begin{thm}
+	We have the following:
+	\begin{itemize}
+		\item If $P_{Y^n|X^n} = P_{Y_1|X_1} \cdots P_{Y_n|X_n}$ (i.e. the channels are independent), then \[
+				I(X^n;Y^n) \leq \sum_{i=1}^n I(X_i; Y_i).
+			\]
+		\item If $P_{X^n} = P_{X_1}\cdots P_{X_n}$ (i.e. the inputs are independent), then \[
+				I(X^n;Y) \geq \sum_{i=1}^n I(X_i; Y).
+			\]
+	\end{itemize}	
+	In particular, equality holds when both are independent.
+\end{thm}
+
+\begin{cor}
+	[Tensorization]
+	We have \[
+		\sup_{P_{X^n}} I(X^n; Y^n) = \sum_{i=1}^n C(P_{Y_i | X_i}),
+	\]
+	if the channels are all independent, and $P$ is on $\mathcal X^n$ for some finite $n$. 
+\end{cor}
+
+\begin{proof}
+	[Proof of First Claim:]
+	For the first part, write: \begin{align*}
+		I(X^n;Y^n) - \sum_{i=1}^n I(X_i; Y_i) &= \mathbb E \log \frac{P_{Y^n|X^n}}{P_{Y^n}} - \log \frac{P_{Y_1|X_1}}{P_{Y_1}} - \cdots - \log \frac{P_{Y_n | X_n}}{P_{Y_n}} \\
+		&= \mathbb E \log \frac{P_{Y_1} \cdots P_{Y_n}}{P_{Y^n}} \\
+		&= -D(P_{Y^n} \Vert \Pi P_{Y_i}).
+	\end{align*}
+\end{proof}
+
+\begin{defn}*
+	The quantity $D(P_{Y^n}\Vert \prod P_{Y_i})$ is called \vocab{total correlation}.
+\end{defn}
+
+\subsection{Fano's Inequality}
+
+\begin{thm}
+	Suppose $X\to Y\to \hat X$ is a Markov chain. Then, \[
+		H(X|Y) \leq F_M(\mathbb P[\hat X = X]),
+	\]
+	where $M = \abs \chi$, and $F_M(\lambda) = h(\lambda) + (1-\lambda) \log (M-1)$.
+\end{thm}

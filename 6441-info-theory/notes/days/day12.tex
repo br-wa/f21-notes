@@ -1,0 +1,113 @@
+\section*{Lecture 12: Hypothesis Testing}
+\setcounter{section}{12}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{lem}
+	[Kac]
+	For any stationary ergodic process $X_{-\infty}, \ldots, X_\infty$, let $L_S$ be the largest $i < 0$ such that $X_i, \ldots, X_{i+|S|-1} = S$. Then, \[
+		\mathbb E\sqrb*{L_{(X_0, \ldots, X_r)} | X_0, \ldots, X_r} = \frac{1}{\PP[X_0, \ldots, X_r]}.
+	\]
+\end{lem}
+
+\begin{thm}
+	[Lempel-Ziv] 
+	Given a stationary ergodic process with some memory, we can transmit blocks $X_0, \ldots, X_r$ by $L_{(X_0, \ldots, X_r)}$. 
+	Then, the compression rate converges to $\mathcal H$ as $r\to \infty$.
+\end{thm}
+
+\subsection{Online Learning}
+
+Suppose we have a $X_1, \ldots, X_{t-1}$ as observed states, and our predictor outputs a prediction $\hat P_t$ as the distribution $X_t$.
+We do cross-entropy loss, i.e. loss is $\EE\sqrb*{-\log \hat P_t}$.
+
+Now observe that our distribution is just a conditional, which means our predictor automatically has a bunch of distributions $\hat P_t(X_t | X_1^{t-1})$.
+By factoring these together, we can get \[
+	Q_{X^n} = \hat P_1(x_1) \hat P_2(x_2|x_1) \cdots \hat P_n(X_n|X^{n-1}).
+\]
+\begin{fact}
+	Online algorithms correspond to predictors, which correspond to compressors.
+\end{fact}
+Suppose now that the goal is to minimize the total loss. This equals \[
+	\sup_{P\in \Pi} \EE \sqrb*{\sum_{t=1}^n - \log \hat P_t(x_t)}.
+\]
+This is very hard, since e.g. if $P$ is just Bernoulli, the predictor cannot do anything.
+So now we consider trying to minimize \[
+	\sup_{P\in \Pi} \EE\sqrb*{\sum_{t=1}^n -\log \hat P_t(x_t) - H(X^n)}.
+\]
+\begin{defn}
+	In machine learning, $H(X^n)$ is \vocab{oracle loss}, and the loss above is \vocab{regret}.
+\end{defn}
+Of course, now we note that we just want to minimize \[
+	\sup_{P\in \Pi} \EE_{X^n \sim P} \sqrb*{\log \frac{P_{X^n}(x^n)}{\hat P_{X^n}(x^n)}}.
+\]
+Thus we conclude:
+\begin{fact}
+	Minimal regret under log-loss is just redundancy (which is just capacity). Furthermore, the optimal learner is just the optimal universal compressor.
+\end{fact}
+
+\subsection{Binary Hypothesis Testing}
+
+Suppose we have two hypotheses: $X\sim P$ and $X\sim Q$. Our output will be a distribution on some space $P_{Z|X}$ for some $Z\in \set{0,1}$.
+Then, \[
+	\alpha = \PP[Z=0] = \sum_x P(x) P_{Z|X}(0|x), \beta = \QQ[Z=0] = \sum_x Q(x) P_{Z|X}(0|x).
+\]
+\begin{defn}
+	Let $\mathcal R(P,Q)$ be the set of $(\alpha, \beta)$ over all $P_{Z|X}$. Define $\beta_\alpha(P,Q) = \inf (\QQ[Z=0] \colon P[Z=0] \geq \alpha)$.
+\end{defn}
+
+\begin{fact}
+	$\mathcal R(P,Q)$ is a closed, convex subset of $[0,1]^2$, symmetric around $(0.5, 0.5)$. Furthermore, $\mathcal R(P,Q)$ is the convex closure of $\mathcal R_{\opera{det}}(P,Q)$, where $\mathcal R_{\opera{det}}(P,Q)$ is the set of $(\alpha, \beta)$ achievable via deterministic $P_{Z|X}$, i.e. the space of all $(P[E], Q[E])$.
+\end{fact}
+
+\begin{thm}
+	$F(x) = \log \frac{\d P}{\d Q}$ is a sufficient statistic for testing $P$ vs $Q$.
+\end{thm}
+
+\begin{proof}
+	[Sketch:] This is just Fisher's factorization.
+\end{proof}
+
+We are now interested in computing all \[
+	\sup_{(\alpha, \beta)} \alpha - t \beta = \sup_{P_{Z|X}} \sum_x P_{Z|X}(0|x) (p(x) - tq(x)).
+\]
+This is precisely $\sum_x \parens*{p(x) - tq(x)}_+$, which is maximized by \[
+	P^*_{Z|X}(0|x) = \begin{cases} 1 & \frac{\d P}{\d Q} \geq t \\ 0 & \text{otherwise} \end{cases}.
+\]
+This shows the following:
+
+\begin{thm}
+	[Negman-Pearson Lemma]
+	For all $\alpha\in [0,1]$, the optiaml values $\beta_\alpha(P,Q)$ is achieved by some \[
+		P_{Z|X} (0|x) = \begin{cases} 1 & \frac{\d P}{\d Q} > t \\ \lambda & \frac{\d P}{\d Q} = t \\ 0 & \frac{\d P}{\d Q} < t\end{cases}.
+	\]
+\end{thm}
+
+\begin{cor}*
+	For all $t > 0$, if \[
+		\PP\sqrb*{\frac{\d P}{\d Q} > t} \geq \alpha,
+	\]
+	then \[
+		\beta_\alpha(P,Q) \leq \frac 1t.
+	\]
+\end{cor}
+
+\begin{proof}
+	Just note that if $S$ is the set of $x$ where $\frac{\d P}{\d Q} > t$, \[
+		t\QQ[S] = \int_S t\d Q < \int_S \frac{\d P}{\d Q} \d Q = \int_S \d P \leq 1.
+	\]
+\end{proof}
+
+For an application, say our hypotheses are $X\sim P^{\tenp n}$ and $Y\sim Q^{\tenp n}$. For any $\gamma < D(P\Vert Q)$, we can consider the test for $t = e^{n\gamma}$.
+Note that (as a function of $n$), \[
+	\PP\sqrb*{\frac{\d P^{\tenp n}}{\d Q^{\tenp n}} > e^{n\gamma}} \to 1,
+\]
+so we get:
+
+\begin{thm}
+	For any $\alpha \in (0,1)$, \[
+		\beta_\alpha(P^n, Q^n) < e^{-nD(P\Vert Q) + o(n)},
+	\]
+	where the convergence of the $o(n)$ term depends on (and is not uniform in) $\alpha$.
+\end{thm}

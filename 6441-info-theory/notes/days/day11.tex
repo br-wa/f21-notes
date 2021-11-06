@@ -1,0 +1,120 @@
+\section*{Lecture 11: Universal Compression}
+\setcounter{section}{11}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\subsection{Fitingof Constructions}
+
+The general principle is as follows: We can only compress when there is some sort of structure, which we can define as equivalence relations between strings. Then, we ask that the distribution be constant on equivalence classes.
+We can do the following:
+
+\begin{exm}
+	Define the \vocab{composition} of a string by $\hat P_{X^n}(a) = \frac 1n \abs{\set{j\colon x_j= a}}$, i.e. the distribution of letter frequencies. 
+	We define the equivalence classes by strings with the same composition. 
+
+	For the equivalence class of $x^n$ with $n_1$ $1$'s, \ldots, $n_k$ $k$'s. Define $Q_{X^n}(x^n) = \frac{1}{C_{k,n}\binom{n}{n_1,\ldots, n_k}}$. 
+	Then, suppose we compress according to $Q$.
+
+	Now, say $X_i\sim P$ iid for some true distribution $P$, then our expected distribution is: \[
+		\EE_P \log \frac{1}{Q_{X^n}(x^n)} = \EE_P \log C_{k,n} + \log \binom{n}{n_1, \ldots, n_k} = \EE_P nH(\hat P) + O(\log n).
+	\]
+	It turns out that this just equals $nH(P) + O(\log n)$.
+\end{exm}
+
+The issue here is that most interesting things are not iid. 
+
+\begin{exm}
+	We can define equivalence classes on Markov chains by things with the same digram statistics. It turns out that this achieves $nH(X_2|X_1) + O(\log n)$, which is pretty good.
+\end{exm}
+
+\begin{thm}
+	[Fitingof's Compressor]
+	For a general process we do the original compressor as $Q^{(0)}$, a order $1$ Markov chain (which gives distribution $Q^{(1)}$), and so forth. Then, we just select whichever compressor gives the shortest compression.
+	Then, \[
+		\frac 1n \EE \ell (f(X^n)) \to \mathcal H,
+	\]
+	where $\mathcal H$ is the entropy rate.
+\end{thm}
+
+Note that in order to implement Fitingof, we need to factorize the distribution. This is pretty hard for Markov chains, but for the iid case we get: 
+
+\begin{fact}*
+	If $N$ is the number of occurences of $x_t$ in the multiset $\set{x_1,\ldots, x_{t-1}}$. Then, \[
+		Q_{x_t|x_1^{t-1}}^{(0)} = \frac{N+1}{t+k-1}.
+	\]
+\end{fact}
+
+\subsection{Redundancy}
+
+\begin{defn}
+	For a class of random processes $\set{P_{X^n|\theta}\colon \theta\in \Theta}$. Define the \vocab{redundancy} of a compressor $f$ (with corresponding distribution $Q_{X^n}$) by \[
+		\opera{Red}_n(f, \Theta) = \sup_{\theta_0\in \Theta} \EE_{x^n\sim P_{X^n|\theta = \theta_0}} \sqrb*{\log_2 \frac{1}{Q_{X^n}(x^n)}} - H(P_{X^n|\theta = \theta_0}).
+	\]
+\end{defn}
+
+\begin{cor}
+	If $P_{X^n|\theta}$ is the set of all iid sources on $X = [k]$, then Fitingof's compressor achieves \[
+		\opera{Red}_n(f,\Theta) \leq (k-1)\log n + O(1)
+	\]
+\end{cor}
+
+\begin{defn}
+	Define the \vocab{optimal redundancy} $\opera{Red}_n^* (\Theta) = \inf\limits_f \opera{Red}_n (f,\Theta)$.
+\end{defn}
+
+\begin{thm}
+	[Redundancy is Channel Capacity]
+	In fact, if the supremum is finite, \[
+		\opera{Red}_n^*(\Theta) = \sup_{\text{priors on } X^n} I(\Theta; X^n),
+	\]
+	where we use $\log_2$ in the definition of information. Furthermore, the optimal compressor is the caod.
+\end{thm}
+
+\begin{proof}
+	Note that \[
+		\opera{Red}^* = \inf_{Q_{X^n}} \sup_{\theta_0} \EE_{x^n\sim P_{X^n|\theta = \theta_0}}\sqrb*{\log \frac{P_{X^n|\theta=\theta_0}}{Q_{X^n}}} = \inf_{Q_{X^n}} \sup_{\theta_0} D(P_{X^n|\theta=\theta_0} \Vert Q_{X^n}).
+	\]
+	Now, this is precisely capacity by ``capacity as information radius."
+\end{proof}
+
+\begin{exm}
+	Let $\mathcal X = \set{0,1}$, and let $P_{X^n|\theta}$ be some family such that each $X_i$ is iid $\opera{Bern}(\theta)$. We know (from the problem set) that \[
+		C_n = \sup_{\pi_\theta} I(\theta; X^n) = \frac 12 \log n + O(1).
+	\]
+	Note that \[
+		Q_{X^n}(x^n) = \int \pi(\theta) \PP\parens*{\opera{Bern}^n(\theta) = x^n} \d \theta = \int \pi(\theta) e^{-nH(\hat P)} e^{-nD(\hat P \Vert P_\theta)} \d \theta.
+	\]
+	We can pull this out and get: \[
+		Q_{X^n}(x^n) = e^{-nH(hat P)} \int \pi(\theta) e^{-n D(\hat P \Vert P_\theta)} \d \theta.
+	\]
+	Now we can use \emph{saddle point integration} to get \[
+		Q_{X^n}(x^n) = e^{-n H(\hat P)} \pi(\hat\theta) \sqrt{\frac{\tau}{n \frac{\partial ^2}{\partial \theta^2} |_{\theta = \hat \theta} D(\hat P \Vert P_\theta)}},
+	\]
+	where $\hat\theta$ is the MLE distribution. But $\hat P$ is Bernoulli, and in fact it is precisely $\opera{Bern}(\hat \theta)$.
+	Thus, \[
+		Q_{X^n}(x^n) = e^{-nH(\hat P)} \pi(\theta) \sqrt{\frac{\tau}{nJ_F(\hat\theta)}},
+	\]
+	where $J_F(\hat\theta)$ is the Fisher information. When $n$ is large $\hat \theta \to \theta_0$ almost surely, so \[
+		Q_{X^n}(x^n) \to e^{-nh(\theta_0)} \pi(\theta_0)  \sqrt{\frac{\tau}{nJ_F(\theta_0}} (1 + o(1)).
+	\]
+	If we write out the divergence term, this is in fact \[
+		\frac 12 \log n - \log \frac{\pi(\theta_0)}{\sqrt{J_F(\theta_0)}} + \frac 12 \log \frac{\tau}{e} + o(1).
+	\]
+	Now we try to minimize this.
+	This occurs at \[
+		\pi^*(\theta_0) = c\sqrt{J_F(\theta_0)}.
+	\]
+\end{exm}
+
+We can say more:
+
+\begin{thm}
+	For smooth parametric families $X_i$ iid from $P_\theta$ for $d$-dimensional $\theta$, the optimal redundancy is \[
+		\opera{Red}_n^* = \frac d2 \log \frac{n}{2\pi e} + \int_\Theta \sqrt{\det J_F(\theta)} \d \theta + o(1).
+	\]
+	This is achieved by $Q_{X^n}$, which is a mixture of $P_\theta^{\tenp n}$ with \vocab{Jeffreys's prior}: \[
+		\pi^*(\theta) = c^{-1}\sqrt{\det J_F(\theta)}, c = \int_\Theta \sqrt{\det J_F(\theta)} \d\theta.
+	\]
+\end{thm}
+

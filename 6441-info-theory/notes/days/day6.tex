@@ -1,0 +1,253 @@
+\section*{Lecture 6: Fano's Inequality, $f$-Divergences}
+\setcounter{section}{6}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\subsection{Fano's Inequality}
+
+There are some interesting historical notes here. 
+Firstly, Bob Fano worked at MIT and taught the first ever information theory class in the 50s, and founded CSAIL.
+Secondly, Claude Shannon was apparently very embarassed about never discovering the inequality, and thus never used it.
+
+Fano's inequality deals with the following issue: Suppose $X$ is a discrete random variable. We want a predictor $\hat X$ that maximizes $\mathbb P[X = \hat X]$.
+Suppose we know $P_X$ but we have no observations. 
+Then, the best we can do is just to always predict $x$ such that $x$ maximizes $P_X(x)$.
+Thus, 
+
+\begin{fact}*
+	Given no observations, 
+	\[
+		\max\limits_{\hat X} \mathbb P[X = \hat X] = P_{\text{max}}.
+	\]
+\end{fact}
+
+\begin{defn}*
+	Let $H_\infty(X) = \log \frac 1{P_{\textnormal{max}}}$.
+\end{defn}
+
+Now, let us consider something else. Let $P_{X,\hat X} = P_XP_{\hat X}$ be the product distribution, and let $Q_{X, \hat X} = U_X P_{\hat X}$ be the product of $P_{\hat X}$ and the uniform distribution.
+Then, \[
+	D(P_{X,\hat X}\Vert Q_{X,\hat X}) \geq D(P_A \Vert Q_A) = d(P_S \Vert Q_S),
+\]
+where $A = 1_{X = \hat X}$.
+On the other hand, $P_S \leq P_{\text{max}}$, and $Q_S = \frac 1{\abs{\mathcal X}}$, so if $M = \abs{\mathcal X}$,\[
+	D(P_XP_{\hat X} \Vert U_XP_{\hat X}) \geq P_S \log MP_S + \ol{P_S} \log \frac{MP_S}{M-1} = -h(P_S) + \log M - \ol{P_S} \log (M-1).
+\]
+Now, \[
+	D(P_XP_{\hat X} \Vert U_X P_{\hat X}) = D(P_X \Vert U_X) = \log M - H(X),
+\]
+so \[
+	H(X) \leq h(P_S) + (1-P_S) \log (M-1).
+\]
+It follows that: 
+
+\begin{fact}
+	For $X$ discrete and $\hat X \ind X$, \[
+		H(X) \leq F_M(P[X = \hat X]),
+	\]
+	where $F_M(P_S) = h(P_S) + (1-P_S) \log (M-1)$ is a concave function maximized that $\log M$.
+\end{fact}	
+
+Applying this to constant estimator $\hat X$, we get:
+
+\begin{cor}
+	In general, \[
+		H(X) \leq F_M(P_{\textnormal{max}}).
+	\]
+\end{cor}
+
+Now we arrive at Fano's Inequality:
+
+\begin{thm}
+	[Fano's Inequality]
+	For $X,Y$ discrete, we have: \[
+		I(X;Y) \geq \mathbb P[X = Y] \log \frac{1}{P_{\textnormal{max}}} - h(\mathbb P[X= Y]).
+	\]
+\end{thm}
+
+\begin{proof}
+	Let $P = P_{XY}$ and let $Q = P_XP_Y$ be the product distribution, and define $A$ as before. 
+	By Data Processing, \[
+		D(P\Vert Q) = d(P_S\Vert Q_S),
+	\]
+	where $P_S = \mathbb P[X = Y]$, and $Q_S$ is the probability of $X=Y$ in the product distribution.
+	Then, \[
+		d(P_S\Vert Q_S) = -h(P_S) - P_S\log Q_S - (1-P_S) \log (1-Q_S) \geq -h(P_S) - P_S\log Q_S \geq - h(P_S) - P_S \log P_{\textnormal{max}},
+	\]
+	which completes the proof.
+\end{proof}
+
+\begin{cor}
+	Suppose we have a Markov chain $W\to X\to Y\to \hat W$, where $W$ is uniform on $[M]$. Then, \[
+		\mathbb P[W \neq \hat W] \geq 1- \frac{I(X;Y) + \log 2}{\log M}.
+	\]
+\end{cor}
+
+\begin{proof}
+	Let the left hand side be the error rate $P_e$. Then, \[
+		I(X;Y) \geq I(W;\hat W) \geq (1-P_e)\log M - h(P_e) \geq (1-P_e) \log M - \log 2.
+	\]
+	Rearranging yields the desired.
+\end{proof}
+
+\begin{cor}*
+	Fix $M$ and $P_{Y|X}$ with capacity $C$. Then, say $W$ is uniform on $[M]$ and that $W\to X\to Y\to \hat W$ is a Markov chain. Then, \[
+		\mathbb P[W\neq \hat W] \geq 1-\frac{C + \log 2}{\log M}.
+	\]
+\end{cor}
+
+In particular, if we communicate $\log M$ bits with low error $\eps$, we need a channel with capacity $(1-\eps) \log M + O(1)$.
+
+\subsection{$f$-Divergences}
+
+\begin{defn}
+	Let $f \colon \RR_+ \to \RR$ be a convex function with $f(1) = 0$. Then, if $P$ is absolutely continuous with respect to $Q$, then \vocab{$f$-divergence} $D_f$ is defined as: \[
+		D_f(P\Vert Q) = \mathbb E_Q f\parens*{\frac{\d P}{\d Q}} = \sum_x Q(x) f\parens*{\frac{P(x)}{Q(x)}},
+	\]
+	where the latter case is when the space $\mathcal X$ is finite.
+\end{defn}
+
+\begin{exm}
+	Here are some examples of $f$ divergences:
+	\begin{itemize}
+		\item $f(x) = x \log x \implies D_f = D_{\text{KL}}$.
+		\item $f(x) = -\log x \implies D_f(P\Vert Q) = D_{\text{KL}}(Q\Vert P)$.
+		\item $f(x) = \frac 12 \abs{x-1}\implies D_f(P\Vert Q) = \sum \frac 12 \abs{P(x) - Q(x)} = \operatorname{TV}(P, Q)$ is \vocab{total variation}.
+		\item $f(x) = (x-1)^2 \implies D_f(P\Vert Q) = \mathbb E_Q \parens*{\frac PQ -1}^2 = \chi^2(P\Vert Q)$ is \vocab{chi-squared}.
+		\item $f(x) = (x-1)\log x\implies D_f(P\Vert Q) = D_{\text{SKL}}(P\Vert Q) = D_{\text{KL}}(P\Vert Q) + D_{\text{KL}} (Q\Vert P)$ is \vocab{symmetric KL}.
+		\item $f(x) = \frac{(x-1)^2}{x+1}\implies D_f(P\Vert Q) = \chi^2\parens*{P \Vert \frac{P+Q}2}$.
+		\item $f(x) = (\sqrt x-1)^2 \implies D_f(P\Vert Q) = H^2(P,Q) = \int (\sqrt{\d P} - \sqrt{d Q})^2$ is \vocab{Hellinger distance}.
+		\item $D_{\text{KL}}\parens*{P \Vert \frac{P+Q}2} + D_{\text{KL}} \parens*{Q \Vert \frac{P+Q}{2}} = \operatorname{JS}(P,Q)$ is \vocab{Jensen-Shannon divergence}.
+	\end{itemize}
+\end{exm}
+
+\begin{defn}*
+	Formally, we define, where $P,Q$ have density functions $p, q$: \[
+		D_f(P\Vert Q) = \int_{q > 0} q f\parens*{\frac pq} + f'(\infty) \int_{q = 0} p,
+	\]
+	where $f'(\infty) = \lim_{x\to \infty} \frac{f(x)}{x}$.
+	In the discrete case, we use the definition from earlier, where we define $0 \cdot f\parens*{\frac{P(x)}{0}} = \lim_{q\to 0} q f \parens*{\frac{P(x)}q}$.
+\end{defn}	
+
+We now state the following theorem without proof:
+
+\begin{thm}
+	[Gelfand-Yaglom-Perez for $f$-Divergences]
+	We have: \[
+		D_f(P\Vert Q) = \sup\limits_{E_1, \ldots, E_n} \sum_{j=1}^n Q(E_j) f \parens*{\frac{P[E_j]}{Q[E_j]}},
+	\]
+	where the supremum is over all disjoint partitions $E_1\sqcup \cdots \sqcup E_n = \mathcal X$.
+\end{thm}
+
+\begin{thm}
+	[Monotonicity]
+	We have: \[
+		D_f(P_{XY} \Vert Q_{XY}) \geq D_f (P_X \Vert Q_X).
+	\]	
+\end{thm}
+
+\begin{proof}
+	Write \begin{align*}
+		D_f(P_{XY} \Vert Q_{XY}) &= \sum_x Q_X(x)\sum_y Q_{Y|X} (y|x) f\parens*{\frac{P_{Y|X}(y|x) P_X(x)}{Q_{Y|X}(y|x) Q_X(x)}} \\
+		&\geq \sum_x Q_X(x) f\parens*{\frac{P_X(x)}{Q_X(x)} \sum_y P_{Y|X}(y|x)}\\
+		&= \sum_x Q_X(x) f\parens*{\frac{P_X(x)}{Q_X(x)}},
+	\end{align*}
+	where we apply Jensen.
+\end{proof}
+
+\begin{cor}
+	$D_f\geq 0$.
+\end{cor}
+
+\begin{proof}
+	Project onto a space of size $1$.
+\end{proof}
+
+\begin{cor}
+	[Data-Processing for $f$-Divergences]
+	Let $P_X, Q_X$ be distributions and let $P_{Y|X}$ be some channel. Then, \[
+		D_f(P_X\Vert Q_X) \geq D_f(P_Y\Vert Q_Y).
+	\]
+\end{cor}
+
+Now, apply Data-Processing to $Y = 1_E(X)$ for some event space $E$. 
+
+\begin{cor}*
+	We have the following:
+	\begin{itemize}
+		\item $\abs{P[E] - Q[E]} \leq \operatorname{TV}(P,Q)$.
+		\item $\abs{P[E] - Q[E]} \leq \sqrt{\chi^2(P\Vert Q) Q[E]}$.
+		\item $\abs*{\sqrt{P[E]} - \sqrt{Q[E]}} \leq \sqrt{H^2(P\Vert Q)}$.
+		\item $P[E] \log \frac{1}{Q[E]} \leq D(P\Vert Q) + \log 2$.
+	\end{itemize}
+\end{cor}
+
+\begin{defn}
+	The \vocab{$f$-mutual information} is $I_f(X;Y) = D_f(P_{XY} \Vert P_XP_Y)$.
+\end{defn}
+
+Note that instead of writing e.g. $D_{\frac 12 \abs{x-1}}$, we will write $D_{\textnormal{TV}}$ and so forth.
+
+\begin{thm}
+	[Data-Processing for $f$-Information]
+	If $U\to X \to Y$ is a Markov chain, then $I_f(U;Y) \leq I_f(U;X)$.
+\end{thm}
+
+\begin{proof}
+	Consider the channel $(U,X) \to (V,Y)$ given by setting $V = U$ (i.e. not doing anything) and applying $P_{Y|X}$ to $X$. Let $Q_{UX} = P_UP_X$. 
+	Applying DPI to this channel and $f$-divergence, we get: \[
+		I_f(U;X) = D_f(P_{UX} \Vert P_U P_X) \geq D_f(P_{UY} \Vert P_UP_Y) = I(U;Y).
+	\]
+\end{proof}
+
+\subsection{Subadditivity}
+
+Recall the following:
+
+\begin{fact}*
+	The original mutual information is subadditive: If $A\ind B | X$, then:\[
+		I(X;A,B) \leq I(X;A) + I(X;B).
+	\]
+\end{fact}
+
+In fact, 
+
+\begin{fact}
+	We have: 
+	\begin{itemize}
+		\item $I_{\chi^2}$ is not subadditive.
+		\item $I_{\textnormal{TV}}$ is subadditive. In fact, if $A\ind B | X$, then when $X\to A$ and $X\to B$ are the same channel, \[
+				I_{\textnormal{TV}}(X;A,B) = I_{\textnormal{TV}}(X;A) = I_{\textnormal{TV}}(X;B).
+			\]
+		\item $I_{\textnormal{SKL}}$ is subadditive. In fact, if $A\ind B | X$, then \[
+				I_{\textnormal{SKL}}(X;A,B) = I_{\textnormal{SKL}} (X;A) + I_{\textnormal{SKL}}(X;B).
+			\]
+	\end{itemize}
+\end{fact}
+
+The second bullet point is called \vocab{herding}, and won the Nobel Prize in Economics.
+
+\begin{thm}
+	Suppose $f$ is twice differentiable and $\limsup\limits_{x\to \infty} f''(x) < \infty$. Then, 
+	\begin{enumerate}
+		\item If $\chi^2(P\Vert Q)< \infty$, then for $\lambda \in (0,1)$, $D_f(\lambda P + \ol \lambda Q \Vert Q) < \infty$, and \[
+				\frac 1{\lambda^2} D_f(\lambda P + \ol \lambda Q \Vert Q) \to \frac 12 f'(1) \chi^2(P\Vert Q)
+			\]
+			as $\lambda \to 0$.
+		\item If $\chi^2(P\Vert Q) = \infty$, then $D_f(\lambda P + \ol \lambda Q \Vert Q) = \omega(\lambda^2)$.
+	\end{enumerate}
+\end{thm}
+
+\begin{proof}
+	Without loss of generality let $f'(1) = 0$ (replace $f(x)$ with $f(x) - f'(1) (x-1)$ as necessary. Then, \[
+		f(1+u) = u^2 \int_0^1 (1-t) f'(1+ut)\d t.
+	\]
+	On the other hand, \[
+		D_f(\lambda P + \ol \lambda Q \Vert Q) = \mathbb E_Q f\parens*{1 + \lambda \frac{P-Q}{Q}}.
+	\]
+	Now, applying Fubini, we get \[
+		\frac 1{\lambda^2} D_f(\lambda P + \ol \lambda Q\Vert Q) = \int_0^1 \mathbb E_Q \parens*{\frac{P-Q}Q}^2 (1-t) f'\parens*{1 + \lambda t\frac{P-Q}{Q}} \d t.
+	\]
+	By DCT, this goes to $\int_0^1 \mathbb E_Q \parens*{\frac{P-Q}Q}^2 (1-t) f'(1) \d t = \frac{f'(1)}{2}\chi^2(P\Vert Q)$ indeed.
+\end{proof}

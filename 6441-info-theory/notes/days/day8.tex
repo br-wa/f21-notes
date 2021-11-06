@@ -1,0 +1,192 @@
+\section*{Lecture 8: Variational Characterizations of $f$-Divergence, Fisher Information}
+\setcounter{section}{8}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{fact}
+	Up to constants, $H^2 \leq \opera{TV} \lesssim \sqrt{D_{\opera{KL}}} \lesssim \sqrt{\chi^2}$.
+\end{fact}
+
+Recall last time that we showed:
+
+\begin{thm}
+	If $\mathcal R$ is the range $(D_{f_1}(P\Vert Q), D_{f_2}(P\Vert Q))$ for two $f$-divergences, then \[
+		\mathcal R = \operatorname{co} \parens*{\set*{D_{f_1}(\opera{Bern}(p)\Vert \opera{Bern}(q)), D_{f_2} (\opera{Bern}(p) \Vert \opera{Bern}(q))\colon 0\leq p, q, \leq 1}}.
+	\]
+\end{thm}
+
+The proof went along the lines of: Fix $\psi_j$ and first consider the set of such $(D_{f_1}, D_{f_2})$ subject to $\frac{P(j)}{Q(j)} = \psi_j$. This gives a linear coupling of $P$ and $Q$, and furthermore extremizing is easy.
+Then union the sets over all choices of $\psi_j$.
+
+\begin{defn}
+	For a convex function $f\colon \RR\to \ol \RR$, define its \vocab{convex conjugate} $f^*$ to be \[
+		f^*(t) = \sup_x tx - f(x).
+	\]
+\end{defn}
+
+\subsection{Variational Characterizations}
+
+Note that when defining $D_f$ we only considered $f\colon \RR_+ \to \ol \RR$. We will let $f_{\text{ext}}$ denote an \vocab{extension} of $f$'s domain to $\RR \to \ol \RR$ such that $f_{\text{ext}}$ is still convex.
+
+\begin{fact}*
+	At least one such extension always exists ($f(x) = +\infty$ for $x \leq 0$).
+\end{fact}
+
+\begin{thm}
+	For any such $f_{\text{ext}}$ we have: \[
+		D_f(P\Vert Q) = \sup_{g\colon \mathcal X\to \opera{dom}(f_{\textnormal{ext}}^*)} \EE_P[g] - \EE_Q \sqrb*[f_{\textnormal{ext}}^*(g)].
+	\]
+\end{thm}
+
+\begin{proof}
+	Note that it suffices to prove this for $\mathcal X$ finite. 
+	First we consider the case where $Q > 0$ everywhere.  Then $P\ll Q$, so then \begin{align*}
+		D_f(P\Vert Q) &= \sum_x Q(x) f_{\text{ext}} \parens*{\frac{P(x)}{Q(x)}} \\
+		&= \sum_{x} Q(x) \sup_{g\in \RR} g\frac{P(x)}{Q(x)} - f_{\text{ext}}^*(g) \\
+		&= \sup_{g\colon \mathcal X\to \RR} \sum_x g(x)P(x) - Q(x) f_{\text{ext}}^*(g).
+	\end{align*}
+	For the other case, argue similarly. Let $S = \set{x\colon Q(x) > 0}$. Then, arguing similarly, we get \[
+		D_f(P\Vert Q) = \sup_{g\colon S\to \RR} \sum_x g(x)P(x) - Q(x) f_{\text{ext}}^*(g) + f'(\infty) P[Q=0].
+	\]
+	Equivalently, it suffices to show that if $T = \mathcal X \setminus S$, then \[
+		\sup_{g\colon T\to \opera{dom}(f_{\textnormal{ext}}^*} \EE_P[g1_{T}] - \EE_Q[f_{\text{ext}}^*(g) 1_T] = f'(\infty) P[T].
+	\]	
+	The $\EE_Q$ vanishes, and $g\leq f'(\infty)$ by the domain, as desired.
+\end{proof}
+
+\begin{exm}*
+	Let $f(x) = x\log x$, then $f_{\text{ext}} = x\log x$ for $x \geq 0$ and $+\infty$ when $x<0$. Then, \[
+		D(P\Vert Q) = \sup_g \EE_P[g] - \EE_Q[e^{g-1}]. 
+	\]	
+	Then, by writing this as \[
+		\sup_{h\in \RR} \sup_{c\in \RR} \EE_P[h-c] - \EE_Q[e^{h-c-1}].
+	\]
+	This in fact yields Donsker-Varadhan.
+\end{exm}
+
+\begin{exm}
+	Suppose now $f(x) = (x-1)^2$, so that $D = \chi^2$. We will use the extension $(x-1)^2$.
+	Then, $f^*(t) = \sup_x tx - (x-1)^2 = -x^2 + (t+2)x - 1 = -(x-(t/2+1))^2 + (t/2)(t/2+2) = (t/2)(t/2+2)$. This is finite everywhere, so we get \[
+		\chi^2(P\Vert Q) = \sup_g \EE_P[g] - \EE_Q[g] - \frac 14 \EE_Q[g^2].
+	\]
+	Write $g = ch$ for some fixed $h$ and arbitary $c$, then \[
+		\chi^2(P\Vert Q) = \sup_h \sup_c c(\EE_P[h] - \EE_Q[h]) - \frac 14 c^2 \EE_Q[h^2].
+	\]
+	Maximizing over $c$, we get \[
+		\chi^2(P\Vert Q) = \sup_h \frac{(\EE_P [h] - \EE_Q[h])^2}{\EE_Q[h^2]}.
+	\]
+	Now, note that the numerator is shifting-invariant, while the denominator is maximized at $\EE_Q[h] = 0$. So, \[
+		\chi^2(P\Vert Q) = \sup_h \frac{(\EE_P[h] - \EE_Q[h])^2}{\opera{Var}_Q[h]}.
+	\]
+\end{exm}
+
+\subsection{Fun With Statistics}
+
+Let $\Theta \subset \RR$ and let $P_\theta$ be a set of distributions ($\theta\in \Theta$). Such collections are usually called \vocab{one-parameter families}.
+Assume $\Theta$ is open (possibly an interval). Note here that we are using statistics notation.
+Define \[
+	R_n^* = \inf_{\hat\theta \colon \chi^n \to \Theta} \sup_{\theta \in \Theta} \EE_{X_i \text{iid samples from} P_\theta} (\hat\theta(x_1, \ldots, x_n) - \theta)^2.
+\]
+\begin{fact}*
+	This problem is called \vocab{minimax quadatic risk (for one-parameter family)}.
+\end{fact}
+
+\begin{thm}
+	[Classical Statistics, Cram\'er-Rao Bound]
+	Under ``reasonable conditions," \[
+		R_n^* = \frac{1+o(1)}{n \min_{\theta\in \Theta} J_F(\theta)},
+	\]
+	where $J_F$ is the \vocab{Fisher information}.
+\end{thm}
+
+So what are these reasonable conditions? Nobody really knows. Apparently Yury tried looking for them in many books, and they all had errors.
+
+\begin{lem}
+	[Hammersley-Chapman-Robbins]
+	In general, for any $\theta_1, \theta_2$ and $\hat\theta \colon \mathcal X\to \Theta$, \[
+		\EE_{\theta_2} (\hat\theta - \theta_2)^2 \geq \frac{(\EE_{\theta_1} \hat \theta - \EE_{\theta_2} \hat \theta)^2}{\chi^2(P_{\theta_1}\Vert P_{\theta_2})}.
+	\]
+\end{lem}
+
+\begin{proof}
+	First, note that $\EE_{\theta_2} (\hat \theta - \theta_2)^2 = \opera(Var)_{P_{\theta_2}} [\hat \theta]$. Next, note that the variational characterization of $\chi^2$ tells us that for any $h$, \[
+		\chi^2(P_{\theta_1}\Vert P_{\theta_2}) \geq \frac{(\EE_{\theta_1}[h] - \EE_{\theta_2}[h])^2}{\opera{Var}_{P_{\theta_2}}[h]}.
+	\]
+	Rearranging and substituting $h =\hat \theta$ yields the desired.
+\end{proof}
+
+\begin{defn}
+	Suppose we have a collection of measures $P_\theta(\d x) = p_\theta(x) \mu(\d x)$. In other words, we have PDFs $p_\theta(x) \mu(\d x)$.
+	Furthermore assume $p_\theta$ is smooth in $\theta$ over the open set $\Theta$.
+	Let $\frac{\partial}{\partial \theta} p_\theta(x) = \dot p_\theta(x)$.
+	Further assume other regularity informations (such as $p_{\theta_0}$ having full support).
+	Then, the \vocab{Fisher information} $J_F$ is: \[
+		J_F(\theta_0; \set{P_\theta \colon \theta\in \Theta}) = \int \frac{(\dot p_{\theta_0} (x))^2}{p_{\theta_0}(x)} \mu (\d x).
+	\]
+\end{defn}
+
+\begin{fact}
+	We have: \[
+		J_F(\theta_0) = 4\int \parens*{\frac{\partial}{\partial \theta}|_{\theta=\theta_0} \sqrt{p_\theta(x)}}^2 \d\mu.
+	\]
+	Furthermore, \[
+		J_F(\theta_0) = \EE_{\theta_0} \sqrb*{
+			\parens*{
+				\frac{\partial}{\partial \theta}|_{\theta = \theta_0} \ln p_\theta(x)
+			}^2
+		}.
+	\]
+\end{fact}
+
+\begin{cor}
+	We have: \[
+		J_F(\theta_0; \set{\theta^n \colon \theta\in \Theta}) = n J_F(\theta_0; \set{p_\theta}).
+	\]	
+\end{cor}
+
+In fact, now we can prove Cram\'er-Rao via Cauchy-Schwarz, but we will not do so.
+
+\begin{thm}
+	Under regularity conditions, \begin{align*}
+		\chi^2(P_\theta \Vert P_{\theta_0}) &= J_F(\theta_0) (\theta - \theta_0)^2 + o\parens*{(\theta-\theta_0)^2} \\
+		D(P_\theta \Vert P_{\theta_0}) &= \frac{J_F(\theta_0)}{2\log e} (\theta - \theta_0)^2 + o\parens*{(\theta - \theta_0)^2}.
+	\end{align*}
+\end{thm}
+
+\begin{proof}
+	Note that $\int p_\theta \d \mu = 1$, and so $\partial_\theta \int p_\theta \d \mu = 0$, so swapping we get $\int \dot p_\theta \d \mu = 0$, and similarly $\int \ddot p_\theta \d \mu = 0$.
+	Define \[
+		\xi(\theta) = \chi^2(P_\theta \Vert P_{\theta_0}) = \int \parens*{\frac{p_\theta^2}{p_{\theta_0}} - 1} \d \mu.
+	\]
+	Differentiating with respect to $\theta$, we get \[
+		\partial_\theta \xi = \int \dot{p_{\theta_0}} \d \mu = 0,
+	\]
+	and \[
+		\partial^2_\theta \xi = \int \frac{2}{p_{\theta_0}} (\dot p_{\theta_0}^2 + \ddot{p_{\theta_0}} p_{\theta_0}) \d\mu = 2J_F.
+	\]
+	This completes the proof for $\chi^2$. For $D$ it is similar. 
+\end{proof}
+
+In fact, $J_F$ defines a \vocab{Riemannian tensor} on some manifold, and you can do geometry with it, and you get a field called ``information geometry." This field is supposedly productive, although Yury has not heard of any of their big results.
+
+\begin{cor}*
+	Under regularity conditions, if $\hat \theta$ is an unbiased estimator of $\theta$, then \[
+		\EE_{\theta_0} (\hat \theta - \theta_0)^2 \geq \frac{1}{nJ_F(\theta_0)}.
+	\]
+\end{cor}
+
+\begin{proof}
+	By HCR, for any $\theta_1$, \[
+		\EE_{\theta_0} (\hat \theta - \theta_0)^2 \geq \frac{(\theta_1 - \theta_0)^2}{\chi^2(P_{\theta_1} \Vert P_{\theta_0}}.
+	\]
+	Now take the limit as $\theta_1\to \theta_0$, and then $\frac{\chi^2(P_{\theta_1} \Vert P_{\theta_0})}{(\theta_1 - \theta_0)^2} \to J_F(P_{\theta_0}^n)$.
+\end{proof}
+
+\begin{cor}*
+	Let $b(\theta) = \EE_{\theta} \hat \theta - \theta$ be the bias. Then, \[
+		\EE_{\theta_0} (\hat \theta - \theta_0)^2 \geq (b(\theta_0))^@ + \frac{(1 + b'(\theta_0))^2}{J_F(\theta_0; \set{P_{\theta}^n})}.
+	\]
+\end{cor}
+
+

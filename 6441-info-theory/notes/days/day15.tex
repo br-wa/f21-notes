@@ -1,0 +1,79 @@
+\section*{Lecture 15: Channel Coding II: Achievability}
+\setcounter{section}{15}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\subsection{Achievability in BSC}
+
+Suppose $P_{Y|X} \colon \set{0,1}^n \to \set{0,1}^n$, where $Y^n = X^n + Z^n \pmod 2$, where $Z_i$ is iid samples of $\opera{Bern}(\delta)$.
+Recall that \[
+	P_{Y|X}(y^n|x^n) = (1-\delta)^{n-d_H} \delta^{d_H},
+\]
+where $d_H$ is the Hamming distance.
+In particular, for $\delta < 1/2$, the optimum decoder just picks the $C_i$ that minimizes the Hamming distance to $y_i$.
+This is a bit hard to analyze, so instead we will consider the following suboptimal decoder: \[
+	g(y^n) = \begin{cases}
+		i & C \cap \mathcal B_r(y^n) = \set{C_i} \\
+		\texttt{error} & \text{otherwise}
+	\end{cases},
+\]
+for some fixed $r$,
+where $\mathcal B_r(y^n)$ is the set of $x^n$ with Hamming distance at most $r$ from $y^n$.
+This is the \vocab{bounded distance decoder}.
+
+Now let's pick a good value of $r$. Suppose $W = 1$. Then, $\PP[\hat W = 1 | W = 1] \leq \PP[C_1\in \mathcal B_r(y^n)] = \PP[\sum z_i \leq r]$. The last term is just a function of $n,\delta, r$, and in fact it is binomial. So we can consider something like $r = \delta n + T\sqrt n$ for some large $T$. Say $1-\eps$ is $\PP[\sum z_i \leq r]$.
+Now we can consider the probability of error. Since success is precisely when $C_w\in \mathcal B_r(y^n)$ and no other $C_j$ is in $\mathcal B_r(y^n)$, this is just \[
+	\PP[\hat w \neq i | w=i] = \PP\sqrb*{C_i \in \mathcal B_r(y^n) \cup \bigcup_{j\neq i} C_j\in\mathcal B_r(y^n)}.
+\]
+By union bound, we can upper bound by \[
+	\PP\sqrb*{C_i \in \mathcal B_r(y^n)} + \sum_{j\neq i} \PP\sqrb*{C_j\in \mathcal B_r(y^n)|x^n = C_i}
+\]
+Now, we can average over all $i$. This yields \[
+	P_e(C_1,\ldots, C_M) \leq \eps + \frac 1M\sum_{j\neq i} \PP\sqrb*{C_j \in \mathcal B_r(y^n)|x^n = C_i}
+\]
+We can now try to pick $C_i$ via the \textbf{probabilistic method}, i.e. iid uniformly random choices in $\set{0,1}^n$.
+This is really funny -- so now we just get the probability term is $\PP\sqrb*{C_j \in \mathcal B_r(y^n)|x^n = C_i} \leq \frac{\abs{\mathcal B_r(y^n)}}{2^n} \approx 2^{-n(1-h(r/n)}$.
+Thus in summation we get that for any choice of $r$: \[
+	P_e(C_1,\ldots, C_M) \leq \PP\sqrb*{\opera{Binom}(n,\delta) > r} + (M-1) 2^{-n(1-h(r/n))}.
+\]
+Thus we conclude:
+\begin{thm}
+	For any $R < C = \log 2 - h(\delta)$, we can achieve $M = \exp(nR)$ achieving $P_e\to 0$ as $n\to\infty$.
+\end{thm}
+
+\begin{cor}*
+	For BSC, $C = C_i$.
+\end{cor}
+
+\subsection{Memoryless Channels}
+
+So in fact the same idea works for any memoryless channel.
+Let $i(X,Y) = \log \frac{\d P_{Y|X}}{\d P_Y}$ denote the information density.
+
+\begin{thm}
+	[Dependence Testing Bound]
+	For any $P_X$ and $M$ there exists a $(M,\eps)$-code such that $\eps \leq \EE\exp\parens*{-\max\parens*{i(X;Y) - \log \frac{M-1}{2}, 0}}$.
+\end{thm}
+
+\begin{proof}
+	The optimal decoder is $g^*(y) = \opera{argmax}\limits_j i(c_j, y)$. This is still too hard to analyze, so we fix some $\gamma$ and consider: \[
+		g(y) = \begin{cases}
+			\text{first $j$ such that $i(c_j, y) > \gamma$} \\
+			\texttt{error} & \text{all $i(c_j,y) \leq \gamma$}
+		\end{cases}.
+	\]
+	Now pick $C_i$ as iid samples from $P_X$.
+	Thus, \begin{align*}
+		\EE_C P_e(C_1,\ldots, C_M) &= \EE_C \frac 1M \PP[\hat W\neq i | W=i] \\
+		&= \EE_C \PP[i(X;Y) \leq \gamma] + \frac{M-1}{2} \EE_C \PP[i(\ol X, Y) \geq \gamma],
+	\end{align*}
+	where $X,Y,\ol X$ are distributed according to $P_{X,Y}$ and an independently sampled $P_X$.
+	Suppose now we have two hypotheses $P = P_{X,Y}$ and $Q = P_XP_Y$, and then we get:
+	So, \[
+		\PP\sqrb*{\frac{\d P}{\d Q} \leq \gamma} + \frac{M-1}{2} \QQ\sqrb*{\frac{\d P}{\d Q} > \gamma}
+	\]
+	Minimizing over $\gamma$ yields the desired.
+\end{proof}
+
+

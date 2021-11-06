@@ -1,0 +1,116 @@
+\section*{Lecture 10: Data Compression}
+\setcounter{section}{10}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Recall from last time that we defined the optimal single-shot variable length lossless encoder for $\mathcal X$ discrete and $P_X(1) \geq P_X(2) \geq \cdots$ by $(f^*(1), \ldots) = (\varnothing, 0, 1, 00, 01, 10, 11, \ldots)$.
+
+\begin{defn}
+	[Other Regimes for Compression]
+	\begin{itemize}
+		\item Variable-to-fixed compressors.
+		\item Almost losssless fixed-to-fixed compression: Fix $n,k$, and map $\mathcal X^n \to \set{0,1}^k$. We want to fix encoders and decoders, such that the decoder can output either $\hat X$ (which must equal $X$) or it can return an error. Intuitively, we want the decoder to know when there is an error.
+		\item Lossy compressions: We have encoders and decoders $x^n \to \set{0,1}^k \to \hat x^n$. Then, try to minimize $\EE d(x^n, \hat x^n)$ for some metric $d$ (that depends on the setting).
+	\end{itemize}
+\end{defn}	
+
+\begin{defn}*
+	Let $i(x) = -\log P_X(x))$ denote the \vocab{entropy density} of $x$.
+\end{defn}
+
+\subsection{Asymptotic Behavior}
+
+Recall that we claimed last time:
+
+\begin{fact}
+	Let $f_n^*$ denote the optimal compressor on $X^n$.
+	As distributions, \[
+		\frac 1n \ell(f_n^*(X^n))\to U \iff \frac 1n i(X^n) \to U.
+	\]
+	Meanwhile, if $H$ is the entropy density of $(X^n)$, then we have: \[
+		\frac 1{\sqrt n} \parens*{\ell(f^*(X^n)) -nH} \to Z \iff \frac 1{\sqrt n} \parens*{i(X^n) - nH}\to Z.
+	\]
+\end{fact}
+
+\begin{proof}
+	Suppose $\frac 1n i(X^n)\to U$ as distributions and let $F_U$ be the cdf of $U$. Then, \[
+		\PP\sqrb*{\frac 1n i(X^n)\leq t} \to F_U(t).
+	\]
+	Now, $\liminf \PP\sqrb*{\frac 1n \ell(f_n^*(X^n)) \leq t} \geq \liminf \PP\sqrb*{\frac 1n i(X^n)\leq t} = F_U(t)$.
+	Now, by picking $\tau = \log n/n$, for example, we get \[
+		\limsup \PP\sqrb*{\frac 1n \ell(f^*(X^n))\leq t} \leq \limsup \PP\sqrb*{\frac 1n i(X^n) \leq t + \frac{\log n}n} + \frac 2n \leq F_U(t+\eps)
+	\]
+	for any $\eps > 0$ (technically we need $t+\eps$ to be a point of continuity of $F_U$, but this is true almost everywhere), and now we can just take $\eps\to 0$.
+	The opposite direction is similar, as is the second claim.
+\end{proof}
+
+\begin{exm}*
+	[Memoryless Sources]
+	A \vocab{memoryless} source is a stream $X_i$ iid selected from some distribution $P_X$. Then, \[
+		i(X^n) = \sum i(X_i).
+	\]
+	is the sum of iid terms. Now recall that \[
+		\frac 1{\sqrt n} (i(X^n) - nH(X)) \to \mathcal N(0,v),
+	\]where $v = \opera{Var}(\log P_X(x))$ is the \vocab{varentropy}. Note that $v = 0$ if and only if the source is uniform.
+\end{exm}
+
+\begin{fact}
+	In fact, if the varnetropy is $0$, $\EE\ell(f_n^*(X^n)) = nH + o(1)$. On the other hand, if $v > 0$ and $i$ does not follow a lattice distribution, then \[
+		\EE\ell(f_n^*(X^n)) = nH - \frac 12 \log(8\pi evn) + o(1).
+	\]
+\end{fact}
+
+\begin{exm}
+	[Markov Source]
+	Suppose $X_i$ is a stationary ergodic Markov process. Then, \[
+		i(X^n) = -\log P_{X_1}(x_1) P_{X_2|X_1}(x_2|x_1) \cdots P_{X_n|X_{n-1}} (x_n|x_{n-1}) = \log \frac{1}{P_{X_1}(x_1)} + \sum_{i=2}^n \log \frac{1}{P(X_i|X_{i-1})}.
+	\]
+	Now, ergodicity tells us that \[
+		\frac 1n \sum_{i=2}^n \log \frac{1}{P(X_i|X_{i-1})} \to \EE \log \frac{1}{P_{X_2|X_1} (x_2|x_1)} = H(X_2|X_1),
+	\]
+	which also happens to equal the entropy rate.
+\end{exm}
+
+\begin{thm}
+	[Shannon-McMillan-Breiman]
+	For any stationary ergodic process, \[
+		\frac 1n i(X^n) \to \mathcal H,
+	\]
+	where $\mathcal H$ is the entropy rate.
+\end{thm}
+
+We will not prove this.
+
+\begin{cor}
+	Every stational ergodic process is essentially uniform on the set of typical sequences.
+\end{cor}	
+
+\subsection{Arithmetic Encoders}
+
+Suppose we have an alphabet $\mathcal X$ with some order, and let us order $\mathcal X^n$ lexicographically. For every $x^n$, let \[
+	F(x^n) = \sum_{y^n < x^n} P_{X^n}(y^n).
+\]Furthermore, let \[
+	I_{x^n} = \left[F(x^n), F(x^n) + P_{X^n}(x^n) \right)
+\]
+
+\begin{defn}*
+	Define a \vocab{dyadic interval} to be one of the form $\left[b \cdot 2^{-m}, (b+1)\cdot 2^{-m}\right)$.
+\end{defn}
+
+Let $D^*(x^n)$ be the leftmost largest dyadic interval contained in $I_{x^n}$. If the interval is $\left[b \cdot 2^{-m}, (b+1)\cdot 2^{-m}\right)$, then we encode $b$ as an $m$-digit binary string (possibly with leading zeroes).
+Then, we define $\ell(f^*(X^n))$ by $-\log_2 \abs{D^*}$.
+
+Note that \[
+	\frac 14 \abs{I_{x^n}} < \abs{D^*(x^n)} \leq \abs{I_{x^n}}.
+\]
+It follows that \[
+	\log_2 \frac 1{P_{X^n}(x^n)} \leq \ell(f^*(x^n)) \leq \log_2 \frac 1{P_{X^n}(x^n)} + 2.
+\]
+So, we obtain 
+
+\begin{fact}
+	For our arithmetic encoder, \[
+		H(X^n) \leq \EE \ell(f^*(x^n)) \leq H(X^n) + 2.
+	\]
+\end{fact}

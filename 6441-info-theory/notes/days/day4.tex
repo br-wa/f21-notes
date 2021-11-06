@@ -1,0 +1,207 @@
+\section*{Lecture 4: Convexity and Extremization}
+\setcounter{section}{4}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+Last time, we claimed the following:
+
+\begin{thm}*
+	\label{dwsc}
+	[Divergence is Weakly Semi-Continuous]
+	Suppose $P_n \to P$ and $Q_n\to Q$ weakly.
+	Then, \[
+		\liminf_{n\to \infty} D(P_n\Vert Q_n) \geq D(P\Vert Q).
+	\]
+\end{thm}
+
+From this, it follows that:
+
+\begin{cor}*
+	Suppose $X_n\to X$ and $Y_n\to Y$ weakly. 
+	Then, \[
+		\liminf_{n\to \infty} I(X_n;Y_n) \to I(X;Y).
+	\]
+\end{cor}
+
+Similarly, we claimed that:
+
+\begin{thm}*
+	\label{dmcsa}
+	[Divergence is Monotonically Continuous in Sigma Algebras]
+	If $\mathcal F_n \nearrow \mathcal F$ or $\mathcal F_n \searrow \mathcal F$ be a monotone sequence of $\sigma$-algebras. Then, for any distributions $P, Q$, \[
+		\lim_{n\to \infty} D(P_{\mathcal F_n}\Vert Q_{\mathcal F_n}) \to D(P_{\mathcal F}\Vert Q_{\mathcal F}).
+	\]
+\end{thm}
+
+It follows that:
+
+\begin{cor}*
+	$I(X^n;Y) \nearrow I(X^\infty;Y)$, and $I(X^n;Y^n) \nearrow I(X^\infty;Y^\infty)$. 
+\end{cor}
+
+In particular, one does not get more information by ``observing the tail."
+We will now prove the above theorems, using the following:
+
+\subsection{Variational Characterizations}
+
+\begin{thm}
+	[Gelfand-Yaglom-Perez (GYP)]
+	Let $\mathcal F$ be a $\sigma$ algebra on $\mathcal X$. Then, for any $P,Q$: \[
+		D(P\Vert Q) = \sup_{E_1\sqcup \cdots \sqcup E_n}\sum P[E_j] \log \frac{P[E_j]}{Q[F_j]},
+	\]
+	where the $E_i\in\mathcal F$ range over all finite partitions of $\mathcal X$.
+\end{thm}
+
+\begin{proof}
+	[Sketch:]
+	$D(P\Vert Q)$ is at most the supremum by data processing. Now, let $n = \eps^{-1}$, and take \[
+		E_j = \set*{x_j \colon \frac{\d P}{\d Q} \in [(j-1)\eps,j\eps]}.
+	\] On $E_j$, $\frac{\d P}{\d Q}$ is very close to $\frac{P[E_j]}{Q[E_j]}$. 
+\end{proof}
+
+\begin{proof}
+	[Sketch of \ref{dmcsa}:]
+	Consider the $\mathcal F_n \nearrow \mathcal F$ case. Clearly $D(P_{\mathcal F_n}\Vert Q_{\mathcal F_n})$ is increasing in $n$. To check that it actually converges is a bit trickier, but doable.
+\end{proof}
+
+\begin{thm}
+	[Donsker-Varadhan]
+	Let $C_Q$ be the collection of all $f\colon \mathcal X\to \RR$ such that $\mathbb E_Q[\exp f] <\infty$. Then, \[
+		D(P\Vert Q) = \sup_{f\in C_Q} \parens*{\mathbb E_Q[f] - \log \mathbb E_Q[\exp f]}.
+	\]
+\end{thm}
+
+\begin{proof}
+	For equality, take $f = \log \frac{\d P}{\d Q}$. Then $\mathbb E_Q \exp(f) = 1$, and $\mathbb E_P f = D(P\Vert Q)$. So, the right hand side is at least $D(P\Vert Q)$. 
+	Now, we will show that for all $f\in C_Q$, $D(P\Vert Q) \geq \mathbb E_Pf - \log \mathbb E_Q [\exp f]$. 
+	If $D(P\Vert Q) = \infty$ we are done, so otherwise say it is finite.
+
+	We now use \vocab{tilting}. Let $z_f = \log \mathbb E_Q[f]$, and let $Q^f$ be a distribution defined by: \[
+		\d Q^f = \exp(f-z_f)\d Q.
+	\]
+	Note in particular that $Q^f$ is a probability distribution.
+	Then, \[
+		D(P\Vert Q) = \mathbb E_P \sqrb*{\log \frac{\d P}{\d Q}} = \mathbb E_P \sqrb*{\log \frac{\d P}{\d Q} + \log \frac{\d Q_f}{\d Q_f}} = D(P\Vert Q_f) + \mathbb E_P[f-z_f].
+	\]
+	This is precisely $\mathbb E_P[f] - z_f$, as desired.
+\end{proof}
+
+\begin{que}
+	Why is Donsker-Varadhan useful?
+\end{que}
+
+There are a few reasons:
+
+\begin{enumerate}
+	\item It is the stronger form of DPI.
+	\item For any reasonable function $g$, let $f = \eps g$ and apply. Then, \[
+			D(P\Vert Q) \geq \eps (\mathbb E_P(g) - \mathbb E_Q(g)).
+		\]
+		Thus if $D(P\Vert Q)$ ``decreases faster" than $\eps$, we see that $Q$ approximates $P$.
+\end{enumerate}
+
+\begin{cor}*
+	Donsker-Varadhan also holds when $C_Q$ is the set of \vocab{simple} (finite range) functions, or continuous functions (if $\mathcal X$ is a reasonable topology).
+\end{cor}
+
+\begin{proof}
+	[Proof of \ref{dwsc}:]
+	Note that for any simple $f$, \[
+		\mathbb E_{P_n} f - \log \mathbb E_{P_n} \exp f \leq \mathbb E_P f - \log \mathbb E_P \exp f.
+	\]
+	So, taking $\sup$ of both sides over $f$ yields the desired.
+\end{proof}
+
+\subsection{Convexity}
+
+\begin{cor}
+	$P,Q\to D(P\Vert Q)$ is convex.
+\end{cor}
+
+\begin{proof}
+	Divergence is the sup of a family of convex functions. There is a nicer proof that uses monotonicity.
+\end{proof}
+
+\begin{fact}
+	If $D(P\Vert Q) < \infty$, then \[
+		\frac{\d}{\d\lambda} |_{\lambda = 0} D(\lambda P + \ol \lambda Q\Vert Q).
+	\]
+	In fact, \[
+		D(\lambda P + \ol \lambda Q) = o(\lambda^2) + \frac{\lambda^2}{2} \cdot D(P\Vert Q).
+	\]
+\end{fact}
+
+We will just prove the first part:
+
+\begin{proof}
+	Let $\gan(x) = x\log x$. We want to show that \[
+		\frac 1\lambda \mathbb E_Q \gan \frac{\d(\lambda P + \ol \lambda Q)}{\d Q} \to 0
+	\]as $\lambda \to 0$.
+	Write $X = \frac{\d P}{\d Q}$. Then, this is \[
+		\lim \frac 1{\lambda} \mathbb E_Q\gan (\lambda X + (1-\lambda)) = \mathbb E_Q \sqrb*{\lim_{\lambda \to 0} \frac 1\lambda \gan(\lambda X + (1-\lambda))}.
+	\]
+	Now, \[
+		\frac 1\lambda \gan(1 + (X-1)\lambda) \to (X-1)\gan'(1),
+	\]so we just need \[
+		\mathbb E_Q [X-1] = 0,
+	\]which is clear.
+	Note that we can swap the limits by the Dominated Convergence Theorem.
+\end{proof}
+
+\begin{defn}*
+	Let $I(P_X;P_{Y|X})$ denote $I(X;Y)$.
+\end{defn}
+
+\begin{thm}
+	We have the following:
+	\begin{itemize}
+		\item $P_X \to I(P_X,P_{Y|X})$ is concave, and
+		\item $P_{Y|X} \to I(P_X,P_{Y|X})$ is convex.
+	\end{itemize}
+\end{thm}
+
+\begin{proof}
+	Recall that $I(X;Y) = D(P_{Y|X} \Vert P_Y|P_X) = \min\limits_Q D(P_{Y|X} \Vert Q_Y|P_X)$, so 
+	\begin{itemize}
+		\item $I$ is the inf of a family of linear function in $P_X$, and thus must be concave, and
+		\item $P_Y$ is linear in $P_{Y|X}$. So, by convexity of $D$, $I$ is convex $P_{Y|X}$ as well.  
+	\end{itemize}
+	This completes the proof.
+\end{proof}
+
+\subsection{Extremization}
+
+\begin{defn}
+	Let $\Pi$ be a convex set of distributions on $\mathcal X$. 
+	Then, the \vocab{capacity} of $P_{Y|X}$ is the supremum \[
+		C = \sup_{P_X\in \Pi} I(X;Y).
+	\]
+	If $I(P_X^*, P_{Y|X}) = C$, then $P_X^*$ is called a \vocab{capacity achieving input distribution (caid)}, and $P_Y^* = P_X^* P_{Y|X}$ is called the corresponding \vocab{capacity achieving output distribution (caod)}.
+\end{defn}
+
+\begin{thm}
+	[Capacity is a Saddle Point]
+	Say $P_X^*$ is a caid. For all distributions $P_X, P_Y$ on $\mathcal X, \mathcal Y$, respectively: \[
+		D(P_{Y|X} \Vert P_Y^*|P_X) \leq C \leq D(P_{Y|X}\Vert P_Y|P_X^*).
+	\]
+\end{thm}
+
+\begin{cor}
+	[Capacity as Minimax]
+	We also have: \[
+		C = \min_{Q_Y} \max_{P_X} D(P_{Y|X} \Vert Q_Y|P_X) = \max_{P_X} \min_{Q_Y} D(P_{Y|X} \Vert Q_Y|P_X).
+	\]
+\end{cor}
+
+\begin{cor}
+	[Caods are Unique]
+	There is at most one caod.
+\end{cor}
+
+\begin{cor}
+	[Capacity as Information Radius]
+	Suppose $\Pi$ is the set of all distributions and a caod exists. Then, \[
+		C = \max_{P_X} D(P_{Y|X} \Vert P_Y^* |P_X) = \sup_X D(P_{Y|X=x} \Vert P_Y^*).
+	\]	
+\end{cor}

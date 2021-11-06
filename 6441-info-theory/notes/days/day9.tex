@@ -1,0 +1,152 @@
+\section*{Lecture 9: Van Trees, Data Compression}
+\setcounter{section}{9}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Recall from last time that we have \[
+	\chi^2(P\Vert Q) = \sup_f \frac{(\EE_P f - \EE_Q f)^2}{\opera{Var}_Q(f)},
+\]
+which we used to prove Hammersley-Chapman-Robbins, from which the Cram\'er-Rao bound for single input estimators follows.
+
+\subsection{Van Trees Inequality}
+
+Consider the same setup as before but suppose $\theta$ is now drawn according to some distribution $\pi$ on $\Theta$.
+
+\begin{defn}
+	We define the \vocab{Bayes risk} of some estimator $\hat\theta$ by \[
+		R_\pi (\hat \theta) = \EE_{\theta\sim \pi} \EE_{x\sim P_\theta} (\theta - \hat \theta(x))^2.
+	\]
+\end{defn}
+
+\begin{thm}
+	[Van Trees]
+	If $\pi$ is reasonably nice, then \[
+		R_\pi(\hat \theta) \geq \frac{1}{J_F(\pi) + \EE_{\theta\sim \pi} J_F(\theta)}.
+	\]
+	Here, $\pi$ needs a PDF (which we also denote as $\pi$), and \[
+		J_F(\pi) = \int \frac{(\pi'(\theta))^2}{\pi(\theta)} d\theta.
+	\]
+\end{thm}
+
+As with Cram\'er-Rao, you can also prove this with Cauchy-Schwarz. On the other hand, we can actually prove the Cram\'er-Rao lower bound with this:
+
+Consider $\pi^c(\cdot) = c\pi(c\cdot)$, then $J_F(\pi^c) = c^2J_F(\pi)$.
+To see how this implies Cram\'er-Rao, take $\pi$ centered at some $\theta_0$ (e.g. raised cosine) with width $h$. Then, $J_F(\pi) \propto h^{-2}$, so \[
+	R(\pi, \hat\theta) \geq \frac{1}{\Theta(h^{-2}) + n\max\limits_{|\theta-\theta_0| \leq h} J_F(\theta_0)},
+\]and then take $h = \Omega(1/\sqrt n)$ to get $o(n)$ for $J_F(\pi)$.
+
+So now we prove Van Trees, where we will use the following fact:
+
+\begin{fact}*
+	We have: \[
+		\chi^2(P_{A,B} \Vert Q_{A,B}) = \chi^2(P_A\Vert Q_A) + \EE_{t\sim P_A} \sqrb*{\chi^2\parens*{P_{B|A=t}\middle\Vert Q_{B|A=t} \frac{P_A(t)}{P_B(t)}}}
+	\]
+\end{fact}
+
+\begin{proof}
+	[Proof of Van Trees:]
+	Let $\delta > 0$ be arbitrary, and let $\theta \sim \pi$, $x\sim P_\theta$. Let $\tilde \theta = \theta - \delta$. Note that \[
+		\delta = \mathbb E[\theta - \tilde \theta] = \mathbb E[\theta - \hat \theta] - \mathbb E[\tilde \theta - \hat \theta].
+	\]
+	In particular, if $f(\theta,x) = \theta - \hat\theta(x)$, we get: \[
+		\delta = \EE[f(\theta, x)] - \EE[f(\tilde \theta, x)].
+	\]So, \[
+		\chi^2(P_{\tilde\theta, x} \Vert P_{\theta, x}) \geq \frac{(\mathbb E_{\theta, x}[f] - \EE_{\tilde\theta, x}[f])^2}{\opera{Var}_{P_\theta, x} [f]},
+	\]
+	which rearranges to \[
+		R_\pi(\hat\theta) \geq \frac{\delta^2}{\chi^2(P_{\tilde \theta, x} \Vert P_{\theta, x})}.
+	\]
+	Now, using the fact, we have: \[
+		\chi^2(P_{\tilde \theta, x} \Vert P_{\theta, x}) = \chi^2(P_{\tilde \theta} \Vert P_{\theta}) + \mathbb E_{\tau \sim P_\theta} \chi^2(P_{x|\tilde\theta = \tau} \Vert P_{x|\theta=\tau}) \frac{P_{\tilde\theta}(\tau)}{P_{\theta}(\tau)}.
+	\]
+	On the other hand, note that \[
+		\chi^2(P_{\tilde\theta} \Vert P_\theta) = \chi^2(\pi(\bullet - \delta) \Vert \pi) = \delta^2 J_F(\pi) + o(\delta^2).
+	\]
+	Furthermore, as $\delta \to 0$, $\frac{P_{\tilde\theta}(\tau)}{P_\theta(\tau)}\to 1$, so we can note that \[
+		\chi^2(P_{x|\tilde \theta = \tau} \Vert P_{x|\theta=\tau}) = \chi^2(P_{\tau -\delta} \Vert P_\tau) = \delta^2 J_F(\tau)  + o(\delta^2).
+	\]
+	Thus, we get \[
+		\chi^2(P_{\tilde\theta, x} \Vert P_{\theta, x}) = \delta^2\parens*{J_F(\pi) + \EE_{\theta\sim \pi} J_F(\theta)} + o(\delta^2).
+	\]
+	So, our bound becomes \[
+		\frac{1}{\parens*{J_F(\pi) + \EE_{\theta\sim \pi} J_F(\theta)} + o(1)},
+	\]
+	which yields the desired as $\delta \to 0$.
+\end{proof}
+
+\subsection{Data Compression}
+
+We are interested in the following problem: Giving a sequence of symbols $(x_1, \ldots, x_n)$, and we want to represent it as a sequence of bits.
+Before Shannon, previous work was basically Morse code, which sorts the sequence in decreasing order of frequency, and maps $0$, $1$, $00$, $01$, $10$, $11$, etc.
+This is an example of the following:
+
+\begin{defn}
+	We define a \vocab{(variable-length, non-prefix-free) compressor} to be some injective map $f\colon \mathcal X \to \set{0,1}^*$.
+\end{defn}
+
+\begin{fact}*
+	For any monotone metric (e.g. average length, median length, 90th percentile length), the greedy map (\`a la Morse code) is optimal.
+	We call this the \vocab{optimal compressor}.
+\end{fact}
+
+\begin{defn}*
+	For $A,B$ distributions on $\RR$, we say $A\leq_{\text{st}} B$ ($A$ \vocab{stochastically dominates} $B$)if for any $t$, $\PP[A\geq t] \geq \PP[B\geq t]$.
+\end{defn}
+
+\begin{thm}
+	For any compressor $f$, $\ell(f(x)) \geq_{\text{st}} \ell(f^*(x))$ for the optimal compressor $f^*$.
+\end{thm}
+
+\begin{thm}
+	[Alon-Orlitsky]
+	We have: \[
+		H(X) - \log_2(e(H(x) + 1)) \leq \mathbb E \ell(f^*(x)) \leq H(X).
+	\]
+\end{thm}
+
+Remark: Orlitsky's first name is Alon. We will prove the theorem, but first we invoke the following lemma:
+
+\begin{lem}*
+	Consider distributions $L$ with $\EE[L] \leq \mu$ for $L\in \set{1,2,\ldots}$. Then, \[
+		\max H(L) = (1+u) h \parens*{\frac 1{1+\mu}}\leq \log(1+\mu) + \log e.
+	\]
+\end{lem}*
+
+\begin{proof}
+	[Proof of Alon-Orlitsky:]
+	Write $P_X(1) \geq P_X(2) \geq \cdots$, so that $P_X(k) \leq \frac 1k$. Then, \[
+		\ell(f^*(k)) \leq \log_2 \frac{1}{P_X(k)}.
+	\]So now if we take expectation over all $k$, we get $\EE \ell f^*\leq H(X)$.
+	Let $L = \ell(f^*(X))$. Then, $H(X) = H(X,L) = H(X|L) + H(L) \leq \EE[L] + H(L)\leq \EE[L] + \log(1 + \EE[L]) + \log e$.
+	On the other hand, $\EE[L]\leq H(X)$, so \[
+		H(X) \leq \EE[L] + \log e + \log(1+H(X)),
+	\]
+	which is precisely what we want.
+\end{proof}
+
+\begin{thm}
+	We have: \[
+		\PP\sqrb*{\log_2 \frac{1}{P_X(x)} \leq k} \leq \mathbb P[\ell(f^*(x))\leq k] \leq \PP\sqrb*{\log_2 \frac{1}{P_X(x)} \leq k+\tau} + 2^{-\tau+1}
+	\]
+	for any $\tau > 0$.
+\end{thm}
+
+\begin{proof}
+	The lower bound is pretty easy, but the upper bound uses a classic trick.
+	Notice that \[
+		\PP[L\leq k] \leq \PP\sqrb*{\log_2 \frac{1}{P_X(x)} \leq k+\tau} + \PP\sqrb*{L \leq k, \log_2 \frac{1}{P_X(x)} > k+\tau}.
+	\]
+	The second part gets bounded by \[
+		2^{k+1}\cdot 2^{-k-\tau} = 2^{1-\tau}.
+	\]
+\end{proof}
+
+\begin{cor}*
+	As distributions, \[
+		\frac 1n \log \frac{1}{P_{X^n}(X^n)} \to U \iff \frac 1n \ell(f^*(X^n)) \to U.
+	\]
+	Similarly, \[
+		\frac 1{\sqrt n} \parens*{\log \frac{1}{P_{X^n}(X^n)} - n+1}\to V \iff \frac 1{\sqrt{n}} \parens*{\ell(f^*(X^n)) - n + 1}\to V.
+	\]
+\end{cor}

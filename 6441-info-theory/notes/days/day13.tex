@@ -1,0 +1,130 @@
+\section*{Lecture 13: Error Exponents in Binary Hypothesis Testing}
+\setcounter{section}{13}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\subsection{Stein Exponent}
+
+\begin{defn}
+	Define $V_\eps$ by \[
+		V_\eps = \liminf_{n\to \infty} - \frac 1n \log \beta_{1-\eps} (P^n, Q^n).
+	\]
+	Then the \vocab{Stein exponent} $V = \liminf\limits_{\eps\to 0^+} V_\eps$.
+\end{defn}
+
+In other words, the Stein exponent measures the rate at which sampling reduces the type II error rate.
+
+\begin{thm}
+	[Stein's Lemma]
+	Necessarily $V = D(P\Vert Q)$. This is equivalent to \[
+		\beta_{1-\eps}(P^n, Q^n) = e^{-nV + o(n)}
+	\]
+	for any $0 < \eps < 1$.
+\end{thm}
+
+We need the following lemma:
+
+\begin{lem}
+	[Strong Converse in Binary Hypothesis Testing]
+	For any test, $\alpha - \theta \beta \leq \PP\sqrb*{\frac{\d P}{\d Q} > \theta}$.
+\end{lem}
+
+\begin{proof}
+	Last time we showed that \[
+		\beta_{1-\eps} (P^n, Q^n) \leq e^{-nD(P\Vert Q) + o(n)}.
+	\]
+	So now we want to show $\geq$.
+	Indeed, take $\theta = e^{n(v+\eps)}$, then \[
+		1-\eps - \theta \beta \leq \PP\sqrb*{\sum_{i=1}^n \log \frac{\d P}{\d Q} (x_i) > n(V+\eps)}\to 0,
+	\]whereupon we get \[
+		\beta \geq \frac{1-\eps-o(1)}{\theta} = e^{-n(v+\eps)+o(n)},
+	\]
+	which completes the proof.
+\end{proof}
+
+\subsection{Error Exponents in the Chernoff Regime}
+
+Suppose instead that we want $\alpha = 1-\Theta(e^{-nE_0})$ and $\beta = \Theta(e^{-nE_1})$ (as opposed to just $\alpha  = 1-\eps$ for some fixed $\eps$).
+So we are interested in the curve of all possible $(E_0, E_1)$.
+
+\begin{fact}*
+	[Stein Exponents]
+	The curve includes $(0, D(P\Vert Q))$ and $(D(Q\Vert P), 0)$.
+\end{fact}
+
+\begin{defn}
+	Let $c(P,Q) = \min_{\text{all tests}} \max(E_0, E_1)$ be the \vocab{Chernoff exponent}.
+\end{defn}
+
+Now we try to compute this. For any deterministic test of the form $0_E$, \[
+	1-\alpha + \beta = 1-P^n(E) + Q^n(E) = 1 - \opera{TV} (P^n, Q^n).
+\]
+
+Now, recall that \[
+	1 - \frac{H^2(P^n, Q^n)}{2} = \parens*{1 - \frac{H^2(P,Q)}{2}}^n,
+\]
+so the right hand side decays exponentially; call it $e^{-nE_H}$.
+We obtain: \[
+	1-e^{-nE_H} \leq \opera{TV} \leq \sqrt{1-e^{-2nE_H}},
+\]
+so we get \[
+	1-\sqrt{1-e^{-2nE_H}} \leq 1-\opera{TV}(P^n, Q^n) \leq e^{-nE_H}.
+\]
+We thus obtain: 
+
+\begin{fact}
+	$c(P,Q) \in [E_H, 2E_H]$.
+\end{fact}
+
+In fact, we may say more:
+
+\begin{thm}
+	For any $0 < E_0 < D(Q\Vert P)$, the maximal $E_1$ is: \[
+		E_1 = \min_R \parens*{D(R\Vert Q) \colon D(R\Vert P) \leq E_0}.
+	\]
+	The optimal $R$ exists and is unique, and is of the form \[
+		\d R = \frac{1}{z_\lambda}(\d P)^\lambda (\d Q)^{1-\lambda}
+	\]
+	for $0 < \lambda < 1$ and some normalization constant $z_\lambda$.
+	Furthermore, the optiaml test is just $Z = 1\set{F_n \leq n\tau}$, where $\tau = E_1 - E_0$ and $F_n = \sum_{i=1}^n \log\frac{\d P}{\d Q} (X_i)$.
+\end{thm}
+
+\subsection{Large Deviations Theory}
+
+\begin{thm}
+	For any $\tau$, \[
+		\frac 1n \PP\sqrb*{\sum X_i > n\tau} \to -\inf \set*{D(Q\Vert P)\colon \EE_Q X > \tau}.
+	\]
+	Similar results hold when one replaces $>$ with $\geq$.
+\end{thm}
+
+\begin{proof}
+	We just show the result for $>$.
+	We invoke the following (which is true by manipulation and DPI) for any $Q_{X^n}$: \[
+		D(Q_{X^n}\Vert P^n) \geq -\log 2 + Q_{X^n}[E_n] \log \frac{1}{P^n[E_n]},
+	\]where $E_n$ is the event $\sum X_i > n\tau$.
+	Now restrict to $Q_{X^n}$ of the form $Q^n$ for $\EE_Q X > \tau$.
+	Then, $D(Q_{X^n} \Vert P^n) = nD(Q\Vert P)$, and so we get: \[
+		P^n[E_n] \geq e^{-nD(Q\Vert P) + \log 2}{\QQ[E_n]}.
+	\]
+	Now we are very happy, because $\QQ[E_n] = 1-o(1)$. Picking an optimal $Q$ shows that the limit is at least the right hand side.
+	For the other direction, pick $Q_{X^n}$ to be $\PP[\cdot |E_n]$.
+	Now, \[
+		D(Q_{X^n}\Vert P^n) = \sum_{x^n\in E_n} Q_{X^n} \log \frac{Q_{X^n}(x^n)}{P^n(x^n)}.
+	\]
+	Now if we just use Bayes, we get \[
+		\sum_{x^n\in E_n} \frac{P^n(x^n)}{P^n[E_n]} \log \frac{1}{P^n[E_n]} = -\log P^n[E_n].
+	\]
+	Thus, \[
+		-\log P^n[E_n] = D(Q_{X^n} \Vert P^n) = \inf \set*{D(Q_{X^n}\Vert P^n) \colon \EE_Q [X_1+\cdots + X_n] > n\tau}.
+	\]
+	In fact, we claim that the right hand side is just $n\inf\set{D(Q\Vert P) \colon \EE_Q[X] > \tau}$.
+	Now, by convexity, \[
+		D(Q_{X^n}\Vert P^n) = \sum_{i=1}^n D(Q_{X_i|X^{i-1}} \Vert P | Q_{X^{i-1}}) \geq \sum_{i=1}^n D(Q_{X_i} \Vert P)  \geq n D(\ol Q \Vert P),
+	\]
+	where $\ol Q = \frac{Q_1 + \cdots + Q_n}{n}$.
+	Thus the right hand side above is at least $n\inf \set{D(Q\Vert P)\colon \EE_Q[X] > \tau}$. For the other direction, for any such $Q_0$ we can just take $Q_{X^n} = Q_0^n$.
+\end{proof}
+
+This is enough to prove the first part of the theorem above.

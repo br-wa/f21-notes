@@ -1,0 +1,139 @@
+\section*{Lecture 14: Channel Coding I}
+\setcounter{section}{14}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+In channel coding, we have a Markov kernel $P_{Y|X}$ (which is our channel), and we are interested in transmitting data across the channel.
+Formally, we have: 
+
+\begin{defn}
+	For a Markov kernel $P_{Y|X}$, we define the (possibly random/Markov) functions $f\colon [M]\to \mathcal X$ and $g\colon \mathcal Y\to [M] \cup \texttt{error}$ is called a \vocab{$(M,\eps)$-code} for $P_{Y|X}$ if \[
+		\PP[w\neq \hat w] \leq \eps,
+	\]
+	where $W = [M] \stackrel{f}{\longrightarrow} X \stackrel{P_{Y|X}}{\longrightarrow} Y \stackrel{g}{\longrightarrow} \hat W$.
+\end{defn}
+
+\begin{defn}
+	The \vocab{fundamental limit} $M^*(\eps; P_{Y|X})$ is defined as the supremum of $M$ such that a $(M,\eps)$-code exists.
+\end{defn}
+
+Intuitively, the game we are playing here is as follows: We pick \vocab{codewords} $f(1), \ldots, f(M)$, which are then mapped to elements in $\mathcal Y$. In some sense, the goal of $f$ is just to ``spread the codewords apart," and the decoder $g$ just does something dumb like ``estimate based on which is $P_{Y|X} f(i)$ is most reasonable."
+
+\begin{exm}
+	The \vocab{binary symmetric channel} $\opera{BSC}(n,\delta)$ is a channel where $\mathcal X, \mathcal Y$ are both $\set{0,1}^n$, which independently flips each bit with probability $\delta$.
+	Now, suppose $n = 1000$ and we want to send $k = \log_2 M$ bits. Say $\eps = 10^{-3}$.
+
+	We can try the following strategies:
+	\begin{itemize}
+		\item Take $k = n$, we will get $\PP[\text{error}] = 1 - (1-\delta)^n \approx 1$.
+		\item Repeat each bits $\ell$ times, and then the decoder just does ``majority vote" to guess the bit.
+			Then, $k\approx n/\ell$, and the probability of error is \[
+				1 - (1-\PP[\opera{Binom}(\ell,d) \geq \ell/2])^k \approx k\opera{Binom}(\ell,d)\leq \eps.
+			\]
+			In particular, we note that if $\eps\to 0$, $k/n\to 0$.
+			As a corollary, ``infinitely good error requires infinitely high repetition."
+			For example, in $n = 1000, \eps = 10^{-3}$, $\delta = 0.11$, we actualy get $k = 47$, which is not particularly good.
+		\item \vocab{Reed-Muller (1st order) error correcting code (ECC)}: Say we have $r$ bits $a_0, \ldots, a_{r-1}$.
+			Construct a polynomial $P(x,a) = a_0 + a_1x_1 + \cdots + a_{r-1}x_{r-1}\pmod 2$.
+			Then, send $P(x,a)$ for each $x \in \set{0,1}^{r-1}$.
+			Then, $r$ bits are sent in $2^{r-1}$ bits.
+			
+			Now observe that the number of $x$ such that $P(x,a) \neq P(x,a')$ is at least $2^{r-2}$. We denote this as a $[r,2^{r-1}, 2^{r-2}]$-ECC, which denotes the fact that $k = r, n = 2^{r-1}$, and $d_{\text{min}} = 2^{r-2}$ is the minimum distance between any two inputs.
+			Note that for a $[k,n,d]$-ECC, the probability of error is \[
+				\PP[\opera{Binom}(n,\delta) \geq d/2].
+			\]
+			For $r = 7$, we get $[7, 64, 32]$-ECC, which has error rate $6\cdot 10^{-6}$. Then, we can just separate $112$ bits in $16$ groups of $7$. 
+			We need $1024 \approx 1000$ bits to send, and error probability is $16\cdot 6\cdot 10^{-6} < \eps$.
+	\end{itemize}
+\end{exm}
+
+In fact, we theoretically can do way better:
+
+\begin{fact}*
+	[Shannon's Claim]
+	We ought to be able to achieve $k = nC$, where $C$ is the channel capacity $P_{Y|X}$.
+\end{fact}
+
+For $\opera{BSC}(\delta)$ and $\delta = 0.11$, the capacity is $\log 2 - h(\delta) \approx 0.5$ bits. This is a lot better, but it turns out Shannon's claim is only true asymptotically:
+
+\begin{fact}*
+	We have $\log_2 M^*(10^{-3}, \opera{BSC}(\delta)) \in [414, 416]$ bits.
+\end{fact}
+
+\begin{fact}*
+	RIght now, our practical algorithms get $80\%-90\%$ of $\log_2 M^*$.
+\end{fact}
+
+\begin{fact}
+	Given $f\colon [M]\to \mathcal X$, the optimal decoder is deterministic and is \[
+		g(y) = \opera{argmax}_j \PP[W=j|Y=y].
+	\]
+\end{fact}
+
+\begin{proof}
+	Note that we just want to maximize \[
+		\PP[w = \hat w] =\int_{y\sim Y} \d y \PP[W = g(y)|Y=y] \leq \int_{y\sim Y} \d y \max_j \PP[W=j|Y=y],
+	\]
+	with equality precisely when $g$ is as described.
+\end{proof}
+
+\begin{exm}*
+	For $\opera{BSC}(\delta)$, \[
+		\log P_{Y|X}(y^n|x^n) = \abs{\set{i\colon x_i \neq y_i}}\log \delta + \abs{\set{i \colon x_i = y_i}} \log(1-\delta) = n\log(1-\delta) + d_H(x,y)\log \frac{\delta}{1-\delta},
+	\]
+	where $d_H$ is the Hamming distance.
+	Thus, if $W$ is uniform on $M$ (and thus $X$ is uniform on $\set{C_1,\ldots, C_M}$, where $C_i = f(i)$), then the optimal decoder just minimizes Hamming distance.
+\end{exm}
+
+On the other hand, we also have:
+
+\begin{thm}
+	Any $(M,\eps)$-code satisfies \[
+		\log M \leq \frac{C + h(\eps)}{1-\eps}.
+	\]
+\end{thm}
+
+\begin{proof}
+	Recall that we have the Markov chain $W\to X\to Y \to \hat W$. So, \[
+		I(W;\hat W) \leq I(X;Y) \leq C.
+	\]
+	On the other hand, Data Processing yields \[
+		I(W;\hat W) \geq d\parens*{\PP[w=\hat w] \middle\Vert \frac 1M} \geq \PP[w=\hat w] \log M - h(\PP[w = \hat w]) \geq (1-\eps)\log M - h(\eps),
+	\]
+	whereupon rearranging yields the desired.
+\end{proof}
+
+Remark that the above proof is basically just Fano's Inequality.
+
+\begin{defn}
+	Define a \vocab{sequence of channels} as a sequence $P_{Y^n|X^n}$ for $n = 1, 2, \ldots$.
+	We assume that they act on $\mathcal X^n \to \mathcal Y^n$.
+	In that case, we define \[
+		M^*(n.\eps) = \sup \set*{M\colon \exists (M,\eps)\text{-code for }P_{Y^n|X^n}}.
+	\]
+	Furthermore, the \vocab{$\eps$-capacity} of the channel is \[
+		C_\eps = \liminf_{n\to \infty} \frac 1n \log M^*(n,\eps).
+	\]
+	Finally, the \vocab{(operational) channel capacity} is $C = \liminf\limits_{\eps\to 0} C_\eps$. Meanwhile, the \vocab{(informational) channel capacity} is \[
+		C_i = \liminf_{n\to\infty} \frac 1n \sup I(X^n;Y^n).
+	\]
+\end{defn}
+
+\begin{defn}
+	A sequence of channels is called \vocab{memoryless} if $P_{Y^n|X^n} = (P_{Y|X})^{\tenp n}$.
+\end{defn}
+
+\begin{fact}*
+	For memoryless channels, $C_i = \sup_{P_X} I(X;Y)$.
+\end{fact}
+
+\begin{proof}
+	Use tensorization properties of capacity.
+\end{proof}
+
+\begin{cor}
+	$C_\eps \leq \frac{C_i}{1-\eps}$, and $C \leq C_i$.
+\end{cor}
+
+
