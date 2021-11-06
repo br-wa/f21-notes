@@ -1,0 +1,37 @@
+\section*{Lecture 8: Adiabatic Transitions (Voigt)}
+\setcounter{section}{8}
+\setcounter{subsection}{0}
+\setcounter{defn}{0}
+\setcounter{defncontainer}{0}
+
+\begin{defn}
+	An \vocab{adiabatic} process is one in which $q = 0$ at any point.
+	The path taken is called a \vocab{adiabat}.
+\end{defn}
+
+\begin{que}*
+	In an ideal gas, how does this work? 
+\end{que}
+	
+Suppose we start at $A = (P_1,V_1)$ and end up at $B = (P_2, V_2)$, with $V_2 > V_1$. 
+Then, we have an expansion process, which means the gas does work on the environment and thus loses energy.
+So, $T_2 < T_1$.
+Now let $C = (P_1V_1/V_2, V_2)$, so that $AC$ is an isotherm. Then, \[
+	w_{A\to B} = \Delta U_{A\to B} = \Delta U_{A\to C} + \Delta U_{C\to B}. 
+\]	
+But $U_{A\to C} = 0$, so in fact we just need $\Delta U_{C\to B}$, which is at constant volume. In particular, we have:
+
+\begin{fact}
+	In an adiabatic process $A\to B$, $w = C_{V_2} (T_2 - T_1)$.
+\end{fact}
+
+Now, recall that $P_{\text{ex}} = P$ for reversible transitions, so for an ideal gas: \[
+	\d U = - P \d V = \frac{- nRT}{V} \d V \iff \frac{\d U}{T} = -nR \frac{\d V}{V}.
+\]
+On the other hand, $\d U = C_V \d T$, so \[
+	C_V\frac{\d T}{T} = -nR \frac{\d V}{V} \iff \ol{C_V}\frac{\d T}{T} = -R \frac{\d V}{V}.
+\]It follows that since $\ol{C_V}$ is constant as $V$ changes (since we are assuming an ideal gas) \[
+	\ol{C_V} \ln \frac{T_2}{T_1} = R \ln \frac{V_1}{V_2}.
+\]
+
+

@@ -1,0 +1,52 @@
+\section*{Lecture 11: The Second Law of Thermodynamics (Voigt)}
+\setcounter{section}{11}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Recall that from last time we derived $\frac{\Delta S}{n} = R\ln \frac{V_2}{V_1}$ for an isothermal expansion of an ideal gas.
+However, we must note that $\Delta S_{\text{sys}}$ does not uniquely determine whether something will happen. 
+For example, consider protein folding.
+
+Recall that $\d S_{\text{surr}} = \frac{\d q_{\text{surr}}}{T}$.
+In particular, when the reaction is reversible, $\d q_{\text{surr}} = - \d q_{\text{sys}}$, so \[
+	\d S_{\text{surr}} = -\frac{\d q_{\text{sys}}}{T} = - \d S_{\text{sys}}.
+\]
+So, 
+\begin{fact}
+	$\Delta S_{\text{univ}}$ for all reversible processes.
+\end{fact}
+
+On the other hand, suppose we have an isothermal expansion, but surroundings are a vacuum. Then, the process is irreversible, since it there is no external force to reverse it. Now, $\Delta S_{\text{surr}} = 0$, so $\Delta S_{\text{univ}} = R \ln \frac{V_2}{V_1} > 0$.
+
+\begin{law}
+	[Second Law]
+	The entropy of the universe increases as a result of any spontaneous process.
+\end{law}	
+
+\begin{defn}
+	A \vocab{spontaneous} process is one that occurs without external work.
+\end{defn}
+
+Thus we see that $\Delta S_{\text{univ}}$ is a \vocab{condition of spontaneity}.
+
+\begin{defn}
+	For a reaction, define its \vocab{reaction entropy} as $\Delta_r S = \sum\limits_{\text{products}} v S - \sum\limits_{\text{reactants}} v S$.
+\end{defn}
+
+\begin{fact}*
+	Not all $S = 0$ at $T = 0$. At $T = 0$ the substance forms a crystal, whose structure can be in one of multiple microstates. 
+\end{fact}
+
+\begin{defn}
+	The \vocab{residual entropy} of a substance is its entropy at $T = 0$.
+\end{defn}
+
+\begin{exm}
+	[Residual Entropy of Carbon Monoxide]
+	Each molecule can be in either C=O or O=C form, so \[
+		S = k_B \ln W = k_b \ln 2^{N} = Nk_B \ln 2 = nR \ln 2.
+	\]
+\end{exm}
+
+

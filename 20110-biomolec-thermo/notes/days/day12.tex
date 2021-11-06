@@ -1,0 +1,32 @@
+\section*{Lecture 12: Gibbs Free Energy (Voigt)}
+\setcounter{section}{12}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Recall from last time that we claimed the following:
+
+\begin{law}
+	[Second Law, Formalized]
+	$\Delta S_{\textnormal{univ}} = \Delta S_{\textnormal{sys}} + \Delta S_{\textnormal{surr}} \geq 0$ for all spontaneous processes, with equality for reversible processes.
+\end{law}
+
+\subsection{Free Energy}
+
+It is in general hard to compute $\Delta S_{\text{surr}}$. Suppose our process occurs at \textbf{constant temperature and constant pressure}. Then, \[
+	\Delta S_{\text{surr}} = \frac{q_{\text{surr}}}{T} = -\frac{q_\text{sys}}{T} = -\frac{\Delta H_{\text{sys}}}{T}.
+\]
+(The first equality needs constant temperature, while the last one needs constant pressure).
+It follows that \[
+	\Delta S_{\text{univ}} \geq 0 \iff \Delta S_{\text{sys}} - \frac{\Delta H_{\text{sys}}}{T} \geq 0\iff \Delta H_{\text{sys}} - T\Delta S_{\text{sys}} \leq 0.
+\]
+We thus define:
+\begin{defn}
+	Define the \vocab{(Gibbs) free energy} $G$ of a system as $G = H - TS$.
+\end{defn}
+
+Then, 
+
+\begin{thm}
+	An isothermal, isobaric process is spontaneous if and only if $\Delta G \leq 0$.
+\end{thm}

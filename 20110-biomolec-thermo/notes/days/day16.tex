@@ -1,0 +1,39 @@
+\section*{Lecture 16: Storytime (Voigt)}
+\setcounter{section}{16}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+We now know the following: $\Delta_r G^\circ = -RT\ln K$, where $K$ is the equilibrium constant, and $\Delta_r G^\circ = = \Delta_r H^\circ - T\Delta_r S^\circ$.
+
+\begin{cor}*
+	[Van't Hoff]
+	We have $\ln K = \frac{-\Delta_r H^\circ}{R} \frac 1T + \frac{\Delta_r S^\circ}{R}$, so plotting $\ln K$ against $T^{-1}$ gives us a line that we can extrapolate to get $\Delta_r H^\circ$ and $\Delta_r S^\circ$.
+\end{cor}
+
+\begin{exm}
+	[Drug Design]
+	Suppose we want a drug to bind to the target. Energetically, we have the following things to consider:
+	\begin{itemize}
+		\item Hydrogen bonds/hydrophobic effects,
+		\item Electrostatics, and
+		\item Shape.
+	\end{itemize}
+	Entropically, we have the following:
+	\begin{itemize}
+		\item Conformations,
+		\item Flexibility,
+		\item Translation (just two things coming together decreases entropy), and
+		\item Solvation effects.
+	\end{itemize}
+	Solvation effects are very important. To see what these are, note that if we have oil droplets in water, they will cause the water molecules around them to be arranged in a specific structure, which decreases entropy.
+	If the oil droplets fuse, then there are fewer water molecules around the new big oil droplet, so the net entropy actually increases.
+	We therefore have the following principles: \emph{Use a hydrophobic molecule as the drug, and make it very rigid}.
+\end{exm}
+
+\begin{exm}
+	[HIV Drug Design]
+	Original HIV drugs (e.g. indinavir from 1996) were very rigid. As a result, they were easy to mutate around, since they did not bend to address mutations.
+	Furthermore, they were not very soluble, so it was very difficult to make them deliverable.
+	In the early 2000s, people developed better computational tools, which allowed for more enthalpy-driven drug design, which made drugs more resistant to mutation.
+\end{exm}

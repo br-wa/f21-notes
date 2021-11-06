@@ -1,0 +1,81 @@
+\section*{Lecture 19: Boltzmann Applications (Birnbaum)}
+\setcounter{section}{19}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{exm}*
+	A system (e.g. an ion channel) has two states: A, with an energy of $0$, and B, with an energy of $\SI{-2.5}{kJ/mol}$. What is the probability that the system is at state B at $T = \SI{300}K$?
+\end{exm}	
+
+\textit{Solution:}
+At $\SI{300}K$, we have $k_BT$ energy per molecule corresponding to $N_Ak_BT \approx \SI{2.5}{kJ/mol}$ energy per mole.
+Thus the partition function is just \[
+	Q = e^0 + e^{1} \approx 1.36.
+\]
+We thus get \[
+	\PP[B] = \frac{e^{1}}{Q} \approx \boxed{0.731}.
+\]
+
+\begin{exm}*
+	Same setup, but what happens now if B has energy $\SI{-7.5}{kJ/mol}$?
+\end{exm}
+
+\textit{Solution:}
+The partition function is now $Q = 1+e^{3}$, and so \[
+	\PP[B] = \frac{e^{3}}{Q} = \frac{e^3}{1+e^3} \approx \boxed{0.953}.
+\]
+
+\begin{fact}
+	We can rewrite the Boltzmann distribution as \[
+		\PP[A] = \frac{\gamma_A e^{-E_A/k_BT}}{Q},
+	\]
+	and $Q = \sum_{i=1}^t \gamma_i e^{-E_i}{k_BT}$, where $\gamma_i$ is the number of states with energy $E_i$.
+\end{fact}
+
+In particular, this lets us combine degenerate states (i.e. ones with the same energy) and compute probabiltiies of observing a specific energy level.
+
+\begin{exm}*
+	[Bead-on-a-String Model]
+	In this model, we associate an oligopeptide with a length $6$ $v_1,\ldots, v_6$ path in the lattice graph on $\ZZ^2$. The number of contacts is defined as the number of $v_i,v_j$ with $i-j > 1$ adjacent in the graph.
+	If there are 0 contacts, we say that the oligopeptide is unfolded. If there is 1 contact, we say that the oligopeptide is partially folded. If there are 2 contacts, we say that the oligopeptide is folded.
+	In these three cases we say the system has energies $2\mathcal E_0, \mathcal E_0$, and $0$, respectively.
+	What is the probability of observing the oligopeptide in each state, assuming $\mathcal E_0 = \SI{2.5}{kJ/mol}$ and $T = \SI{300}K$?
+\end{exm}
+
+\textit{Solution:}
+If we draw every possibility out, we find that there are 21 possible arrangements in the unfolded state, 11 in the partially folded state, and 4 in the folded state.
+We will get the following: \[
+	\begin{array}{c|c|c} 
+		\text{state} & \gamma & e^{-E/k_BT} \\ \hline
+		\text{unfolded} & 21 & e^{-2} \\ \hline
+		\text{partially folded} & 11 & e^{-1} \\ \hline
+		\text{folded} & 4 & e^0
+	\end{array}
+\]
+Thus, \[
+	Q = 21e^{-2} + 11e^{-1} + 4e^0 = 10.89.
+\]
+Now, \[
+	\PP[\text{folded}] = \boxed{0.367}.
+\]
+
+\begin{fact}
+	As $T\to 0$, the distribution of energy values is according to energy levels (i.e. very high probability of being in lowest state).
+	As $T \to \infty$, the distribution of energy values is according to the $\gamma$'s, i.e. we can approximate by $Q = \sum \gamma_i$ and $\PP[A] = \frac{\gamma_A}{Q}$.
+\end{fact}
+
+\begin{exm}*
+	In a protein with $N = 50$ amino acids, there is a folded state with energy $\SI{-500}{kJ/mol} \approx -200k_BT$ at $T = \SI{300}K$.
+	Approximate by $6^{50}$ degenerate unfolded states, with energies all $0$. What is the probability of finding the protein in an unfolded state?
+\end{exm}
+
+\textit{Solution:}
+We have: \[
+	Q = 1 \cdot e^{200} + 6^{50} e^0.
+\]
+Thus, \[
+	\PP[\text{folded}] = \frac{e^{200}}{e^{200} + 6^{50}} \approx \boxed{1}.
+\]
+
+However, we can also compute approximate $\Delta H = \SI{-3}{kJ/mol}$ per AA, and $\Delta S = R\Delta \ln W = -R\ln 6^{50}$ for protein folding, which works out to $\Delta G = \SI{73}{kJ/mol}$. This is positive -- how?

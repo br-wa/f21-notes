@@ -1,0 +1,31 @@
+\section*{Lecture 17: Statistical Mechanics (Birnbaum)}
+\setcounter{section}{17}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Suppose we have a beaker of gas. Thermodynamically, we just need $3$ state functions to define the state. 
+Typically we use $(P, V, T)$. From here, we can compute all other state functions.
+Thus $(P, V, T)$ defines a macrostate.
+On the other hand, we have:
+
+\begin{exm}*
+	A microstate can be defined as the position $(x_i, y_i, z_i)$ and velocity $\vec v_i$ of each atom in the beaker.
+\end{exm}
+
+\begin{fact}
+	Macrostates are stable at equilibrium; microstates are not.
+\end{fact}	
+
+There is a useful philosophical question here: It would be nice if we could track the individual molecules. Practically speaking, we cannot. On the other hand, we can make probabilistic predictions. For example, we can say that it is unlikely that all the air in the beaker will spontaneously go to a single corner.
+
+\begin{defn}
+	[Gibbs Entropy]
+	Suppose we have $t$ microstates with probabilities $p_1, \ldots, p_t$ of appearing, respectively. Then, define entropy as \[
+		S = -Nk_B \sum_{i=1}^t p_i \ln p_i.
+	\]
+\end{defn}	
+
+\begin{fact}*
+	When $p$ is uniform, i.e. $p_1 = p_2 = \cdots = p_t = \frac 1t$, then $S = Nk_B\ln t$.
+\end{fact}

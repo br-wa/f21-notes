@@ -1,0 +1,51 @@
+\section*{Lecture 13: More on Free Energy (Voigt)}
+\setcounter{section}{13}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{defn}*
+	Define the \vocab{Helmholtz free energy} $A = U - TS$.
+\end{defn}
+
+\begin{fact}*
+	An isochoric, isothermal process is spontaneous if and only if $\Delta A \leq 0$.
+\end{fact}
+
+\begin{fact}*
+	As before, compute \[
+		\Delta_r G^\circ = \sum_{\text{products}} v \Delta_f  G^\circ - \sum_{\text{reactants}} v\Delta_f G^\circ.
+	\]
+\end{fact}
+
+\begin{thm}
+	[Gibbs-Helmholtz]
+	We have \[
+		\frac{\partial}{\partial T} \parens*{\frac{\Delta \ol G}{T}}_P = -\frac{\Delta \ol H}{T^2}.
+	\]
+\end{thm}
+
+\begin{cor}
+	When $\Delta T$ is small (and thus $\Delta \ol H$ is constant), then \[
+		\frac{\Delta \ol G_2}{T_2} = \frac{\Delta \ol G_1}{T_1} + \Delta \ol H \parens*{\frac 1{T_2} - \frac 1{T_1}}.
+	\]
+\end{cor}
+
+\subsection{Physical Interpretation of Free Energy}
+
+Previously, we discussed free energy as criteria for spontaneity, but it turns out that free energies have physical interpretations as well. Consider Helmholtz first:
+Note that $\Delta A = \Delta U - T\Delta S = q+w - T\Delta S$. But we are at a constant temperature, so $\Delta S = \frac qT$, so 
+\begin{fact}
+	For an isochoric, isothermal process, \[
+		w = \Delta A.
+	\]
+	The same is true for Gibbs (i.e. $w = \Delta G$) for isothermal, isobaric processes.
+	In particular, we can write this as ``free energy measures the amount of work needed for a process to occur."
+\end{fact}
+
+
+
+
+
+
+

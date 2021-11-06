@@ -1,0 +1,66 @@
+\section*{Lecture 15: Fundamental Relationships (Voigt)}
+\setcounter{section}{15}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{defn}
+	A \vocab{fundamental relationship} is an expression of the change in one state function in terms of the changes in others.
+\end{defn}
+
+\begin{fact}
+	We have the following: \[
+		\d U = T\d S - P \d V \qquad \text{and} \qquad \d G = V\d P - S\d T.
+	\]
+	Note that this means that $G$ is used as a criterion for spontaneity precisely when $P, T$ are constant.
+\end{fact}
+
+\begin{defn}
+	The \vocab{chemical potential} for a component $i$ in a system is $\mu_i = \ol{G_i} = \frac{G_i}{n_i}$.
+\end{defn}
+
+\begin{fact}
+	A system is at equilibrium if the chemical potential in all components is constant.
+\end{fact}
+
+\begin{fact}
+	If a system has components $i$, then \[
+		\d G = V\d P - S \d T + \sum \mu_i \d n_i.
+	\]
+\end{fact}
+
+\begin{exm}*
+	Say we have a two-solvent system with solvents $A$ and $B$, and we dissolve a solute $x$ in it. Then, note that if a particle moves from $A$ to $B$, then \[
+		\d G = (\mu_x^B - \mu_x^A) \d n_x,
+	\]
+	so the only way in which $\d G = 0$ is when $\mu_x^B = \mu_x^A$.
+\end{exm}
+
+\begin{cor}*
+	Mass moves from high chemical potential to low chemical potential.
+\end{cor}	
+
+\begin{exm}
+	Suppose we have a reaction $a \ce A + b \ce B \ce{<->} c \ce C + d \ce D$.
+	Then, \[
+		\d G = \mu_A \d n_A + \mu_B \d n_B + \mu_C \d n_C + \mu_D \d n_C.
+	\]
+	If we define the \vocab{extent of reaction} as $\d \xi$, then we have \[
+		\d\xi = -\frac{\d n_A}{a} = -\frac{\d n_B}{b} = \frac{\d n_C}{c} = \frac{\d n_D}{d}.
+	\]
+	Thus, \[
+		\d G = -(a\mu_A + b\mu_B - c\mu_C - d\mu_D) \d \xi,
+	\]
+	so the reaction is at equilibrium when $a\mu A + b\mu_B = c\mu_C + d\mu_D$.
+\end{exm}
+
+\begin{fact}
+	We have: \[
+		\mu_A = \mu_A^\circ + RT \ln \frac{[A]}{[A]_0},
+	\]
+	where $[A]_0$ is the \vocab{standard concentration}, which equals \emph{1 M}.
+	It follows that \[
+		-\frac{\d G}{\d \xi} = [a \mu_A^\circ + b\mu_B^\circ - c\mu_C^\circ - d\mu_D^\circ] + RT \ln \parens*{\frac{[A]^a[B]^b}{[C]^c[D]^d} \cdot (\opera{1 M})^{c+d-a-b}}.
+	\]
+	
+\end{fact}

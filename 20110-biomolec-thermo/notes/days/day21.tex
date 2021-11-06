@@ -1,0 +1,62 @@
+\section*{Lecture 21: Receptor-Ligand Continued (Birnbaum)}
+\setcounter{section}{21}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Recall that last time we derived the following:
+
+\begin{fact}*
+	$\PP[\text{bound}] = \frac{[L]e^{-\Delta E/k_BT}}{[L]e^{-\Delta E/k_BT} + 1}$.
+\end{fact}
+
+Now we will think about this in terms of thermodynamics: Consider $\ce{L + R -> L\cdot R}$, which has equilibrium constant $K_{eq} = K_d^{-1}$.
+Next, note that \[
+	\PP[\text{bound}] = \frac{[L\cdot R]}{[L\cdot R]+[R]}.
+\]
+On the other hand, $\ce{[L\cdot R]} = \frac{[L][R]}{K_d}$. Plugging back, we get \[
+	\PP[\text{bound}] = \frac{[L]/K_d}{[L]/K_d+1}.
+\]
+But in fact, $1/K_d = K_{eq} = e^{-Delta E/k_BT}$, so this is exactly as predicted.
+It also yields:
+
+\begin{fact}*
+	$\PP[\text{bound}] = \frac{[L]}{[L] + K_d}$.
+\end{fact}
+
+\subsection{Cooperativity}
+
+Suppose we are interested in \[
+	\ce{P + 4X <-> PX4},
+\]
+which has equilibrium constant $K_{eff} = \frac{[PX_4]}{[P][X]^4}$, which yields \[
+	\PP[\text{bound}] = \frac{K_{eff} [X]^4}{1 + K_{eff} [X]^4}.
+\]
+\begin{defn}
+	The \vocab{Hill equation} is $\PP[\text{bound}] = \frac{K_{eff}[X]^n}{1 + K_{eff}[X]^n}$, where $n$ is the \vocab{Hill coefficient}.
+\end{defn}
+
+Note that in general, higher Hill coefficient means greater range (of probability bound).
+\begin{fact}*
+	In reality the Hill coefficient for hemoglobin-oxygen binding is 2.8, even though hemoglobin is also a tetramer.
+\end{fact}
+
+\begin{defn}
+	The \vocab{microscopic equilibrium constant} $K_{micro} = K_{eff}^{1/n}$, where $n$ is the Hill coefficient.
+\end{defn}
+
+Now, we will try to rederive this using statmech.
+Suppose we get an energy bonus when there are more bound ligands:
+\begin{itemize}
+	\item When zero ligands are bound, the system has energy $LE_{sol}$.
+	\item When one ligands are bound, the system has energy $(L-1)E_{sol} + E_b$.
+	\item When two ligands are bound, the system has energy $(L-2)E_{sol} + 2E_b + J$.
+	\item When three ligands are bound, the system has energy $(L-3)E_{sol} + 3E_b + 3J + K$.
+	\item When four ligands are bound, the system has energy $(L-4)E_{sol} + 4E_b + 6J + 4K + M$.
+\end{itemize}
+
+\begin{defn}*
+	The above assumptions yield the \vocab{Adair model}.
+\end{defn}
+
+The Adair model models binding probability well; however, it does not seem to actually compute energy of microstates accurately.

@@ -1,0 +1,31 @@
+\section*{Lecture 20: Receptor-Ligand Interactions (Birnbaum)}
+\setcounter{section}{20}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Last time we concluded that $\Delta G = \SI{73}{kJ/mol}$ for proteins, and also that proteins have a probability $\approx 1$ of being in their folded state. So what went wrong?
+We need to consider the effects of folding on water as well.
+We can approximate by each amino acid fix a water molecule in 2 possible states in the folded state, and 6 possible states in the unfolded state. Thus, the water molecules have more freedom in the non-folded state. We can then approximate by \[
+	\Delta S_{\text{water}} = R(\ln(6^{50}) - \ln(2^{50})) \approx \SI{457}{J/mol\,K},
+\]
+which will make protein folding favorable again.
+
+\begin{exm}
+	[Receptor-Ligand Binding]
+	We will model receptor-ligand binding as follows: There are $M$ potential locations on a grid, with $L$ ligands (each in their own space) and $R$ ligands (each in their own state). We will assume $M\gg L \gg R =1$
+	Now, we can assume that an unbounded ligand has energy $E_u$ and a bounded one has energy $E_b$.
+	Then, the unbounded state has total energy $LE_u$, while the bounded state has total energy $(L-1)E_u + E_b$.
+
+	Now, the unbounded state has $\gamma = \frac{(M-1)!}{L!(M-1-L)!} \approx \frac{M!}{L!(M-L)!}$.
+	Similarly, in the bound state, $\gamma \approx \frac{M!}{(L-1)!(M-L+1)!}$.
+	Thus, if $B$ denotes the bound state, \[
+		\PP[B] = \frac{\gamma_B e^{-E_B/k_BT}}{Q} = \frac{\frac{M!}{(L-1)!(M-L+1)!} e^{-\frac{E_b + (L-1)E_u}{k_BT}}}{\text{numerator} + \frac{M!}{L!(M-L)!} e^{-LE_u/k_BT}}.
+	\]
+	This works out to \[
+		\frac{Le^{(E_u-E_b)/k_BT}}{Le^{(E_u-E_b)/k_BT} + (M-L+1)}.
+	\]
+	But now $M-L+1 \approx M$, so we can write this as \[
+		\frac{\frac LM e^{-\Delta E/k_BT}}{\frac LM e^{-\Delta E/k_BT} + 1} = \frac{[L] e^{-\Delta E/k_BT}}{[L] e^{-\Delta E/k_BT} + 1}.
+	\]
+\end{exm}

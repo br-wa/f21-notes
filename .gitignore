@@ -1,7 +1,9 @@
-.aux
-.fdb_latexmk
-.fls
-.log
-.out
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
 *.pdf
+media/
 psets/
+code/

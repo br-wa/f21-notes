@@ -1,0 +1,45 @@
+\section*{Lecture 22: Cooperativity (Birnbaum)}
+\setcounter{section}{22}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+\begin{exm}*
+	Consider some reaction \[
+		\ce{ P + X2 -> PX + X -> PX2},
+	\]
+	where the two reactions have equilibrium constants $K_1$ and $K_2$. Then, \[
+		\PP[\ce{PX}] = \frac{k_1[X]}{1 + k_1[X] + k_1k_2[X]^2}.
+	\]
+\end{exm}
+
+\begin{defn}*
+	In general, the denominator (in the above example, $1 + k_1[X] + k_1k_2[X]^2$) is denoted $Q$, and is called the \vocab{binding polynomial}.
+\end{defn}
+
+\begin{exm}*
+	Suppose now that $K_1$ corresponds to $X$ binding at site $1$ and $K_2$ corresponds to $X$ binding at site $2$. 
+	The binding polynomial is now $1 + K_1[X] + K_2[X] + K_1K_2[X]^2$.
+	If we add a third site, it is now \[
+		\sum_{S\subset [3]} \prod_{s\in S} K_i [X],
+	\]
+	where the empty product is $1$.
+\end{exm}
+
+\begin{fact}
+	In general, the binding formula is $\sum_{S\subset [n]} K_S [X]^{|S|}$.
+\end{fact}
+
+\begin{defn}
+	A reaction is \vocab{noncooperative} if for $A,B$ disjoint, $K_A K_B = K_{A\cup B}$.
+	Otherwise, the reaction is \vocab{cooperative} (typically this will mean $K_{A\sqcup B} > K_AK_B$).
+\end{defn}
+
+\begin{exm}
+	[MWC Model]
+	We say hemoglobin has three possible states: $R,T$ (relaxed and tight), and one where relaxed is bound to 4 oxygens noncooperatively.
+	Let $k$ be the constant of oxygen binding, and let $L$ be the constant of the $\ce{R <-> T}$ interconversion reaction.
+	Then, we get \[
+		\PP[\text{bound}] = \frac{k[X] (1 + k[X])^3)}{L + (1+ k[X])^4}
+	\]
+\end{exm}

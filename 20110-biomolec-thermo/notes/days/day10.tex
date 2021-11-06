@@ -1,0 +1,75 @@
+\section*{Lecture 10: Entropy (Voigt)}
+\setcounter{section}{10}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Recall from last time that we had an intuitive sense of time: For example, a sugar cube melts in coffee, not the other way around.
+We will now try to formalize this notion. 
+
+\begin{exm}*
+	Suppose we have a rectangular box split in half down the middle by some divider with a small hole into two halves $A, B$. 
+	Then, note that if there are $N$ molecules, the probability that they are all in $A$ is $2^{-N}$.
+\end{exm}
+
+\begin{defn}
+	Define a \vocab{microstate} to be data about a collection of particles in a system (including positions, velocities, etc.).
+	On the other hand, define a \vocab{macrostate} to be data about the state functions of a system.
+\end{defn}
+
+\begin{fact}
+	Macrostates are constant at equilibrium. Microstates are not.
+\end{fact}
+
+Intuitively, suppose we have $k$ potential macrostates (in general $k$ is infinite, but ignore for now). 
+Say each of these has $N_1, \ldots, N_k$ microstates, respectively. Then, the probability we are in state $i$ is \[
+	\frac{N_i}{N_1 + \cdots + N_k},
+\]
+so in particular we tend to macrostates with more corresponding microstates.
+
+\begin{defn}
+	[Statistical Definition of Entropy]
+	We define \vocab{entropy} to be $S = k_B \ln W$, where $k_B = \frac R{N_A} \approx 1.38\cdot 10^{-23} \opera{J/K}$ is \vocab{Boltzmann's constant}, and $W$ is the \vocab{number of microstates}.
+\end{defn}
+
+Note that estimating $W$ is often hard.
+However, it is sometimes possible to compare $W$:
+
+\begin{exm}*
+	Take the rectangular box from before, and say our two halves are $A,B$. If a particle is just in $A$, say there are $W_A$ microstates.
+	Similarly define $W_B$, then by symmetry $W_A = W_B$. In fact, $W_{AB} = W_A + W_B = 2W_A$ per molecule, so \[
+		\Delta S = k_B(\ln W_{AB} - W_A) = k_B\ln 2 
+	\]
+	per molecule.
+\end{exm}
+
+\subsection{Thermodynamic Definition of Entropy}
+
+\begin{defn}
+	Define a \vocab{reversible heat transfer} to be one where we are continuously changing the temperature.
+\end{defn}
+
+For example, if we are melting an ice cube, we cannot just drop it into a hot bath.
+Instead, we need to slowly and continuously heat the ice cube, so that we are never creating temperature gradients or eddies (which would not be at equilibrium).
+
+\begin{defn}
+	[Thermodynamic Definition of Entropy]
+	We define the change in entropy by $\Delta S = \frac{q_{\opera{rev}}}{T}$.
+	Differentially, this is $\d S = \frac{\d q}{T}$, or $\Delta S = \int \frac{\d q}{T}$.
+\end{defn}
+
+\begin{exm}*
+	[Isothermal Reversible Expansion]
+	Suppose $(P_1, V_1) \to (P_2, V_2)$ (where $P_1V_1 = P_2V_2 = nRT$).
+	Then, $\d U = 0$, so $\d q = - \d w = P\d V$. So, \[
+		\Delta S = \int \frac{\d q}{T} = \int \frac{P\d V}{T} = \frac 1T \int \frac{nRT \d V}{V} = nR \ln \frac{V_2}{V_1}.
+	\]
+\end{exm}
+
+Note that this agrees with the statistical derivation:
+We expect $V_2$ to have $\frac{V_2}{V_1}$ as many microstates as $V_1$ does (consider the $V_2 = 2V_1$ case discussed above), so the statistical definition gives: \[
+	\Delta S = N k_B \ln \frac{W_2}{W_1} = \frac{N}{N_A} R \ln \frac{V_2}{V_1} = nR \ln \frac{V_2}{V_1}.
+\]
+where $N = N_An$ is the number of molecules.
+
+

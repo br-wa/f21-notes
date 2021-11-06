@@ -1,0 +1,45 @@
+\section*{Lecture 18: Boltzmann Distribution (Birnbaum)}
+\setcounter{section}{18}
+\resetcounter{subsection}
+\resetcounter{defn}
+\resetcounter{defncontainer}
+
+Suppose we have a system with $N \gg 1$ particles and $6$ energy levels $(0, 1, 2, 3, 4, 5)$.
+We make the following simplifying assumption:
+
+\begin{law}
+	All microstates are equally likely.
+\end{law}
+
+In particular, let $f$ be the probability density function. Then, note that if $(x,y)$ are random particles, then $u_x, u_y$ (the energy states of $x,y$) are roughly independent, so if $u_i$ (pardon the abuse of notation) is the energy of state $i$, we get: \[
+	f(u_i)f(u_j) = p(u_x = i, u_y = j) = p(u_x = k, u_y = \ell) = f(u_k)f(u_\ell)
+\]
+For any $u_i + u_j = u_k + u_\ell$. Equivalently, \[
+	\ln f(u_i) + \ln f(u_j) = \ln f(u_k) + \ln f(u_\ell).
+\]
+Hand-wavily, the only reasonable $f$ is such that $\ln f$ is linear, i.e. $f$ is exponential. It turns out the slope of the linear function is known:
+
+\begin{thm}
+	$f(x) = Ae^{-\beta u_x}$, where $\beta = (k_BT)^{-1}$, and \[
+		A = \parens*{\sum_x e^{-\beta u_x}}^{-1}.
+	\]
+\end{thm}
+
+\begin{cor}*
+	The probability of a given particle being in energy state $j$ is \[
+		P_j = \frac{e^{-u_j/k_BT}}{Q},
+	\]
+	where $Q = \sum e^{-u_j/k_BT}$.
+\end{cor}
+
+\begin{defn}
+	The distribution $f$ is the \vocab{Boltzmann distribution}. $Q$ (defined above) is the \vocab{partition function}.
+\end{defn}
+
+\begin{exm}*
+	Say we have a system whose possible energy states are $\set{0, k_BT, 2k_BT, 3k_BT, 4k_BT}$.
+	Then, \[
+		Q = 1 + e^{-1} + e^{-2} + e^{-3} + e^{-4}.
+	\]
+\end{exm}	
+
